@@ -1,0 +1,20 @@
+@import "../../../helpers/styles/variables";
+@import "../../../helpers/styles/mixins";
+
+.warnings {
+  min-width: vw(300px, $desktop);
+  .title-container {
+    text-align: center;
+    margin-bottom: vw(20px, $desktop);
+  }
+  .text-container {
+    text-align: center;
+  }
+  .btn-container {
+    margin-top: vw(20px, $desktop);
+    text-align: center;
+    button {
+      width: vw(200px, $desktop);
+    }
+  }
+}

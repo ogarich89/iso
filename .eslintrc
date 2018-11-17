@@ -1,0 +1,50 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "plugins": ["react", "babel"],
+  "parser": "babel-eslint",
+  "rules": {
+    "babel/no-invalid-this": 2,
+    "babel/semi": 2,
+    "babel/no-unused-expressions": 2,
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-console": 0,
+    "linebreak-style": ["error","unix"],
+    "quotes": ["error","single"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-key": 2,
+    "comma-dangle": ["error", "never"],
+    "eqeqeq": 2,
+    "object-curly-spacing": ["error", "always"],
+    "prefer-destructuring": ["error", {
+      "object": true
+    }, {
+      "enforceForRenamedProperties": false
+    }],
+    "no-eval": 2,
+    "no-multi-str": 2,
+    "prefer-const": ["error", {
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": false
+    }]
+  },
+  "globals": {
+    "isDevelopment": true,
+    "timestamp": true,
+    "ymaps": true,
+    "VK": true,
+    "YT": true,
+    "SimpleBar": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}

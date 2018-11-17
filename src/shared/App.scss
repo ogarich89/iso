@@ -1,0 +1,147 @@
+@import "reset-css/reset.css";
+@import "./helpers/styles/variables.scss";
+@import "./helpers/styles/mixins.scss";
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a, button, input, select, option, textarea {
+  outline: none;
+  border: 0;
+}
+
+button {
+  background-color: transparent;
+  padding: 0;
+}
+
+input {
+  appearance: none;
+  -webkit-border-radius: 0;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+a img {
+  border: 0;
+}
+
+
+h1, h2, h3, h4, p {
+  color: #fff;
+}
+
+h1, h2 {
+  font-weight: 700;
+  font-family: RobotoSlab, sans-serif;
+  letter-spacing: vw(1px, $desktop);
+}
+
+h1 {
+  font-size: vw(30px, $desktop);
+  line-height: 1.33;
+  margin-bottom: vw(30px, $desktop);
+  @include respond-to(laptop) {
+    font-size: vw(30px, $laptop);
+    margin-bottom: vw(30px, $laptop);
+  }
+  @include respond-to(tablet) {
+    font-size: vw(30px, $tablet);
+    margin-bottom: vw(30px, $tablet);
+  }
+  @include respond-to(mobile) {
+    font-size: vw(25px, $mobile);
+    margin-bottom: vw(20px, $mobile);
+  }
+}
+
+h2 {
+  font-size: vw(20px, $desktop);
+  line-height: 1.25;
+  margin-bottom: vw(15px, $desktop);
+  @include respond-to(laptop) {
+    font-size: vw(20px, $laptop);
+    margin-bottom: vw(15px, $laptop);
+  }
+  @include respond-to(tablet) {
+    font-size: vw(20px, $tablet);
+    margin-bottom: vw(15px, $tablet);
+  }
+  @include respond-to(mobile) {
+    font-size: vw(20px, $mobile);
+    margin-bottom: vw(15px, $mobile);
+  }
+}
+
+h3, h4 {
+  font-family: Ubuntu, sans-serif;
+  letter-spacing: vw(1px, $desktop);
+  @include respond-to(laptop) {
+    letter-spacing: vw(1px, $laptop);
+  }
+  @include respond-to(tablet) {
+    letter-spacing: vw(1px, $tablet);
+  }
+  @include respond-to(mobile) {
+    letter-spacing: vw(1px, $mobile);
+  }
+}
+
+h3 {
+  font-weight: 700;
+  font-size: vw(20px, $desktop);
+  line-height: 1.25;
+  margin-bottom: vw(15px, $desktop);
+  @include respond-to(laptop) {
+    font-size: vw(20px, $laptop);
+    margin-bottom: vw(15px, $laptop);
+  }
+  @include respond-to(tablet) {
+    font-size: vw(20px, $tablet);
+    margin-bottom: vw(15px, $tablet);
+  }
+  @include respond-to(mobile) {
+    font-size: vw(20px, $mobile);
+    margin-bottom: vw(15px, $mobile);
+  }
+}
+
+h4 {
+  font-weight: 700;
+  font-size: vw(14px, $desktop);
+  line-height: 1.2;
+  margin-bottom: vw(10px, $desktop);
+  @include respond-to(laptop) {
+    font-size: vw(14px, $laptop);
+    margin-bottom: vw(10px, $laptop);
+  }
+  @include respond-to(tablet) {
+    font-size: vw(14px, $tablet);
+    margin-bottom: vw(10px, $tablet);
+  }
+  @include respond-to(mobile) {
+    font-size: vw(14px, $mobile);
+    margin-bottom: vw(10px, $mobile);
+  }
+}
+
+p {
+  font-size: vw(14px, $desktop);
+  line-height: 2.14;
+  @include respond-to(laptop) {
+    font-size: vw(14px, $laptop);
+  }
+  @include respond-to(tablet) {
+    font-size: vw(14px, $tablet);
+  }
+  @include respond-to(mobile) {
+    font-size: vw(14px, $mobile);
+  }
+}
