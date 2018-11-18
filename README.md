@@ -3,9 +3,8 @@ Iso is starter-pack for creating isomorphic single-page application with using S
 
 Powered by [ogarich89](https://github.com/ogarich89)
 
-#### Warning
-
-For a comfortable development you will need the knowledge of React, Redux and Koa.
+> #### Warning
+> For a comfortable development you will need the knowledge of React, Redux and Koa.
 
 ### Tech
 
