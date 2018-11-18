@@ -1,5 +1,11 @@
 # Iso
-Iso is a framework for creating isomorphic single-page application with using SSR technology on NodeJS.
+Iso is a starter-pack for creating isomorphic single-page application with using SSR technology on NodeJS.
+
+Powered by [ogarich89]
+
+#### Warning
+
+For a comfortable development you will need the knowledge of node.js, React, Redux, Webpack and Koa.
 
 ### Tech
 
