@@ -5,7 +5,7 @@ Powered by [ogarich89](https://github.com/ogarich89)
 
 #### Warning
 
-For a comfortable development you will need the knowledge of node.js, React, Redux, Webpack and Koa.
+For a comfortable development you will need the knowledge of React, Redux and Koa.
 
 ### Tech
 
