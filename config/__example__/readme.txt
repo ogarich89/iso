@@ -1,2 +1,2 @@
-1. Создайте папку development в директории /config
-2. Создайте в папке /config/development файл server.json (примеры настроек в /config/__example__/server.json)
+1. Create folder 'development' in directory '/config'
+2. Create file 'server.json' in folder '/config/development' (example settings in '/config/__example__/server.json')

@@ -5,8 +5,8 @@
   "main": "dist/server.js",
   "repository": "git@github.com:ogarich89/iso.git",
   "config": {
-    "server": "--config config/webpack/server.config.babel.js --experimental-modules",
-    "client": "--config config/webpack/client.config.babel.js --experimental-modules"
+    "server": "--config config/webpack/server.config.babel.js",
+    "client": "--config config/webpack/client.config.babel.js"
   },
   "scripts": {
     "client": "webpack -w $npm_package_config_client",

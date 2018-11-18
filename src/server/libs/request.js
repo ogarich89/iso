@@ -12,7 +12,7 @@ export default async (url, params, options = {}) => {
     method,
     url,
     data: params,
-    headers: headers
+    headers
   });
 
   return data;

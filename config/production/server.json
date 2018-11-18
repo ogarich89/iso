@@ -2,5 +2,6 @@
   "port": 4000,
   "api": "https://reqres.in",
   "sessionRedisDb": 3,
-  "production": true
+  "production": true,
+  "withStatic": false
 }

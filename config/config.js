@@ -6,7 +6,7 @@ let server;
 try {
   server = require(`./${dirname}/server.json`);
 } catch (e) {
-  throw new CustomError({ message: `Не найден конфигурационный файл (/config/${dirname}/server.json). Ознакомтесь с инструкцией /config/__example__/readme.txt` });
+  throw new CustomError({ message: `Configure file not found (/config/${dirname}/server.json). Read the instruction (/config/__example__/readme.txt)` });
 }
 
 export default { server };

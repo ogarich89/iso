@@ -5,7 +5,7 @@ import { common, loaders } from './common.config';
 import webpack from 'webpack';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import config from '../config';
-const { server: { port, reloadDelay, production } } = config;
+const { server: { port, reloadDelay = 1500, production } } = config;
 
 const isDevelopment = !production;
 
@@ -21,6 +21,7 @@ let plugins = [
 ];
 
 if(isDevelopment) {
+  let timer;
   plugins = [
     ...plugins,
     new BrowserSyncPlugin(
@@ -30,7 +31,22 @@ if(isDevelopment) {
         ui: {
           port: 3033
         },
-        reloadDelay,
+        files: [
+          {
+            match: [
+              path.resolve(`${__dirname}/../../dist/**/*.*`)
+            ],
+            fn(event) {
+              if (event === 'change') {
+                const bs = require('browser-sync').get('bs-webpack-plugin');
+                if(timer) clearTimeout(timer);
+                timer = setTimeout(() => {
+                  bs.reload();
+                }, reloadDelay);
+              }
+            }
+          }
+        ],
         proxy: `http://localhost:${port}/`,
         open: false,
         ghostMode: {
@@ -38,6 +54,9 @@ if(isDevelopment) {
           forms: false,
           scroll: false
         }
+      },
+      {
+        reload: false
       }
     )
   ];

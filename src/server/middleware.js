@@ -13,7 +13,7 @@ import { storage } from './libs/storage';
 import { logger } from './libs/logger';
 
 import redisStore from 'koa-redis';
-const { server: { sessionRedisDb = 3 } = {} } = config;
+const { server: { sessionRedisDb = 3, withStatic = true } = {} } = config;
 
 const middleware = app => {
   app.use(logger());
@@ -31,8 +31,10 @@ const middleware = app => {
     })
   }));
   app.use(bodyParser({ jsonLimit: '4mb' }));
-  app.use(mount('/public', serve(path.resolve(__dirname, '../public'))));
-  app.use(mount('/', serve(path.resolve(__dirname))));
+  if(withStatic) {
+    app.use(mount('/public', serve(path.resolve(__dirname, '../public'))));
+    app.use(mount('/', serve(path.resolve(__dirname))));
+  }
   app.use(api());
   app.use(lastModified());
   app.use(storage());
