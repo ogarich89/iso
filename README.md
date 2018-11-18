@@ -1,5 +1,5 @@
 # Iso
-Iso is a starter-pack for creating isomorphic single-page application with using SSR technology on NodeJS.
+Iso is starter-pack for creating isomorphic single-page application with using SSR technology on NodeJS.
 
 Powered by [ogarich89](https://github.com/ogarich89)
 
