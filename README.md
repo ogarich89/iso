@@ -11,13 +11,13 @@ For a comfortable development you will need the knowledge of node.js, React, Red
 
 ISO uses a number of open source projects to work properly:
 
-* [node.js] - evented I/O for the backend
-* [Koa] - fast node.js network app framework
-* [React] - JavaScript library for building user interfaces
-* [Redux] - predictable state container for JavaScript apps.
-* [Webpack] - module bundler
-* [Babel] - compiler for writing next generation JavaScript.
-* [eslint] - pluggable linting utility for JavaScript and JSX.
+* [Node.js](https://nodejs.org/en/) - evented I/O for the backend
+* [Koa](https://koajs.com/) - fast node.js network app framework
+* [React](https://reactjs.org/) - JavaScript library for building user interfaces
+* [Redux](https://redux.js.org/) - predictable state container for JavaScript apps.
+* [Webpack](https://webpack.js.org/) - module bundler
+* [Babel](https://babeljs.io/) - compiler for writing next generation JavaScript.
+* [ESLint](https://eslint.org/) - pluggable linting utility for JavaScript and JSX.
 * Etc. (See package.json)
 
 And of course ISO itself is open source with a [public repository]
