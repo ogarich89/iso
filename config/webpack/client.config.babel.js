@@ -59,7 +59,8 @@ export default merge(common, {
       dry: false
     }),
     new ImageminPlugin({
-      disable: true,
+      disable: isDevelopment,
+      cacheFolder: path.resolve(__dirname, '../../.cache'),
       pngquant: {
         quality: '70'
       },
@@ -70,6 +71,7 @@ export default merge(common, {
         progressive: true
       },
       externalImages: {
+        context: path.resolve(__dirname, '../../'),
         sources: glob.sync('public/images/**/*.*')
       }
     })
