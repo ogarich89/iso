@@ -4,15 +4,10 @@ let presets = [
 let plugins = [
   '@babel/plugin-transform-runtime',
   '@babel/plugin-proposal-function-bind',
-  '@babel/plugin-proposal-class-properties',
   '@babel/plugin-syntax-dynamic-import',
   'iso-loadable/babel',
-  [
-    '@babel/plugin-proposal-decorators',
-    {
-      'legacy': true
-    }
-  ]
+  ["@babel/plugin-proposal-decorators", { "legacy": true }],
+  ["@babel/plugin-proposal-class-properties", { "loose" : true }]
 ];
 const comments = true;
 

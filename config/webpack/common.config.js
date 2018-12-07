@@ -56,10 +56,11 @@ const common = {
 const loaders = (() => ({ modules = false, isServer = false }) => {
   const arr = [
     {
-      loader: `css-loader${isServer ? '/locals' : ''}`,
+      loader: 'css-loader',
       options: {
         sourceMap: isDevelopment,
         modules,
+        exportOnlyLocals: isServer,
         camelCase: modules,
         importLoaders: 2,
         localIdentName: modules ? '[local]_[hash:base64:5]' : false
