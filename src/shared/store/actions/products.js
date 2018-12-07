@@ -5,7 +5,7 @@ const receivedProducts = products => ({ type: FETCH_PRODUCTS_SUCCESS, payload: {
 
 const getProduct = (api, req) => {
   const { originalUrl } = req;
-  const [,,,id] = originalUrl.split('/');
+  const [,,id] = originalUrl.split('/');
   return (() => async (dispatch) => {
     try {
       const product = await api.fetch('product', { id });

@@ -6,6 +6,7 @@ import { setOverflow } from '../client/helpers/set-overflow';
 
 import emitter from './emitter';
 import { TOGGLE_MODAL } from './emitter/constants';
+import Header from './layouts/Header/Header';
 
 @withRouter
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
 
   componentDidMount () {
     emitter.addListener(TOGGLE_MODAL, ::this.toggleModal);
-    import(/* webpackChunkName: "modals" */ './components/Modals/Modal').then(module => {
+    import(/* webpackChunkName: "modals" */ './components/_common/Modals/Modal').then(module => {
       this.setState({ Modal: module.default });
     });
     const { history } = this.props;
@@ -42,6 +43,7 @@ class App extends Component {
     const { modal = {}, Modal } = this.state;
     return (
       <StrictMode>
+        <Header/>
         <main>
           <Switch>
             {routes.map(({ path, exact, component: Component, initialAction }, i) => {

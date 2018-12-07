@@ -2,6 +2,44 @@
 @import "./helpers/styles/variables.scss";
 @import "./helpers/styles/mixins.scss";
 
+:global {
+  html, body, #root {
+    height: 100%;
+  }
+  #root {
+    display: flex;
+    flex-direction: column;
+  }
+  .container {
+    width: vw(1600px, $desktop);
+    margin: 0 auto;
+  }
+  html {
+    box-sizing: border-box;
+    &.hidden {
+      overflow-y: scroll;
+      height: 100%;
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+body {
+  min-width: 320px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-family: RobotoSlab, sans-serif;
+}
+
+main {
+  flex: 1;
+  padding-top: vw(60px, $desktop);
+}
+
 *, *:before, *:after {
   box-sizing: inherit;
 }
@@ -35,7 +73,7 @@ a img {
 
 
 h1, h2, h3, h4, p {
-  color: #fff;
+  color: #343434;
 }
 
 h1, h2 {

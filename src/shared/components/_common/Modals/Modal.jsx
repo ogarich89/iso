@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import style from './Modal.scss';
 import cx from 'classnames';
 
-import emitter from '../../emitter';
-import { TOGGLE_MODAL } from '../../emitter/constants';
-import Warnings from './Warnings/Warnings';
+import emitter from '../../../emitter';
+import { TOGGLE_MODAL } from '../../../emitter/constants';
+import About from './About/About';
 
 const SVG = {
-  close: require('../../../../public/images/icons/close.svg')
+  close: require('../../../../../public/images/icons/close.svg')
 };
 
 export default class Modal extends Component {
 
   modals = {
-    Warnings
+    About
   };
 
   static closeModal({ target, currentTarget }) {

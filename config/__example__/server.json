@@ -1,8 +1,10 @@
 {
   "port": 4000,
-  "reloadDelay": 1500,
+  "reloadDelay": 500,
   "api": "https://reqres.in",
   "sessionRedisDb": 5,
   "production": false,
-  "withStatic": true
+  "withStatic": true,
+  "inspect": false,
+  "reload": false
 }

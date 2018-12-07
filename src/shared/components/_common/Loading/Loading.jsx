@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import style from './Loading.scss';
 
 export default class Loading extends Component {
   constructor(props) {
@@ -26,7 +27,9 @@ export default class Loading extends Component {
     const { isActive } = this.state;
     if(isActive) {
       return (
-        <div>LOADING!!!</div>
+        <section className={style.loading}>
+          <strong>LOADING...</strong>
+        </section>
       );
     }
     return null;

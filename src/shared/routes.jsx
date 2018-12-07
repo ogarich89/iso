@@ -1,5 +1,5 @@
 import Loadable from 'iso-loadable';
-import Loading from './components/Loading/Loading';
+import Loading from './components/_common/Loading/Loading';
 import { getProduct, getProducts } from './store/actions/products';
 
 const routes = [
@@ -13,20 +13,20 @@ const routes = [
     })
   },
   {
-    path: '/menu/:products',
+    path: '/products',
     exact: true,
     component: Loadable({
-      loader : () => import(/* webpackChunkName: "products.page" */ './pages/menu.products'),
+      loader : () => import(/* webpackChunkName: "products.page" */ './pages/products'),
       loading: Loading,
       delay  : 500
     }),
     initialAction: (api, req = {}) => getProducts(api, req)
   },
   {
-    path: '/menu/:products/:product',
+    path: '/products/:product',
     exact: true,
     component: Loadable({
-      loader : () => import(/* webpackChunkName: "product.page" */ './pages/menu.products.product'),
+      loader : () => import(/* webpackChunkName: "product.page" */ './pages/products.product'),
       loading: Loading,
       delay: 500
     }),

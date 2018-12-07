@@ -1,0 +1,20 @@
+@import "../../helpers/styles/mixins";
+@import "../../helpers/styles/variables";
+
+.product {
+  padding: vw(50px, $desktop) 0;
+  h1 {
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .link {
+    color: $text;
+    margin-top: vw(10px, $desktop);
+    font-size: vw(20px, $desktop);
+    text-decoration: none;
+    &:hover {
+      color: $blue;
+    }
+  }
+}

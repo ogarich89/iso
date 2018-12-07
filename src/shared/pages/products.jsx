@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import Products from '../components/Products/Products';
+import Products from '../components/products/Products';
 import { connect } from 'react-redux';
 import api from '../../client/api';
-import Loading from '../components/Loading/Loading';
+import Loading from '../components/_common/Loading/Loading';
 import { withRouter } from 'react-router-dom';
-import PageNotFound from '../components/PageNotFound/PageNotFound';
+import PageNotFound from '../components/_common/PageNotFound/PageNotFound';
 
 @withRouter
 @connect(({ products: { products } }) => ({ products }))
-class menuProducts extends Component {
+class products extends Component {
 
   componentDidMount() {
     const { products, dispatch, initialAction } = this.props;
@@ -27,4 +27,4 @@ class menuProducts extends Component {
   }
 }
 
-export default menuProducts;
+export default products;

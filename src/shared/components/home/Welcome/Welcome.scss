@@ -1,0 +1,13 @@
+@import "../../../helpers/styles/mixins";
+@import "../../../helpers/styles/variables";
+
+.welcome {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    margin-bottom: 0;
+    font-size: vw(50px, $desktop);
+  }
+}

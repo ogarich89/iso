@@ -1,0 +1,25 @@
+@import "../../../../helpers/styles/variables";
+@import "../../../../helpers/styles/mixins";
+
+.about {
+  position: relative;
+  z-index: 10;
+  width: vw(500px, $desktop);
+  padding: vw(40px, $desktop);
+  background-color: #fff;
+  .title {
+    text-align: center;
+    margin-bottom: vw(20px, $desktop);
+    padding-bottom: vw(10px, $desktop);
+    border-bottom: 1px solid $text;
+    h4 {
+      font-size: vw(24px, $desktop);
+    }
+  }
+  .text-container {
+    text-align: center;
+    p {
+      font-size: vw(16px, $desktop);
+    }
+  }
+}

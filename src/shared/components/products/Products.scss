@@ -1,0 +1,10 @@
+@import "../../helpers/styles/variables";
+@import "../../helpers/styles/mixins";
+
+.products {
+  padding: vw(50px, $desktop) 0;
+  .products-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

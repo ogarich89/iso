@@ -1,0 +1,51 @@
+@import "../../helpers/styles/variables";
+@import "../../helpers/styles/mixins";
+
+header {
+  border-bottom: 1px solid rgba($text, .3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 2;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: vw(60px, $desktop);
+    .logo-container {
+      a {
+        font-size: vw(35px, $desktop);
+        text-transform: uppercase;
+        text-decoration: none;
+        color: $text;
+        small {
+          font-size: vw(16px, $desktop);
+        }
+      }
+    }
+    nav {
+      ul {
+        display: flex;
+        align-items: center;
+        li {
+          &:not(:last-child) {
+            margin-right: vw(20px, $desktop);
+          }
+          a, span {
+            color: $text;
+            text-decoration: underline;
+            cursor: pointer;
+            &:hover {
+              text-decoration: none;
+            }
+            &.active {
+              color: $blue;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@import "../../../helpers/styles/mixins";
+@import "../../../helpers/styles/variables";
+
+.card {
+  width: calc(20% - #{vw(20px, $desktop)});
+  margin: 0 vw(20px, $desktop) vw(20px, $desktop) 0;
+  padding: vw(20px, $desktop);
+  text-decoration: none;
+  display: block;
+  &:hover {
+    box-shadow: #ccc 5px 5px 10px;
+  }
+  &:nth-child(5n) {
+    margin-right: 0;
+  }
+  .title {
+    margin-bottom: vw(20px, $desktop);
+    h4 {
+      font-size: vw(24px, $desktop);
+      text-decoration: none;
+      text-transform: uppercase;
+      color: $text;
+      margin-bottom: 0;
+      font-weight: normal;
+      font-family: RobotoSlab, sans-serif;
+    }
+  }
+  .list {
+    li {
+      margin: vw(5px, $desktop) 0;
+      strong {
+        font-size: vw(20px, $desktop);
+        font-weight: 500;
+        color: #000;
+      }
+      span {
+        font-size: vw(18px, $desktop);
+        color: $text;
+      }
+    }
+  }
+}

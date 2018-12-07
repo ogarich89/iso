@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import Welcome from '../components/home/Welcome/Welcome';
 
 export default class home extends Component {
 
   render() {
     return (
-      <div><Link to="/menu/products">PRODUCTS</Link></div>
+      <Fragment>
+        <Welcome/>
+      </Fragment>
     );
   }
 }
