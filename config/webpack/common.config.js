@@ -63,7 +63,7 @@ const loaders = (() => ({ modules = false, isServer = false }) => {
         exportOnlyLocals: isServer,
         camelCase: modules,
         importLoaders: 2,
-        localIdentName: modules ? '[local]_[hash:base64:5]' : false
+        localIdentName: modules ? '[local]_[hash:base64:5]' : ''
       }
     },
     {
