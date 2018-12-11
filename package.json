@@ -11,7 +11,7 @@
   "scripts": {
     "client": "webpack -w $npm_package_config_client",
     "server": "BABEL_ENV=server webpack -w $npm_package_config_server",
-    "nodemon": "gulp nodemon",
+    "nodemon": "gulp",
     "build": "webpack $npm_package_config_client && BABEL_ENV=server webpack $npm_package_config_server",
     "production": "NODE_ENV=production webpack $npm_package_config_client && NODE_ENV=production BABEL_ENV=server webpack $npm_package_config_server",
     "start": "webpack $npm_package_config_client && BABEL_ENV=server webpack $npm_package_config_server && node $npm_package_main",
