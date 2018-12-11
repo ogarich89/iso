@@ -1,5 +1,5 @@
-@import "../../../helpers/styles/mixins";
-@import "../../../helpers/styles/variables";
+@import "mixins";
+@import "variables";
 
 .card {
   width: calc(20% - #{vw(20px, $desktop)});

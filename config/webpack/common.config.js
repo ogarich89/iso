@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import config from '../config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import path from 'path';
 const { server: { production } } = config;
 const isDevelopment = !production;
 
@@ -76,7 +77,8 @@ const loaders = (() => ({ modules = false, isServer = false }) => {
       loader: 'sass-loader',
       options: {
         sourceMap: isDevelopment,
-        outputStyle: 'compressed'
+        outputStyle: 'compressed',
+        includePaths: [path.resolve(__dirname, '../../src/shared/helpers/styles')]
       }
     }
   ];

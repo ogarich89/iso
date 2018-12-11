@@ -1,6 +1,6 @@
 @import "reset-css/reset.css";
-@import "./helpers/styles/variables.scss";
-@import "./helpers/styles/mixins.scss";
+@import "variables";
+@import "mixins";
 
 :global {
   html, body, #root {

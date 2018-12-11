@@ -1,10 +1,19 @@
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import nodemon from 'gulp-nodemon';
-import config from './config/config';
-const { server: { port, inspect, reloadDelay, reload } } = config;
 
-gulp.task('nodemon', ['browserSync'], () => {
+import config from './config/config';
+
+const {
+  server: {
+    reloadDelay = 500,
+    inspect = false,
+    port = 5000,
+    reload = true
+  }
+} = config;
+
+async function serve () {
   let timer;
   const stream = nodemon({
     script: 'dist/server.js',
@@ -20,9 +29,9 @@ gulp.task('nodemon', ['browserSync'], () => {
       }, reloadDelay);
     })
     .on('crash', () => stream.emit('restart', 10));
-});
+}
 
-gulp.task('browserSync', () => {
+async function synchronise () {
   browserSync.init(null, {
     host: 'localhost',
     port: 3003,
@@ -37,4 +46,6 @@ gulp.task('browserSync', () => {
       scroll: false
     }
   });
-});
+}
+
+export default gulp.series(synchronise, serve);

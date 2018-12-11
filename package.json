@@ -110,7 +110,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-nodemon": "^2.4.1",
     "nodemon": "^1.18.6"
   }
