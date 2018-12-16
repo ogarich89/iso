@@ -14,14 +14,41 @@ header {
     align-items: center;
     justify-content: space-between;
     height: vw(60px, $desktop);
+    @include respond-to(laptop) {
+      height: vw(60px, $laptop);
+    }
+    @include respond-to(tablet) {
+      height: vw(60px, $tablet);
+    }
+    @include respond-to(mobile) {
+      height: vw(60px, $mobile);
+    }
     .logo-container {
       a {
         font-size: vw(35px, $desktop);
         text-transform: uppercase;
         text-decoration: none;
         color: $text;
+        @include respond-to(laptop) {
+          font-size: vw(35px, $laptop);
+        }
+        @include respond-to(tablet) {
+          font-size: vw(35px, $tablet);
+        }
+        @include respond-to(mobile) {
+          font-size: vw(35px, $mobile);
+        }
         small {
           font-size: vw(16px, $desktop);
+          @include respond-to(laptop) {
+            font-size: vw(16px, $laptop);
+          }
+          @include respond-to(tablet) {
+            font-size: vw(16px, $tablet);
+          }
+          @include respond-to(mobile) {
+            font-size: vw(16px, $mobile);
+          }
         }
       }
     }
@@ -32,11 +59,30 @@ header {
         li {
           &:not(:last-child) {
             margin-right: vw(20px, $desktop);
+            @include respond-to(laptop) {
+              margin-right: vw(20px, $laptop);
+            }
+            @include respond-to(tablet) {
+              margin-right: vw(20px, $tablet);
+            }
+            @include respond-to(mobile) {
+              margin-right: vw(20px, $mobile);
+            }
           }
           a, span {
             color: $text;
             text-decoration: underline;
             cursor: pointer;
+            font-size: vw(20px, $desktop);
+            @include respond-to(laptop) {
+              font-size: vw(20px, $laptop);
+            }
+            @include respond-to(tablet) {
+              font-size: vw(20px, $tablet);
+            }
+            @include respond-to(mobile) {
+              font-size: vw(20px, $mobile);
+            }
             &:hover {
               text-decoration: none;
             }

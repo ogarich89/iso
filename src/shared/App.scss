@@ -25,6 +25,27 @@
       }
     }
   }
+  .icon {
+    width: vw(24px, $desktop);
+    height: vw(24px, $desktop);
+    display: block;
+    @include respond-to(laptop) {
+      width: vw(24px, $laptop);
+      height: vw(24px, $laptop);
+    }
+    @include respond-to(tablet) {
+      width: vw(24px, $tablet);
+      height: vw(24px, $tablet);
+    }
+    @include respond-to(mobile) {
+      width: vw(24px, $mobile);
+      height: vw(24px, $mobile);
+    }
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 body {
@@ -38,6 +59,15 @@ body {
 main {
   flex: 1;
   padding-top: vw(60px, $desktop);
+  @include respond-to(laptop) {
+    padding-top: vw(60px, $laptop);
+  }
+  @include respond-to(tablet) {
+    padding-top: vw(60px, $tablet);
+  }
+  @include respond-to(mobile) {
+    padding-top: vw(60px, $mobile);
+  }
 }
 
 *, *:before, *:after {

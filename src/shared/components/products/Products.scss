@@ -3,6 +3,15 @@
 
 .products {
   padding: vw(50px, $desktop) 0;
+  @include respond-to(laptop) {
+    padding: vw(50px, $laptop) 0;
+  }
+  @include respond-to(tablet) {
+    padding: vw(50px, $tablet) 0;
+  }
+  @include respond-to(mobile) {
+    padding: vw(50px, $mobile) 0;
+  }
   .products-container {
     display: flex;
     flex-wrap: wrap;

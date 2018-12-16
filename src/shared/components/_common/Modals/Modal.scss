@@ -23,14 +23,35 @@
       z-index: 30;
       padding: vw(35px, $desktop);
       border-radius: 0.3vw;
+      @include respond-to(laptop) {
+        padding: vw(35px, $laptop);
+      }
+      @include respond-to(tablet) {
+        padding: vw(35px, $tablet);
+      }
+      @include respond-to(mobile) {
+        padding: 0
+      }
       &.dark {
         background-color: #000;
       }
       .close-btn {
         cursor: pointer;
         position: absolute;
-        top: vw(20px, $desktop);
-        right: vw(20px, $desktop);
+        top: vw(10px, $desktop);
+        right: vw(10px, $desktop);
+        @include respond-to(laptop) {
+          top: vw(10px, $laptop);
+          right: vw(10px, $laptop);
+        }
+        @include respond-to(tablet) {
+          top: vw(10px, $tablet);
+          right: vw(10px, $tablet);
+        }
+        @include respond-to(mobile) {
+          top: vw(-30px, $mobile);
+          right: 0;
+        }
       }
     }
   }

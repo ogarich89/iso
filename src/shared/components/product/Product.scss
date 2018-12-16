@@ -3,6 +3,15 @@
 
 .product {
   padding: vw(50px, $desktop) 0;
+  @include respond-to(laptop) {
+    padding: vw(50px, $laptop) 0;
+  }
+  @include respond-to(tablet) {
+    padding: vw(50px, $tablet) 0;
+  }
+  @include respond-to(mobile) {
+    padding: vw(50px, $mobile) 0;
+  }
   h1 {
     &:first-letter {
       text-transform: uppercase;
@@ -13,6 +22,18 @@
     margin-top: vw(10px, $desktop);
     font-size: vw(20px, $desktop);
     text-decoration: none;
+    @include respond-to(laptop) {
+      margin-top: vw(10px, $laptop);
+      font-size: vw(20px, $laptop);
+    }
+    @include respond-to(tablet) {
+      margin-top: vw(10px, $tablet);
+      font-size: vw(20px, $tablet);
+    }
+    @include respond-to(mobile) {
+      margin-top: vw(10px, $mobile);
+      font-size: vw(20px, $mobile);
+    }
     &:hover {
       color: $blue;
     }

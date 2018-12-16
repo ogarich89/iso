@@ -7,3 +7,4 @@ yarn.lock
 package-lock.json
 config/development
 .stats
+.cache

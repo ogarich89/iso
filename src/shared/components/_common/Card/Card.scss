@@ -7,14 +7,48 @@
   padding: vw(20px, $desktop);
   text-decoration: none;
   display: block;
+  @include respond-to(desktop) {
+    &:nth-child(5n) {
+      margin-right: 0;
+    }
+  }
+  @include respond-to(laptop) {
+    width: calc(33.3333% - #{vw(13.3333px, $laptop)});
+    margin: 0 vw(20px, $laptop) vw(20px, $laptop) 0;
+    padding: vw(20px, $laptop);
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+  @include respond-to(tablet) {
+    width: calc(50% - #{vw(10px, $tablet)});
+    margin: 0 vw(20px, $tablet) vw(20px, $tablet) 0;
+    padding: vw(20px, $tablet);
+    @include respond-to(tablet) {
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+  }
+  @include respond-to(mobile) {
+    width: 100%;
+    margin: 0 0 vw(20px, $mobile) 0;
+    padding: vw(20px, $mobile);
+  }
   &:hover {
     box-shadow: #ccc 5px 5px 10px;
   }
-  &:nth-child(5n) {
-    margin-right: 0;
-  }
   .title {
     margin-bottom: vw(20px, $desktop);
+    @include respond-to(laptop) {
+      margin-bottom: vw(20px, $laptop);
+    }
+    @include respond-to(tablet) {
+      margin-bottom: vw(20px, $tablet);
+    }
+    @include respond-to(mobile) {
+      margin-bottom: vw(20px, $mobile);
+    }
     h4 {
       font-size: vw(24px, $desktop);
       text-decoration: none;
@@ -23,19 +57,55 @@
       margin-bottom: 0;
       font-weight: normal;
       font-family: RobotoSlab, sans-serif;
+      @include respond-to(laptop) {
+        font-size: vw(24px, $laptop);
+      }
+      @include respond-to(tablet) {
+        font-size: vw(24px, $tablet);
+      }
+      @include respond-to(mobile) {
+        font-size: vw(24px, $mobile);
+      }
     }
   }
   .list {
     li {
       margin: vw(5px, $desktop) 0;
+      @include respond-to(laptop) {
+        margin: vw(5px, $laptop) 0;
+      }
+      @include respond-to(tablet) {
+        margin: vw(5px, $tablet) 0;
+      }
+      @include respond-to(mobile) {
+        margin: vw(5px, $mobile) 0;
+      }
       strong {
         font-size: vw(20px, $desktop);
         font-weight: 500;
         color: #000;
+        @include respond-to(laptop) {
+          font-size: vw(20px, $laptop);
+        }
+        @include respond-to(tablet) {
+          font-size: vw(20px, $tablet);
+        }
+        @include respond-to(mobile) {
+          font-size: vw(20px, $mobile);
+        }
       }
       span {
         font-size: vw(18px, $desktop);
         color: $text;
+        @include respond-to(laptop) {
+          font-size: vw(18px, $laptop);
+        }
+        @include respond-to(tablet) {
+          font-size: vw(18px, $tablet);
+        }
+        @include respond-to(mobile) {
+          font-size: vw(18px, $mobile);
+        }
       }
     }
   }
