@@ -8,6 +8,7 @@ const nodeModules = {};
 fs.readdirSync('node_modules')
   .filter(x => ['.bin'].indexOf(x) === -1)
   .forEach(mod => nodeModules[mod] = `commonjs ${mod}`);
+nodeModules['@loadable/server'] =  'commonjs @loadable/server';
 
 export default merge(common, {
   context: path.resolve(__dirname, '../../src/server'),

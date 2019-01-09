@@ -5,7 +5,7 @@ let plugins = [
   '@babel/plugin-transform-runtime',
   '@babel/plugin-proposal-function-bind',
   '@babel/plugin-syntax-dynamic-import',
-  'iso-loadable/babel',
+  '@loadable/babel-plugin',
   ["@babel/plugin-proposal-decorators", { "legacy": true }],
   ["@babel/plugin-proposal-class-properties", { "loose" : true }]
 ];

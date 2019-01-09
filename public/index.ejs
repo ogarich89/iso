@@ -8,19 +8,12 @@
     <link  rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico"/>
     <title>Iso</title>
     <link rel="stylesheet" href="/public/fonts/fonts.css<%-version%>">
-    <link rel="stylesheet" href="/bundle.css<%-version%>" >
-    <%-styles.map(({file, version}) => {
-        return `<link rel="stylesheet" href="/${file}${version}"/>`
-    }).join("\n")%>
+    <%-styleTags%>
     <script async src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
 </head>
 <body>
     <div id="root"><%-html%></div>
     <script>window.__initialData__ = <%-initialData%></script>
-    <script defer src="/bundle.js<%-version%>"></script>
-    <%-scripts.map(({file, version}) => {
-        return `<script defer src="/${file}${version}"></script>`
-    }).join("\n")%>
-    <script defer src="/public/main.js"></script>
+    <%-scriptTags%>
 </body>
 </html>
