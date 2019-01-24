@@ -68,10 +68,16 @@ export default merge(common, {
       jpegtran: {
         progressive: true
       },
+      svgo: {
+        plugins: [
+          { removeViewBox: false }
+        ]
+      },
       externalImages: {
         context: path.resolve(__dirname, '../../'),
         sources: glob.sync('public/images/**/*.*')
       }
     })
+
   ]
 });

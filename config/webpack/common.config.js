@@ -7,7 +7,14 @@ const isDevelopment = !production;
 
 const common = {
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      images: path.resolve(__dirname, '../../public/images'),
+      client: path.resolve(__dirname, '../../src/client'),
+      server: path.resolve(__dirname, '../../src/server'),
+      shared: path.resolve(__dirname, '../../src/shared')
+    }
+
   },
   devtool: isDevelopment ? 'source-map' : false,
   stats: {
