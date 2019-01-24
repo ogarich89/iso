@@ -1,7 +1,3 @@
-import loadable from '@loadable/component';
-import Loading from '../components/_common/Loading/Loading';
-import React from 'react';
-
 const isExternal = (url) => {
   return /^(http:\/\/|https:\/\/|\/\/)/.test(url);
 };
@@ -23,21 +19,8 @@ const patterns = {
   floor: '[0-9]{1,3}'
 };
 
-const page = (path, name, func, exact = true, delay = 300) => {
-  return {
-    path,
-    exact,
-    chunkName: `pages-${name.replace('.', '-')}`,
-    component: loadable(() => import(`../pages/${name}`), {
-      fallback: <Loading timer={delay}/>
-    }),
-    initialAction: func ? (api, req = {}) => func(api, req) : null
-  };
-};
-
 export {
   isExternal,
   CustomError,
-  patterns,
-  page
+  patterns
 };

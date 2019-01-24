@@ -1,5 +1,19 @@
 import { getProduct, getProducts } from './store/actions/products';
-import { page } from '../shared/helpers';
+import loadable from '@loadable/component';
+import Loading from 'shared/components/_common/Loading/Loading';
+import React from 'react';
+
+const page = (path, name, func, exact = true, delay = 300) => {
+  return {
+    path,
+    exact,
+    chunkName: `pages-${name.replace('.', '-')}`,
+    component: loadable(() => import(`./pages/${name}`), {
+      fallback: <Loading timer={delay}/>
+    }),
+    initialAction: func ? (api, req = {}) => func(api, req) : null
+  };
+};
 
 const routes = [
   page('/', 'home'),
