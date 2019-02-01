@@ -33,16 +33,12 @@ routes.forEach(({ path, method, controller }) => {
 });
 
 router.get('*', async (ctx, next) => {
-  extractor.chunks = [];
   const store = configureStore();
   const promises = appRoutes.reduce((acc, route) => {
     const { pathname } = url.parse(ctx.url);
     if (matchPath(pathname, route)) {
       if(route.initialAction) {
         acc.push(Promise.resolve(store.dispatch(route.initialAction(ctx.api, ctx.request))));
-      }
-      if(!extractor.chunks.length) {
-        extractor.addChunk(route.chunkName);
       }
     }
     return acc;

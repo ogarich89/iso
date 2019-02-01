@@ -17,6 +17,7 @@ ISO uses a number of open source projects to work properly:
 * [Webpack](https://webpack.js.org/) - module bundler
 * [Babel](https://babeljs.io/) - compiler for writing next generation JavaScript.
 * [ESLint](https://eslint.org/) - pluggable linting utility for JavaScript and JSX.
+* [Loadable-components](https://www.smooth-code.com/open-source/loadable-components/) - React code splitting library.
 * Etc. (See package.json)
 
 And of course ISO itself is open source with a [public repository]

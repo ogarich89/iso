@@ -7,7 +7,6 @@ const page = (path, name, func, exact = true, delay = 300) => {
   return {
     path,
     exact,
-    chunkName: `pages-${name.replace('.', '-')}`,
     component: loadable(() => import(`./pages/${name}`), {
       fallback: <Loading timer={delay}/>
     }),
