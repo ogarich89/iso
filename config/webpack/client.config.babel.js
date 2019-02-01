@@ -1,7 +1,7 @@
 import path from 'path';
 import merge from 'webpack-merge';
 import { common, loaders } from './common.config';
-import { ReactLoadablePlugin } from 'iso-loadable/webpack';
+import LoadablePlugin from '@loadable/webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
 import glob from 'glob';
@@ -50,9 +50,7 @@ export default merge(common, {
       filename: '[name].css',
       chunkFilename: '[name].css'
     }),
-    new ReactLoadablePlugin({
-      filename: './dist/iso-loadable.json'
-    }),
+    new LoadablePlugin(),
     new CleanWebpackPlugin(['dist'], {
       root: path.resolve(__dirname, '../../'),
       verbose: true,
@@ -70,10 +68,16 @@ export default merge(common, {
       jpegtran: {
         progressive: true
       },
+      svgo: {
+        plugins: [
+          { removeViewBox: false }
+        ]
+      },
       externalImages: {
         context: path.resolve(__dirname, '../../'),
         sources: glob.sync('public/images/**/*.*')
       }
     })
+
   ]
 });
