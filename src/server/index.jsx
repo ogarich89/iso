@@ -34,6 +34,7 @@ routes.forEach(({ path, method, controller }) => {
 
 router.get('*', async (ctx, next) => {
   const store = configureStore();
+  extractor.chunks = [];
   const promises = appRoutes.reduce((acc, route) => {
     const { pathname } = url.parse(ctx.url);
     if (matchPath(pathname, route)) {
