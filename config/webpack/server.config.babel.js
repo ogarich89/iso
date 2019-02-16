@@ -1,13 +1,8 @@
 import path from 'path';
-import fs from 'fs';
 import merge from 'webpack-merge';
 import { common, loaders } from './common.config';
 import webpack from 'webpack';
-
-const nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter(x => ['.bin'].indexOf(x) === -1)
-  .forEach(mod => nodeModules[mod] = `commonjs ${mod}`);
+import nodeExternals from 'webpack-node-externals';
 
 export default merge(common, {
   context: path.resolve(__dirname, '../../src/server'),
@@ -16,7 +11,8 @@ export default merge(common, {
   },
   target: 'node',
   node: {
-    __dirname: false
+    __dirname: false,
+    __filename: false
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -36,7 +32,7 @@ export default merge(common, {
       }
     ]
   },
-  externals: nodeModules,
+  externals: ['@loadable/component', nodeExternals()],
   plugins: [
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
