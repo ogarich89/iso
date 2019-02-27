@@ -20,7 +20,6 @@ import configureStore from '../shared/configure-store';
 
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
-const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
 const { server: { port } } = config;
 const app = new Koa();
 app.keys = ['secret', 'key'];
@@ -34,7 +33,7 @@ routes.forEach(({ path, method, controller }) => {
 
 router.get('*', async (ctx, next) => {
   const store = configureStore();
-  extractor.chunks = [];
+  const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
   const promises = appRoutes.reduce((acc, route) => {
     const { pathname } = url.parse(ctx.url);
     if (matchPath(pathname, route)) {
