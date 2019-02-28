@@ -17,7 +17,8 @@
     "start": "webpack $npm_package_config_client && BABEL_ENV=server webpack $npm_package_config_server && node $npm_package_main",
     "test": "jest",
     "stats:client": "webpack --json > .stats/client.json $npm_package_config_client",
-    "stats:server": "webpack --json > .stats/server.json $npm_package_config_server"
+    "stats:server": "webpack --json > .stats/server.json $npm_package_config_server",
+    "docgen": "react-docgen ./src/shared/components/ --pretty --out ./components.doc.json"
   },
   "postcss": {
     "plugins": {
@@ -104,6 +105,7 @@
     "postcss-loader": "^3.0.0",
     "query-string": "^6.1.0",
     "react": "^16.6.0",
+    "react-docgen": "^4.0.1",
     "react-dom": "^16.6.0",
     "react-fast-compare": "^2.0.4",
     "react-i18next": "^9.0.10",
