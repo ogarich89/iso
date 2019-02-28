@@ -4,18 +4,31 @@ import { NavLink, Link } from 'react-router-dom';
 import emitter from '../../emitter';
 import { TOGGLE_MODAL } from '../../emitter/constants';
 import cx from 'classnames';
+import { translate } from 'react-i18next';
 
+@translate()
 class Header extends Component {
   constructor (props) {
     super(props);
   }
 
   render () {
+    const { i18n } = this.props;
     return (
       <header className={style.header}>
         <div className={cx('container', style.container)}>
-          <div className={style.logoContainer}>
-            <Link to="/">ISO<small>JS</small></Link>
+          <div className={style.wrapper}>
+            <div className={style.logoContainer}>
+              <Link to="/">ISO<small>JS</small></Link>
+            </div>
+            <ul className={style.changeLanguage}>
+              <li>
+                <span onClick={() => i18n.changeLanguage('ru')}>ru</span>
+              </li>
+              <li>
+                <span onClick={() => i18n.changeLanguage('en')}>en</span>
+              </li>
+            </ul>
           </div>
           <nav>
             <ul>

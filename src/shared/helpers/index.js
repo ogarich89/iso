@@ -19,6 +19,7 @@ const patterns = {
   floor: '[0-9]{1,3}'
 };
 
+
 export {
   isExternal,
   CustomError,

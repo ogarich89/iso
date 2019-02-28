@@ -23,31 +23,50 @@ header {
     @include respond-to(mobile) {
       height: vw(60px, $mobile);
     }
-    .logo-container {
-      a {
-        font-size: vw(35px, $desktop);
-        text-transform: uppercase;
-        text-decoration: none;
-        color: $text;
-        @include respond-to(laptop) {
-          font-size: vw(35px, $laptop);
-        }
-        @include respond-to(tablet) {
-          font-size: vw(35px, $tablet);
-        }
-        @include respond-to(mobile) {
-          font-size: vw(35px, $mobile);
-        }
-        small {
-          font-size: vw(16px, $desktop);
+    .wrapper {
+      display: flex;
+      align-items: center;
+      .logo-container {
+        a {
+          font-size: vw(35px, $desktop);
+          text-transform: uppercase;
+          text-decoration: none;
+          color: $text;
           @include respond-to(laptop) {
-            font-size: vw(16px, $laptop);
+            font-size: vw(35px, $laptop);
           }
           @include respond-to(tablet) {
-            font-size: vw(16px, $tablet);
+            font-size: vw(35px, $tablet);
           }
           @include respond-to(mobile) {
-            font-size: vw(16px, $mobile);
+            font-size: vw(35px, $mobile);
+          }
+          small {
+            font-size: vw(16px, $desktop);
+            @include respond-to(laptop) {
+              font-size: vw(16px, $laptop);
+            }
+            @include respond-to(tablet) {
+              font-size: vw(16px, $tablet);
+            }
+            @include respond-to(mobile) {
+              font-size: vw(16px, $mobile);
+            }
+          }
+        }
+      }
+      .change-language {
+        display: flex;
+        margin-left: vw(50px, $desktop);
+        li {
+          margin-right: vw(10px, $desktop);
+          cursor: pointer;
+          span {
+            font-size: vw(18px, $desktop);
+            color: #343434;
+            &:hover {
+              color: #000;
+            }
           }
         }
       }

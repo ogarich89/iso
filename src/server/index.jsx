@@ -18,8 +18,11 @@ import App from '../shared/App';
 import { Provider } from 'react-redux';
 import configureStore from '../shared/configure-store';
 
+import { I18nextProvider } from 'react-i18next';
+
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
+
 const { server: { port } } = config;
 const app = new Koa();
 app.keys = ['secret', 'key'];
@@ -49,11 +52,14 @@ router.get('*', async (ctx, next) => {
 
   const context = {};
   const initialData = store.getState();
+
   const html = renderToString(
     <ChunkExtractorManager extractor={extractor}>
       <Provider store={store}>
         <StaticRouter location={ctx.url} context={context}>
-          <App/>
+          <I18nextProvider i18n={ctx.i18next}>
+            <App/>
+          </I18nextProvider>
         </StaticRouter>
       </Provider>
     </ChunkExtractorManager>
@@ -64,13 +70,20 @@ router.get('*', async (ctx, next) => {
   if(context.status === 404) {
     ctx.status = 404;
   }
+
+  const initialI18nStore = {};
+  ctx.i18next.languages.forEach(l => {
+    initialI18nStore[l] = ctx.i18next.services.resourceStore.data[l];
+  });
   await ctx.render('index', {
     html,
     envType: process.env.NODE_ENV || 'development',
     initialData: serialize(initialData),
     scriptTags,
     styleTags,
-    version
+    version,
+    initialLanguage: serialize(ctx.i18next.language),
+    initialI18nStore: serialize(initialI18nStore)
   });
 });
 
