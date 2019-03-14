@@ -13,24 +13,12 @@ import { storage } from './libs/storage';
 import { logger } from './libs/logger';
 import redisStore from 'koa-redis';
 import i18n from 'shared/libs/i18n';
-import koaI18next from 'koa-i18next';
-// i18n plugins
+import { i18nextMiddleware } from './middleware/i18next';
 import Backend from 'i18next-node-remote-backend';
-import lngDetector from './libs/i18next-detector';
 
 const { server: { sessionRedisDb = 3, withStatic = true } = {} } = config;
 
 const middleware = app => {
-
-  app.use(koaI18next(i18n(Backend, lngDetector), {
-    lookupCookie: 'i18next',
-    lookupPath: 'lng',
-    lookupFromPathIndex: 0,
-    lookupQuerystring: 'lng',
-    lookupSession: 'lng',
-    order: ['querystring'],
-    next: true
-  }));
 
   app.use(logger());
   render(app, {
@@ -51,6 +39,11 @@ const middleware = app => {
     app.use(mount('/public', serve(path.resolve(__dirname, '../public'))));
     app.use(mount('/', serve(path.resolve(__dirname))));
   }
+
+  app.use(i18nextMiddleware(i18n(Backend), {
+    lookupSession: 'lng',
+    order: ['session']
+  }));
   app.use(api());
   app.use(lastModified());
   app.use(storage());

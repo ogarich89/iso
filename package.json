@@ -91,8 +91,6 @@
     "koa-bodyparser": "^4.2.1",
     "koa-ejs": "^4.1.2",
     "koa-generic-session": "^2.0.1",
-    "koa-i18next": "^1.1.1",
-    "koa-i18next-detector": "^0.7.2",
     "koa-logger": "^3.2.0",
     "koa-mount": "^4.0.0",
     "koa-redis": "^3.1.3",

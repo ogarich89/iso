@@ -4,12 +4,11 @@ const i18n = (...plugins) => {
   plugins.forEach(plugin => i18next.use(plugin));
   i18next
     .init({
-      lng: 'en',
       interpolation: {
         escapeValue: false
       },
       backend: {
-        loadPath: 'http://localhost:3003//public/locales/{{lng}}/{{ns}}.json'
+        loadPath: 'http://localhost:3003/public/locales/{{lng}}/{{ns}}.json'
       },
       debug: false
     });
