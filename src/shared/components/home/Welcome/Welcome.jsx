@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import style from './Welcome.scss';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 
-@translate()
+@withNamespaces()
 class Welcome extends Component {
   constructor (props) {
     super(props);

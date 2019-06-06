@@ -2,7 +2,7 @@ import path from 'path';
 import merge from 'webpack-merge';
 import { common, loaders } from './common.config';
 import LoadablePlugin from '@loadable/webpack-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
 import glob from 'glob';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -51,8 +51,7 @@ export default merge(common, {
       chunkFilename: '[name].css'
     }),
     new LoadablePlugin(),
-    new CleanWebpackPlugin(['dist'], {
-      root: path.resolve(__dirname, '../../'),
+    new CleanWebpackPlugin({
       verbose: true,
       dry: false
     }),

@@ -4,9 +4,9 @@ import { NavLink, Link } from 'react-router-dom';
 import emitter from '../../emitter';
 import { TOGGLE_MODAL } from '../../emitter/constants';
 import cx from 'classnames';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 
-@translate()
+@withNamespaces()
 class Header extends Component {
   constructor (props) {
     super(props);
