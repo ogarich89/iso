@@ -6,8 +6,8 @@
     "jest": true,
     "node": true
   },
-  "extends": "eslint:recommended",
-  "plugins": ["react", "babel"],
+  "extends": ["eslint:recommended","plugin:flowtype/recommended"],
+  "plugins": ["react", "babel", "flowtype"],
   "parser": "babel-eslint",
   "rules": {
     "babel/no-invalid-this": 2,

@@ -63,6 +63,7 @@ const common = {
 
 const loaders = (() => ({ modules = false, isServer = false }) => {
   const arr = [
+    'css-modules-flow-types-loader',
     {
       loader: 'css-loader',
       options: {

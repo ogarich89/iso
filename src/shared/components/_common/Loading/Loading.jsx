@@ -1,8 +1,13 @@
+// @flow
 import React, { Component } from 'react';
 import style from './Loading.scss';
 
-export default class Loading extends Component {
-  constructor(props) {
+type LoadingProps = { timer: number };
+type LoadingState = { timer: number, isActive: boolean };
+
+export default class Loading extends Component<LoadingProps, LoadingState> {
+  timer: TimeoutID;
+  constructor(props: LoadingProps) {
     super(props);
     this.state = {
       timer: props.timer,

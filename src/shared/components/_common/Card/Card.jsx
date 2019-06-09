@@ -1,8 +1,17 @@
+// @flow
 import React from 'react';
 import style from './Card.scss';
 import { Link } from 'react-router-dom';
 
-const Card = ({ id, color, pantone_value, year, name }) => (
+type CardProps = {
+  id: number,
+  color: string,
+  pantone_value: string,
+  year: number,
+  name: string
+}
+
+const Card = ({ id, color, pantone_value, year, name }: CardProps) => (
   <Link
     style={{ backgroundColor: color }}
     className={style.card}

@@ -18,7 +18,8 @@
     "test": "jest",
     "stats:client": "webpack --json > .stats/client.json $npm_package_config_client",
     "stats:server": "webpack --json > .stats/server.json $npm_package_config_server",
-    "docgen": "react-docgen ./src/shared/components/ --pretty --out ./components.doc.json"
+    "docgen": "react-docgen ./src/shared/components/ --pretty --out ./components.doc.json",
+    "flow": "flow"
   },
   "postcss": {
     "plugins": {
@@ -58,8 +59,8 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.1.2",
@@ -75,12 +76,15 @@
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^2.0.0",
+    "css-modules-flow-types-loader": "^1.3.0",
     "cssnano": "^4.1.7",
     "eslint": "^5.8.0",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-babel": "^5.2.0",
+    "eslint-plugin-flowtype": "^3.9.1",
     "eslint-plugin-react": "^7.11.1",
     "fbemitter": "^2.1.1",
+    "flow-bin": "^0.100.0",
     "glob": "^7.1.2",
     "i18next": "^17.0.2",
     "i18next-fetch-backend": "^2.2.0",

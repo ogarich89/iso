@@ -1,10 +1,11 @@
+// @flow
 import React, { Component } from 'react';
 import style from './Welcome.scss';
-import { withNamespaces } from 'react-i18next';
+import { withNamespaces, WithNamespaces } from 'react-i18next';
 
 @withNamespaces()
-class Welcome extends Component {
-  constructor (props) {
+class Welcome extends Component<WithNamespaces> {
+  constructor (props: WithNamespaces) {
     super(props);
   }
 

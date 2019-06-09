@@ -2,7 +2,8 @@ module.exports = function(api) {
   api.cache(false);
 
   const presets = [
-    '@babel/preset-react'
+    '@babel/preset-react',
+    '@babel/preset-flow'
   ];
   const plugins = [
     '@babel/plugin-transform-runtime',

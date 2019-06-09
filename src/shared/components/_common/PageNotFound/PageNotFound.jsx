@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
+// @flow
+import React from 'react';
 import style from './PageNotFound.scss';
 
-export default class PageNotFound extends Component {
-  constructor (props) {
-    super(props);
-  }
-
+export default class PageNotFound {
   render () {
     return (
       <section className={style.pageNotFound}>

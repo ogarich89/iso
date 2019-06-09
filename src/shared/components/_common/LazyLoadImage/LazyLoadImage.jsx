@@ -1,8 +1,16 @@
+// @flow
 import React, { Component } from 'react';
 import style from './LazyLoadImage.scss';
 
-class LazyLoadImage extends Component {
-  constructor(props) {
+type LazyLoadImageProps = {
+  placeholder: string,
+  src: string,
+  alt: string
+}
+
+class LazyLoadImage extends Component<LazyLoadImageProps> {
+  img: ?HTMLImageElement;
+  constructor(props: LazyLoadImageProps) {
     super(props);
   }
 

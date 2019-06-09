@@ -1,9 +1,10 @@
-const isExternal = (url) => {
+// @flow
+const isExternal = (url: string): boolean %checks => {
   return /^(http:\/\/|https:\/\/|\/\/)/.test(url);
 };
 
 class CustomError extends Error {
-  constructor({ name = 'MODULE_NOT_FOUND', stack = '', message }) {
+  constructor({ name = 'MODULE_NOT_FOUND', stack = '', message }: { name: string, stack: string, message: string }) {
     super();
     super.name = `\x1b[0m${name}\x1b[0m`;
     super.stack = stack;

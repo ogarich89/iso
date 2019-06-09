@@ -1,21 +1,19 @@
+// @flow
 import React, { Component } from 'react';
 import style from './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import emitter from '../../emitter';
 import { TOGGLE_MODAL } from '../../emitter/constants';
 import cx from 'classnames';
-import { withNamespaces } from 'react-i18next';
+import { withNamespaces, WithNamespaces } from 'react-i18next';
 
 @withNamespaces()
-class Header extends Component {
-  constructor (props) {
-    super(props);
-  }
+class Header extends Component<WithNamespaces> {
 
   render () {
     const { i18n } = this.props;
     return (
-      <header className={style.header}>
+      <header>
         <div className={cx('container', style.container)}>
           <div className={style.wrapper}>
             <div className={style.logoContainer}>

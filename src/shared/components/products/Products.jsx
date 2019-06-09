@@ -1,15 +1,16 @@
+// @flow
 import React, { Component } from 'react';
 import style from './Products.scss';
 import cx from 'classnames';
 
 import Card from '../_common/Card/Card';
 
-class Products extends Component {
+class Products extends Component<{ products: Object }> {
   render () {
     const { products } = this.props;
     return (
       <section className={style.products}>
-        <div className={cx('container', style.container)}>
+        <div className={cx('container')}>
           <h1>Products</h1>
           <div className={style.productsContainer}>
             {

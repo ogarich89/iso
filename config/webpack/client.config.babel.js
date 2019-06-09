@@ -16,7 +16,7 @@ export default merge(common, {
   context: path.resolve(__dirname, '../../src/client'),
   entry: {
     bundle: [
-      '@babel/polyfill',
+      'core-js/stable',
       './index.jsx'
     ],
     ie: './helpers/internet-explorer/ie.js'
