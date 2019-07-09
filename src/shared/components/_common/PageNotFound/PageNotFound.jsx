@@ -1,8 +1,7 @@
-// @flow
-import React from 'react';
+import React, { Component } from 'react';
 import style from './PageNotFound.scss';
 
-export default class PageNotFound {
+export default class PageNotFound extends Component {
   render () {
     return (
       <section className={style.pageNotFound}>

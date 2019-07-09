@@ -63,16 +63,16 @@ const common = {
 
 const loaders = (() => ({ modules = false, isServer = false }) => {
   const arr = [
-    'css-modules-flow-types-loader',
     {
       loader: 'css-loader',
       options: {
         sourceMap: isDevelopment,
-        modules,
-        exportOnlyLocals: isServer,
-        camelCase: modules,
+        modules: modules ? {
+          localIdentName: '[local]_[hash:base64:5]'
+        } : false,
+        onlyLocals: isServer,
         importLoaders: 2,
-        localIdentName: modules ? '[local]_[hash:base64:5]' : ''
+        localsConvention: 'camelCase'
       }
     },
     {

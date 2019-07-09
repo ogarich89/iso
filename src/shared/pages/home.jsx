@@ -1,8 +1,7 @@
-// @flow
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import Welcome from '../components/home/Welcome/Welcome';
 
-export default class home {
+export default class home extends Component {
 
   render() {
     return (
