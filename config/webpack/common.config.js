@@ -7,7 +7,7 @@ const isDevelopment = !production;
 
 const common = {
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       images: path.resolve(__dirname, '../../public/images'),
       client: path.resolve(__dirname, '../../src/client'),
@@ -32,7 +32,7 @@ const common = {
     rules: [
       {
         enforce: 'pre',
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         loader: 'eslint-loader'
       },
@@ -40,6 +40,11 @@ const common = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
       },
       {
         test: /\.(svg)$/,
