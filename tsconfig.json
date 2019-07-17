@@ -1,12 +1,22 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "baseUrl": "./",
     "noImplicitAny": true,
-    "module": "es6",
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "module": "esnext",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
     "strict": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "shared/*": ["src/shared/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
   }
 }

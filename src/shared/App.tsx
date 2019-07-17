@@ -1,6 +1,6 @@
 import './App.scss';
 import React, { Component, StrictMode } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
 import routes from './routes';
 import { setOverflow } from '../client/helpers/set-overflow';
 
@@ -13,10 +13,21 @@ const Modal = loadable(() =>
   import(/* webpackPrefetch: true, webpackChunkName: "modals" */ './components/_common/Modals/Modal')
 );
 
-@withRouter
-class App extends Component {
+type State = {
+  modal?: Modal,
+  pathname: string
+}
 
-  constructor(props) {
+type Modal = {
+  name: string,
+  isShow: boolean,
+  data: object,
+  isNotClose: boolean
+}
+
+class App extends Component<RouteComponentProps, State> {
+
+  constructor(props: RouteComponentProps) {
     super(props);
     const { location: { pathname } } = props;
     this.state = {
@@ -25,7 +36,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    emitter.addListener(TOGGLE_MODAL, ::this.toggleModal);
+    emitter.addListener(TOGGLE_MODAL, this.toggleModal, false);
     const { history } = this.props;
     history.listen(({ pathname }) => {
       const { pathname: prevPathname } = this.state;
@@ -36,13 +47,13 @@ class App extends Component {
     });
   }
 
-  toggleModal({ name, isShow, data, isNotClose }) {
+  toggleModal = ({ name, isShow, data, isNotClose }: Modal): void => {
     this.setState({ modal: { name, isShow, data, isNotClose } });
     setOverflow(isShow);
-  }
+  };
 
   render() {
-    const { modal = {} } = this.state;
+    const { modal } = this.state;
     return (
       <StrictMode>
         <Header/>
@@ -53,11 +64,11 @@ class App extends Component {
             })}
           </Switch>
         </main>
-        { Modal && modal.isShow ? <Modal { ...{ name: modal.name, data: modal.data, isNotClose: modal.isNotClose } }/> : null }
+        { Modal && modal && modal.isShow ? <Modal { ...{ name: modal.name, data: modal.data, isNotClose: modal.isNotClose } }/> : null }
       </StrictMode>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
 

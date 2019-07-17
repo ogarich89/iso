@@ -3,12 +3,20 @@ import Products from '../components/products/Products';
 import { connect } from 'react-redux';
 import api from '../../client/api';
 import Loading from '../components/_common/Loading/Loading';
-import { withRouter } from 'react-router-dom';
 import PageNotFound from '../components/_common/PageNotFound/PageNotFound';
+import { Store } from 'shared/store';
+import { Dispatch } from 'redux';
 
-@withRouter
-@connect(({ products: { products } }) => ({ products }))
-class products extends Component {
+type MapStateToProps = {
+  products: Array<{ id: number }> | undefined,
+}
+
+type Props = {
+  dispatch: Dispatch,
+  initialAction: Function
+} & MapStateToProps
+
+class products extends Component<Props> {
 
   componentDidMount() {
     const { products, dispatch, initialAction } = this.props;
@@ -27,4 +35,4 @@ class products extends Component {
   }
 }
 
-export default products;
+export default connect(({ products: { products } }: Store): MapStateToProps => ({ products }))(products);

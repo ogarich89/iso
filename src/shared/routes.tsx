@@ -3,14 +3,21 @@ import loadable from '@loadable/component';
 import Loading from 'shared/components/_common/Loading/Loading';
 import React from 'react';
 
-const page = (path, name, func, exact = true, delay = 300) => {
+type Page = {
+  path: string,
+  exact: boolean,
+  component: any,
+  initialAction: Function | null
+}
+
+const page = (path: string, name: string, func: Function | null = null, exact: boolean = true, delay: number = 300): Page => {
   return {
     path,
     exact,
     component: loadable(() => import(`./pages/${name}`), {
       fallback: <Loading timer={delay}/>
     }),
-    initialAction: func ? (api, req = {}) => func(api, req) : null
+    initialAction: func ? (api: object, req: object = {}) => func(api, req) : null
   };
 };
 

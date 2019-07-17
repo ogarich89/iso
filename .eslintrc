@@ -15,7 +15,9 @@
         "project":"./tsconfig.json",
       },
       "plugins":["@typescript-eslint"],
-      "rules":{}
+      "rules":{
+        "no-unused-vars": "off"
+      }
     }
   ],
   "extends": ["eslint:recommended","plugin:flowtype/recommended"],
