@@ -84,7 +84,7 @@
     "eslint-plugin-flowtype": "^3.9.1",
     "eslint-plugin-react": "^7.11.1",
     "fbemitter": "^2.1.1",
-    "flow-bin": "^0.102.0",
+    "flow-bin": "^0.103.0",
     "glob": "^7.1.2",
     "i18next": "^17.0.2",
     "i18next-fetch-backend": "^2.2.0",
@@ -100,7 +100,7 @@
     "koa-redis": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "mini-css-extract-plugin": "^0.7.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "moment-timezone": "^0.5.23",
     "node-sass": "^4.10.0",
     "postcss-import": "^12.0.1",
@@ -110,7 +110,7 @@
     "react-docgen": "^4.0.1",
     "react-dom": "^16.6.0",
     "react-fast-compare": "^2.0.4",
-    "react-i18next": "^9.0.10",
+    "react-i18next": "^10.11.4",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.6.0",
@@ -130,8 +130,7 @@
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.0",
     "webpack-merge": "^4.1.0",
-    "webpack-node-externals": "^1.7.2",
-    "why-did-you-update": "^1.0.6"
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",

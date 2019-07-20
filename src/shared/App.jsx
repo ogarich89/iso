@@ -3,14 +3,13 @@ import React, { Component, StrictMode } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import routes from './routes';
 import { setOverflow } from '../client/helpers/set-overflow';
-
 import emitter from './emitter';
 import { TOGGLE_MODAL } from './emitter/constants';
 import Header from './layouts/Header/Header';
 import loadable from '@loadable/component';
 
 const Modal = loadable(() =>
-  import(/* webpackPrefetch: true, webpackChunkName: "modals" */ './components/_common/Modals/Modal')
+  import(/* webpackPrefetch: true, webpackChunkName: "modals" */ './components/_common/Modals/Modal'), { ssr: false }
 );
 
 @withRouter

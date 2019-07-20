@@ -1,14 +1,14 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import style from './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import emitter from '../../emitter';
 import { TOGGLE_MODAL } from '../../emitter/constants';
 import cx from 'classnames';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-@withNamespaces()
-class Header extends Component<WithNamespaces> {
+@withTranslation()
+class Header extends PureComponent<WithTranslation> {
 
   render () {
     const { i18n } = this.props;
