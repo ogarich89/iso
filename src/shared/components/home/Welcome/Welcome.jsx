@@ -5,6 +5,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 
 @withTranslation()
 class Welcome extends Component<WithTranslation> {
+  static whyDidYouRender = true;
   constructor (props: WithTranslation) {
     super(props);
   }

@@ -14,6 +14,14 @@ const ExtendedApp = withSSR()(App);
 
 const store = configureStore(window.__initialData__);
 
+const NODE_ENV = process.env.NODE_ENV || 'development';
+if(NODE_ENV === 'development') {
+  const whyDidYouRender = require('@welldone-software/why-did-you-render');
+  whyDidYouRender(React, {
+    exclude: [/^Connect/, /^Route/, /^withRouter/, /^Link/, /^NavLink/, /^InnerLoadable/, /^Provider/, /^Switch/, /^Router/]
+  });
+}
+
 lazyImageObserver();
 
 loadableReady(() => {
