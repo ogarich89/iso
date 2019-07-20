@@ -14,6 +14,13 @@ module.file_ext=.css
 module.file_ext=.scss
 module.file_ext=.sass
 module.file_ext=.scss.module
+module.name_mapper='^images' ->'<PROJECT_ROOT>/public/images'
 
 esproposal.decorators=ignore
 [strict]
+nonstrict-import
+unclear-type
+unsafe-getters-setters
+untyped-import
+untyped-type-import
+sketchy-null

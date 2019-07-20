@@ -92,7 +92,7 @@ const loaders = (() => ({ modules = false, isServer = false }) => {
   ];
 
   if(!isServer) {
-    arr.unshift(MiniCssExtractPlugin.loader);
+    arr.unshift(MiniCssExtractPlugin.loader, 'css-modules-flow-types-loader');
   }
   return arr;
 })();
