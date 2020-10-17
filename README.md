@@ -32,30 +32,30 @@ ISO requires Node.js v8+ to run.
 ```sh
 $ git clone https://github.com/ogarich89/iso.git <project name>
 $ cd <project name>
-$ npm install
-$ npm run start
+$ yarn install
+$ yarn start
 ```
 
 ### Development
 
 1. Create folder 'development' in directory '/config'
-2. Create file 'server.json' in folder '/config/development' (example settings in '/config/__example__/server.json')
+2. Create file 'server.json' in folder '/config/development' (example settings in '/config/\_\_example\_\_/server.json')
 3. Run each command in a separate terminal tab
 
 ```sh
-$ npm run client
-$ npm run server
-$ npm run nodemon
+$ yarn client
+$ yarn server
+$ yarn nodemon
 ```
 
 #### Building for source
 For production release:
 ```sh
-$ npm run production
+$ yarn production
 ```
 Depending on NODE_ENV (development | production | staging):
 ```sh
-$ npm run build
+$ yarn build
 ```
 
 

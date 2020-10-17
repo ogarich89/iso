@@ -2,15 +2,16 @@ module.exports = function(api) {
   api.cache(false);
 
   const presets = [
-    '@babel/preset-react',
-    '@babel/preset-flow'
+    '@babel/preset-typescript',
+    '@babel/preset-react'
   ];
   const plugins = [
-    '@babel/plugin-transform-runtime',
+    ['@babel/plugin-transform-runtime', { corejs: 3 }],
     '@babel/plugin-proposal-function-bind',
     '@babel/plugin-syntax-dynamic-import',
     '@loadable/babel-plugin',
-    ['@babel/plugin-proposal-decorators', { 'legacy': true }],
+    ['@babel/plugin-proposal-optional-chaining'],
+    ['@babel/plugin-proposal-decorators', { 'decoratorsBeforeExport': true }],
     ['@babel/plugin-proposal-class-properties', { 'loose' : true }]
   ];
   const comments = true;
@@ -24,11 +25,13 @@ module.exports = function(api) {
       '@babel/plugin-proposal-numeric-separator',
       '@babel/plugin-proposal-throw-expressions'
     ]);
-    presets.push('@babel/preset-env');
+    presets.push(['@babel/preset-env', {
+      useBuiltIns: 'usage',
+      corejs: 3
+    }]);
   } else {
     plugins.push(...[
-      '@babel/plugin-transform-modules-commonjs',
-      '@babel/plugin-proposal-object-rest-spread',
+      '@babel/plugin-transform-modules-commonjs'
     ]);
   }
 

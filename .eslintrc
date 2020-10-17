@@ -6,13 +6,15 @@
     "jest": true,
     "node": true
   },
-  "extends": ["eslint:recommended","plugin:flowtype/recommended"],
-  "plugins": ["react", "babel", "flowtype"],
-  "parser": "babel-eslint",
+  "extends": ["plugin:@typescript-eslint/recommended"],
+  "plugins": ["react", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
-    "babel/no-invalid-this": 2,
-    "babel/semi": 2,
-    "babel/no-unused-expressions": 2,
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/class-name-casing": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": 0,
     "linebreak-style": ["error","unix"],
@@ -38,11 +40,7 @@
   },
   "globals": {
     "isDevelopment": true,
-    "timestamp": true,
-    "ymaps": true,
-    "VK": true,
-    "YT": true,
-    "SimpleBar": true
+    "timestamp": true
   },
   "parserOptions": {
     "sourceType": "module"

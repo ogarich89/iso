@@ -4,17 +4,17 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 const { server: { production } } = config;
 const isDevelopment = !production;
+const isServer = process.env.BABEL_ENV === 'server';
 
 const common = {
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      images: path.resolve(__dirname, '../../public/images'),
+      images: path.resolve(__dirname, '../../src/shared/images'),
       client: path.resolve(__dirname, '../../src/client'),
       server: path.resolve(__dirname, '../../src/server'),
       shared: path.resolve(__dirname, '../../src/shared')
     }
-
   },
   devtool: isDevelopment ? 'source-map' : false,
   stats: {
@@ -25,27 +25,64 @@ const common = {
     warnings: false
   },
   mode: isDevelopment ? 'development' : 'production',
-  optimization: {
-    splitChunks: false
-  },
   module: {
     rules: [
       {
         enforce: 'pre',
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         loader: 'eslint-loader'
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {
-        test: /\.(svg)$/,
+        test: /\.(scss|sass|css)$/,
+        use: [
+          ...(!isServer ? [MiniCssExtractPlugin.loader] : []),
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: isDevelopment,
+              modules: {
+                localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:5]',
+                exportOnlyLocals: isServer,
+                exportLocalsConvention: 'camelCaseOnly'
+              },
+              importLoaders: 2
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: isDevelopment
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'compressed',
+                includePaths: [path.resolve(__dirname, '../../src/shared/helpers/styles')]
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
-            loader: 'svg-inline-loader?idPrefix&classPrefix'
+            loader: 'url-loader',
+            options: {
+              fallback: 'file-loader',
+              limit: 8192,
+              emitFile: !isServer,
+              name: '[name].[hash:8].[ext]',
+              outputPath: 'images'
+            }
           }
         ]
       }
@@ -61,40 +98,5 @@ const common = {
   ]
 };
 
-const loaders = (() => ({ modules = false, isServer = false }) => {
-  const arr = [
-    {
-      loader: 'css-loader',
-      options: {
-        sourceMap: isDevelopment,
-        modules: modules ? {
-          localIdentName: '[local]_[hash:base64:5]'
-        } : false,
-        onlyLocals: isServer,
-        importLoaders: 2,
-        localsConvention: 'camelCase'
-      }
-    },
-    {
-      loader: 'postcss-loader',
-      options: {
-        sourceMap: isDevelopment
-      }
-    },
-    {
-      loader: 'sass-loader',
-      options: {
-        sourceMap: isDevelopment,
-        outputStyle: 'compressed',
-        includePaths: [path.resolve(__dirname, '../../src/shared/helpers/styles')]
-      }
-    }
-  ];
 
-  if(!isServer) {
-    arr.unshift(MiniCssExtractPlugin.loader, 'css-modules-flow-types-loader');
-  }
-  return arr;
-})();
-
-export { common, loaders };
+export { common };

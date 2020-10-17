@@ -1,6 +1,6 @@
 import path from 'path';
-import merge from 'webpack-merge';
-import { common, loaders } from './common.config';
+import { merge } from 'webpack-merge';
+import { common } from './common.config';
 import LoadablePlugin from '@loadable/webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
@@ -15,30 +15,21 @@ const isDevelopment = !production;
 export default merge(common, {
   context: path.resolve(__dirname, '../../src/client'),
   entry: {
-    bundle: [
-      'core-js/stable',
-      './index.jsx'
-    ],
-    ie: './helpers/internet-explorer/ie.js'
+    bundle: './index.tsx'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
-    filename: '[name].js',
-    chunkFilename: '[name].js',
+    filename: isDevelopment ? '[name].js' : '[name].[hash].js',
+    chunkFilename: isDevelopment ? '[name].js' : '[name].[hash].js',
     publicPath: '/'
   },
-  module: {
-    rules: [
-      {
-        test: /\.(scss|sass)$/,
-        exclude: /node_modules/,
-        use: loaders({ modules: true })
-      },
-      {
-        test: /\.(css)$/,
-        use: loaders({})
-      }
-    ]
+  optimization: {
+    splitChunks: !isDevelopment ? {
+      chunks: 'all',
+      maxInitialRequests: 30,
+      maxAsyncRequests: 30,
+      maxSize: 100000
+    } : false
   },
   plugins: [
     new StyleLintPlugin({
@@ -74,9 +65,8 @@ export default merge(common, {
       },
       externalImages: {
         context: path.resolve(__dirname, '../../'),
-        sources: glob.sync('public/images/**/*.*')
+        sources: glob.sync('dist/images/**/*.*')
       }
     })
-
   ]
 });

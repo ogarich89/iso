@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/",
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "jsx": "react",
+    "allowJs": true,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "typeRoots" : ["./types/types.d.ts"],
+    "types": ["node"],
+    "paths": {
+      "images/*": ["public/images/*"]
+    }
+  },
+  "include": [
+    "src",
+    "node_modules/@types/jest/index.d.ts"
+  ]
+}

@@ -5,6 +5,4 @@ dist/
 yarn-error.log
 package-lock.json
 config/development
-.stats
 .cache
-lib/
