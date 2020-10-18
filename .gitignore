@@ -5,4 +5,5 @@ dist/
 yarn-error.log
 package-lock.json
 config/development
+coverage
 .cache
