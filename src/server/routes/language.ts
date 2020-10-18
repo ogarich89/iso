@@ -1,5 +1,5 @@
 import { language } from 'server/controllers/language';
-import { Routes } from 'server/routes';
+import type { Routes } from 'server/routes';
 
 export default [
   {

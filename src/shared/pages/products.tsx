@@ -1,13 +1,14 @@
-import React, { Component, Dispatch } from 'react';
-import { Products } from '../components/products/Products';
+import type { Dispatch } from 'react';
+import React, { Component } from 'react';
+import { ProductsComponent } from '../components/products/Products';
 import { connect } from 'react-redux';
 import { Loading } from '../components/_common/Loading/Loading';
 import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
-import { IProduct, IStore } from '../../types';
-import { InitialAction } from '../libs/page';
+import type { Products, Store } from '../../types';
+import type { InitialAction } from '../libs/page';
 
 interface Props {
-  products: IProduct[];
+  products: Products;
   dispatch: Dispatch<any>;
   initialAction: InitialAction;
 }
@@ -26,9 +27,9 @@ class products extends Component<Props> {
     return (
       products === null ?
         <PageNotFound/> :
-        products ? <Products { ...{ products } }/> : <Loading { ...{ timer: 500 }}/>
+        products ? <ProductsComponent { ...{ products } }/> : <Loading { ...{ timer: 500 }}/>
     );
   }
 }
 
-export default connect(({ products: { products } }: IStore) => ({ products }))(products);
+export default connect(({ goods: { products } }: Store) => ({ products }))(products);

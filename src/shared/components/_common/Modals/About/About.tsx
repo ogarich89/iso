@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 import style from './About.scss';
 
 export const About: FunctionComponent<{ data: any }> = () => (

@@ -27,7 +27,8 @@ And of course ISO itself is open source with a [public repository]
 
 ### Install
 
-ISO requires Node.js v8+ to run.
+ISO requires [Node.js](https://nodejs.org/en/) v10+ and [Redis](https://redis.io) to run.
+
 
 ```sh
 $ git clone https://github.com/ogarich89/iso.git <project name>

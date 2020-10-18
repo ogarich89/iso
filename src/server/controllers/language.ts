@@ -1,4 +1,4 @@
-import { ParameterizedContext } from 'koa';
+import type { ParameterizedContext } from 'koa';
 
 export const language = async (ctx: ParameterizedContext): Promise<void> => {
   const { body: { lng } } = ctx.request;

@@ -1,4 +1,4 @@
-import Application from 'koa';
+import type Application from 'koa';
 import path from 'path';
 import config from '../../config/config';
 

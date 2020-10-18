@@ -1,4 +1,4 @@
-import { i18n } from 'i18next';
+import type { i18n } from 'i18next';
 import type { ParameterizedContext, Next } from 'koa';
 import type { Language } from 'types';
 

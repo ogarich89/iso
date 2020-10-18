@@ -1,4 +1,4 @@
-import { ParameterizedContext } from 'koa';
+import type { ParameterizedContext } from 'koa';
 import language from './routes/language';
 
 interface Route {

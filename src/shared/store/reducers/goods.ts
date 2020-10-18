@@ -1,5 +1,5 @@
-import { RECEIVE_PRODUCT, RECEIVE_PRODUCTS } from '../constants/products';
-import { AnyAction } from 'redux';
+import { RECEIVE_PRODUCT, RECEIVE_PRODUCTS } from '../constants/goods';
+import type { AnyAction } from 'redux';
 
 export default (state = {}, { payload, type }: AnyAction) => {
   switch (type) {

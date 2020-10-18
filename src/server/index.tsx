@@ -7,7 +7,8 @@ import http2 from 'http2';
 import http from 'http';
 import fs from 'fs';
 
-import Koa, { ParameterizedContext } from 'koa';
+import type { ParameterizedContext } from 'koa';
+import Koa from 'koa';
 import Router from 'koa-router';
 import { routes } from './routes';
 import { middleware } from './middleware';
@@ -75,7 +76,7 @@ router.get('(.*)', async (ctx: ParameterizedContext, next) => {
     ctx.status = 404;
   }
 
-  const initialI18nStore: {[key: string]: any} = {};
+  const initialI18nStore: Record<string, any> = {};
   ctx.i18next.languages.forEach((l: string) => {
     initialI18nStore[l] = ctx.i18next.services.resourceStore.data[l];
   });

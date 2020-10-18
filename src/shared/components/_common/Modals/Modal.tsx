@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import type { MouseEvent } from 'react';
+import React from 'react';
+import type { MouseEvent , FunctionComponent } from 'react';
 import style from './Modal.scss';
 import cx from 'classnames';
 

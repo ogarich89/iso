@@ -1,11 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 import style from './Products.scss';
 import cx from 'classnames';
 
 import { Card } from '../_common/Card/Card';
-import { IProduct } from '../../../types';
+import type { Products } from '../../../types';
 
-export const Products: FunctionComponent<{ products: IProduct[] }> = ({ products }) => (
+export const ProductsComponent: FunctionComponent<{ products: Products }> = ({ products }) => (
   <section className={style.products}>
     <div className={cx('container')}>
       <h1>Products</h1>

@@ -1,5 +1,5 @@
 import { page } from 'shared/libs/page';
-import { getProduct, getProducts } from './store/actions/products';
+import { getProduct, getProducts } from './store/actions/goods';
 
 const routes = [
   page('/', 'home'),

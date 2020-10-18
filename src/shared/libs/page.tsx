@@ -1,8 +1,9 @@
-import loadable, { LoadableComponent } from '@loadable/component';
+import type { LoadableComponent } from '@loadable/component';
+import loadable from '@loadable/component';
 import React from 'react';
-import { Dispatch } from 'redux';
+import type { Dispatch } from 'redux';
 import { Loading } from 'shared/components/_common/Loading/Loading';
-import { Request } from 'koa';
+import type { Request } from 'koa';
 
 export interface ThunkAction {
   (dispatch: Dispatch): Promise<void>;

@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import type i18next from 'i18next';
 
 export type I18next = typeof i18next;
 
@@ -10,7 +10,7 @@ declare global {
     }
 }
 
-export interface IProduct {
+export interface Product {
     id: number,
     color: string,
     pantone_value: string,
@@ -18,10 +18,12 @@ export interface IProduct {
     name: string
 }
 
-export interface IStore {
-    products: {
-        products: IProduct[],
-        product: IProduct
+export type Products = Product[];
+
+export interface Store {
+    goods: {
+        products: Product[],
+        product: Product
     }
 }
 

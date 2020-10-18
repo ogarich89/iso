@@ -9,7 +9,8 @@ const {
     reloadDelay = 500,
     inspect = false,
     port = 5000,
-    reload = true
+    reload = true,
+    browserSyncPort = 3003
   }
 } = config;
 
@@ -34,11 +35,9 @@ async function serve () {
 async function synchronise () {
   browserSync.init(null, {
     host: 'localhost',
-    port: 3003,
-    ui: {
-      port: 3033
-    },
+    port: browserSyncPort,
     proxy: `http://localhost:${port}/`,
+    online: false,
     open: false,
     ghostMode: {
       clicks: false,

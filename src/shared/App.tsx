@@ -1,12 +1,14 @@
 import './App.scss';
 import React from 'react';
-import { ReactElement, StrictMode, useEffect, useState } from 'react';
+import type { ReactElement } from 'react';
+import { StrictMode, useEffect, useState } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import routes from './routes';
 import { setOverflow } from 'client/helpers/set-overflow';
 import emitter from './emitter';
 import { TOGGLE_MODAL } from './emitter/constants';
-import loadable, { DefaultComponent, LoadableComponent } from '@loadable/component';
+import type { DefaultComponent, LoadableComponent } from '@loadable/component';
+import loadable from '@loadable/component';
 import { Header } from 'shared/layouts/Header/Header';
 import type { ModalName, ModalProps } from './components/_common/Modals/Modal';
 

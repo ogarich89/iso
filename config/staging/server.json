@@ -1,7 +1,16 @@
 {
   "port": 4000,
+  "reloadDelay": 700,
+  "host": "https://isojs.local",
   "api": "https://reqres.in",
   "sessionRedisDb": 3,
-  "production": true,
-  "withStatic": false
+  "production": false,
+  "withStatic": false,
+  "inspect": false,
+  "reload": false,
+  "certificate": {
+    "key": "/path/to/key.pem",
+    "cert": "/path/to/cert.pem"
+  }
 }
+
