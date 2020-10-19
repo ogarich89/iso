@@ -20,7 +20,7 @@
     "stats:server": "webpack --json > .stats/server.json $npm_package_config_server",
     "ts": "tsc",
     "ts:watch": "yarn ts -- --noEmit --watch",
-    "docgen": "react-ts-docgen ./src/shared/components/**/* -d ./docs"
+    "docgen": "typedoc src/shared/components src/types --readme Readme.md --out docs --excludeExternals"
   },
   "postcss": {
     "plugins": {
@@ -154,14 +154,12 @@
     "pre-commit": "^1.2.2",
     "query-string": "^6.1.0",
     "react": "^16.9.0",
-    "react-docgen-typescript": "^1.20.5",
     "react-dom": "^16.9.0",
     "react-fast-compare": "^3.2.0",
     "react-i18next": "^11.0.0",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.6.0",
-    "react-ts-docgen": "^1.1.0",
     "redux": "^4.0.1",
     "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "^2.13.5",
@@ -174,6 +172,7 @@
     "stylelint": "^13.7.2",
     "stylelint-webpack-plugin": "^2.1.1",
     "svg-inline-loader": "^0.8.0",
+    "typedoc": "^0.19.2",
     "typescript": "^4.0.3",
     "url-loader": "^4.1.1",
     "webpack": "^4.41.5",

@@ -1,3 +1,8 @@
 {
-  "hello": "Welcome to the ISO starter-pack"
+  "hello": "Welcome to the ISO starter-pack",
+  "products": "Products",
+  "about": "About",
+  "description": "Iso is starter-pack for creating isomorphic single-page application with using SSR technology on NodeJS.",
+  "about_iso": "About ISO starter-pack",
+  "developed_by": "Developed by "
 }

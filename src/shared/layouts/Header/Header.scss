@@ -58,12 +58,40 @@ header {
       .change-language {
         display: flex;
         margin-left: vw(50px, $desktop);
+        @include respond-to(laptop) {
+          margin-left: vw(40px, $laptop);
+        }
+        @include respond-to(tablet) {
+          margin-left: vw(30px, $tablet);
+        }
+        @include respond-to(mobile) {
+          margin-left: vw(25px, $mobile);
+        }
         li {
           margin-right: vw(10px, $desktop);
           cursor: pointer;
+          @include respond-to(laptop) {
+            margin-right: vw(10px, $laptop);
+          }
+          @include respond-to(tablet) {
+            margin-right: vw(10px, $tablet);
+          }
+          @include respond-to(mobile) {
+            margin-right: vw(10px, $mobile);
+          }
           span {
             font-size: vw(18px, $desktop);
             color: #343434;
+            text-transform: uppercase;
+            @include respond-to(laptop) {
+              font-size: vw(18px, $laptop);
+            }
+            @include respond-to(tablet) {
+              font-size: vw(18px, $tablet);
+            }
+            @include respond-to(mobile) {
+              font-size: vw(18px, $mobile);
+            }
             &:hover {
               color: #000;
             }

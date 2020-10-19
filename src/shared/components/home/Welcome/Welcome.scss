@@ -9,6 +9,7 @@
   h1 {
     margin-bottom: 0;
     font-size: vw(50px, $desktop);
+    text-align: center;
     @include respond-to(laptop) {
       font-size: vw(45px, $laptop);
     }

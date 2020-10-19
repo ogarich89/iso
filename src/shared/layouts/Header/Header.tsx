@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { session } from '../../session';
 
 export const Header: FunctionComponent = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const changeLanguage = async (lng: string) => {
     await i18n.changeLanguage(lng);
@@ -35,10 +35,10 @@ export const Header: FunctionComponent = () => {
         <nav>
           <ul>
             <li>
-              <NavLink to="/products" activeClassName={style.active}>Products</NavLink>
+              <NavLink to="/products" activeClassName={style.active}>{t('products')}</NavLink>
             </li>
             <li>
-              <span onClick={() => emitter.emit(TOGGLE_MODAL, { name: 'About', isShow: true })}>About</span>
+              <span onClick={() => emitter.emit(TOGGLE_MODAL, { name: 'About', isShow: true })}>{t('about')}</span>
             </li>
           </ul>
         </nav>
