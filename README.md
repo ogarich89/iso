@@ -10,7 +10,8 @@ Powered by [ogarich89](https://github.com/ogarich89)
 
 ISO uses a number of open source projects to work properly:
 
-* [Node.js](https://nodejs.org/en/) - evented I/O for the backend
+* [Node.js](https://nodejs.org/) - evented I/O for the backend
+* [Typescript](https://www.typescriptlang.org/) - typed JavaScript at Any Scale.
 * [Koa](https://koajs.com/) - fast node.js network app framework
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
 * [Redux](https://redux.js.org/) - predictable state container for JavaScript apps.
@@ -27,7 +28,7 @@ And of course ISO itself is open source with a [public repository]
 
 ### Install
 
-ISO requires [Node.js](https://nodejs.org/en/) v10+ and [Redis](https://redis.io) to run.
+ISO requires [Node.js](https://nodejs.org/) v10+ and [Redis](https://redis.io) to run.
 
 
 ```sh
