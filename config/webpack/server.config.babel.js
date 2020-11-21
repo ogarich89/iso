@@ -20,7 +20,8 @@ export default merge(common, {
   output: {
     path: path.resolve(__dirname, '../../dist'),
     filename: 'server.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
+    publicPath: '/'
   },
   externals: ['@loadable/component', nodeExternals()],
   plugins: [
