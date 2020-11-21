@@ -1,6 +1,5 @@
 import type { LoadableComponent } from '@loadable/component';
 import loadable from '@loadable/component';
-import React from 'react';
 import type { Dispatch } from 'redux';
 import { Loading } from 'shared/components/_common/Loading/Loading';
 import type { Request } from 'koa';

@@ -1,5 +1,5 @@
 import type { Dispatch } from 'react';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { ProductsComponent } from '../components/products/Products';
 import { connect } from 'react-redux';
 import { Loading } from '../components/_common/Loading/Loading';

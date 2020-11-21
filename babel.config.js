@@ -3,7 +3,9 @@ module.exports = function(api) {
 
   const presets = [
     '@babel/preset-typescript',
-    '@babel/preset-react'
+    ['@babel/preset-react', {
+      'runtime': 'automatic'
+    }]
   ];
   const plugins = [
     ['@babel/plugin-transform-runtime', { corejs: 3 }],

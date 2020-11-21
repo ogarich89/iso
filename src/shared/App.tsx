@@ -1,5 +1,4 @@
 import './App.scss';
-import React from 'react';
 import type { ReactElement } from 'react';
 import { StrictMode, useEffect, useState } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
