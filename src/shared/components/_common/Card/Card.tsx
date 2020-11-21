@@ -1,5 +1,4 @@
 import type { FunctionComponent } from 'react';
-import React from 'react';
 import type { Product } from '../../../../types';
 import style from './Card.scss';
 import { Link } from 'react-router-dom';

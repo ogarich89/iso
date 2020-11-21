@@ -8,7 +8,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "target": "esnext",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "noEmit": true,
     "experimentalDecorators": true,

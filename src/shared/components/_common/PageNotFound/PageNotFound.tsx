@@ -1,5 +1,4 @@
 import type { FunctionComponent } from 'react';
-import React from 'react';
 import style from './PageNotFound.scss';
 
 export const PageNotFound: FunctionComponent = () => (

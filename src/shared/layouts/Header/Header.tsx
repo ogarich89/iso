@@ -1,5 +1,4 @@
 import type { FunctionComponent } from 'react';
-import React from 'react';
 import style from './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import emitter from '../../emitter';

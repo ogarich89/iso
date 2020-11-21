@@ -13,7 +13,6 @@ import Router from 'koa-router';
 import { routes } from './routes';
 import { middleware } from './middleware';
 
-import React from 'react';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import appRoutes from '../shared/routes';
@@ -69,7 +68,10 @@ router.get('(.*)', async (ctx: ParameterizedContext, next) => {
       </Provider>
     </ChunkExtractorManager>
   );
-  const scriptTags = extractor.getScriptTags();
+  const scriptElements = extractor.getScriptElements({
+    async: false,
+    defer: true
+  });
   const styleTags = extractor.getStyleTags();
 
   if(context.statusCode === 404) {
@@ -84,7 +86,7 @@ router.get('(.*)', async (ctx: ParameterizedContext, next) => {
     html,
     envType: process.env.NODE_ENV || 'development',
     initialData: serialize(initialData),
-    scriptTags,
+    scriptTags: renderToString(scriptElements as any),
     styleTags,
     version,
     initialLanguage: serialize(ctx.i18next.language),
