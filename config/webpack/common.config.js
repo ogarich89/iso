@@ -47,6 +47,7 @@ const common = {
             options: {
               sourceMap: isDevelopment,
               modules: {
+                auto: (resourcePath) => !resourcePath.endsWith('.css'),
                 localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:5]',
                 exportOnlyLocals: isServer,
                 exportLocalsConvention: 'camelCaseOnly'
@@ -89,6 +90,10 @@ const common = {
     ]
   },
   plugins: [
+    new webpack.ContextReplacementPlugin(
+      /moment[/\\]locale$/,
+      /ru|en-gb/
+    ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       isDevelopment,

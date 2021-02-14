@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist/",
     "baseUrl": "./src",
@@ -12,14 +13,13 @@
     "allowJs": true,
     "noEmit": true,
     "experimentalDecorators": true,
-    "typeRoots" : ["./types/types.d.ts"],
-    "types": ["node"],
-    "paths": {
-      "images/*": ["public/images/*"]
-    }
+    "types": ["node", "jest"]
   },
   "include": [
-    "src",
-    "node_modules/@types/jest/index.d.ts"
+    "src"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ]
 }

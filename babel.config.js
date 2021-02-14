@@ -28,7 +28,7 @@ module.exports = function(api) {
       '@babel/plugin-proposal-throw-expressions'
     ]);
     presets.push(['@babel/preset-env', {
-      useBuiltIns: 'usage',
+      useBuiltIns: 'entry',
       corejs: 3
     }]);
   } else {

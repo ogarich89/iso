@@ -68,10 +68,7 @@ router.get('(.*)', async (ctx: ParameterizedContext, next) => {
       </Provider>
     </ChunkExtractorManager>
   );
-  const scriptElements = extractor.getScriptElements({
-    async: false,
-    defer: true
-  });
+  const scriptTags = extractor.getScriptTags();
   const styleTags = extractor.getStyleTags();
 
   if(context.statusCode === 404) {
@@ -86,7 +83,7 @@ router.get('(.*)', async (ctx: ParameterizedContext, next) => {
     html,
     envType: process.env.NODE_ENV || 'development',
     initialData: serialize(initialData),
-    scriptTags: renderToString(scriptElements as any),
+    scriptTags,
     styleTags,
     version,
     initialLanguage: serialize(ctx.i18next.language),
