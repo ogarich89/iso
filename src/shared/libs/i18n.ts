@@ -16,7 +16,7 @@ const i18n = (...plugins: any[]): typeof i18next => {
       backend: {
         loadPath: `${host}/public/locales/{{lng}}/{{ns}}.json`
       },
-      debug: false,
+      debug: true,
       react: {
         useSuspense: false,
         wait: true
