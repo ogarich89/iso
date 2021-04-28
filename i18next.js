@@ -11,7 +11,6 @@ module.exports = {
   },
   debug: false,
   react: {
-    useSuspense: false,
-    wait: true
+    useSuspense: false
   }
 }
