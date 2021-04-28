@@ -17,8 +17,8 @@ const {
 async function serve () {
   let timer;
   const stream = nodemon({
-    script: 'dist/server.js',
-    watch: 'dist/*.*',
+    script: 'server/index.mjs',
+    watch: 'server/*.*',
     exec: inspect ? 'node --inspect' : 'node'
   });
   stream

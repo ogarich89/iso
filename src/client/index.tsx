@@ -4,8 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
 import { withSSR } from 'react-i18next';
-import i18n from 'shared/libs/i18n';
-import Fetch from 'i18next-fetch-backend';
+import './i18next';
 
 import configureStore from '../shared/configure-store';
 import { App } from 'shared/App';
@@ -21,7 +20,6 @@ if(NODE_ENV === 'development') {
 }
 
 loadableReady(() => {
-  i18n(Fetch);
   hydrate(
     <Provider store={store}>
       <BrowserRouter>

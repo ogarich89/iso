@@ -1,44 +1,20 @@
-import serialize from 'serialize-javascript';
-import 'source-map-support/register';
-import config from '../../config/config';
-import url from 'url';
-import path from 'path';
-import http2 from 'http2';
-import http from 'http';
-import fs from 'fs';
-
-import type { ParameterizedContext } from 'koa';
-import Koa from 'koa';
-import Router from 'koa-router';
-import { routes } from './routes';
-import { middleware } from './middleware';
-
-import { StaticRouter, matchPath } from 'react-router-dom';
-import { renderToString } from 'react-dom/server';
-import appRoutes from '../shared/routes';
-import { App } from 'shared/App';
-
-import { Provider } from 'react-redux';
 import configureStore from '../shared/configure-store';
-
-import { I18nextProvider } from 'react-i18next';
-
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
-const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
+import appRoutes from '../shared/routes';
+import url from 'url';
+import { matchPath, StaticRouter } from 'react-router-dom';
+import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
+import { App } from '../shared/App';
+import serialize from 'serialize-javascript';
+import type { ParameterizedContext, Next } from 'koa';
 
-const { server: { port, certificate } } = config;
+interface RequestHandler {
+  (ctx: ParameterizedContext, next: Next, options: Record<string, any>): any
+}
 
-const app = new Koa();
-app.keys = ['secret', 'key'];
-const router = new Router();
-
-middleware(app);
-
-routes.forEach(({ path, method, controller }) => {
-  router[method](path, controller);
-});
-
-router.get('(.*)', async (ctx: ParameterizedContext, next) => {
+export const requestHandler: RequestHandler = async (ctx, next, { statsFile }) => {
   const store = configureStore();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
   const promises = appRoutes.reduce((acc: Promise<any>[], route) => {
@@ -89,16 +65,4 @@ router.get('(.*)', async (ctx: ParameterizedContext, next) => {
     initialLanguage: serialize(ctx.i18next.language),
     initialI18nStore: serialize(initialI18nStore)
   });
-});
-
-app.use(router.routes());
-
-const server = certificate ? http2.createSecureServer({
-  key: fs.readFileSync(certificate.key),
-  cert: fs.readFileSync(certificate.cert),
-  allowHTTP1: true
-}, app.callback()) : http.createServer(app.callback());
-
-server.listen(port, () => {
-  console.info('==> Listening on port %s. Open up http://localhost:%s/ in your browser.', port, port);
-});
+}

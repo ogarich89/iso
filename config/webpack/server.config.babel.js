@@ -6,9 +6,7 @@ import nodeExternals from 'webpack-node-externals';
 
 export default merge(common, {
   context: path.resolve(__dirname, '../../src/server'),
-  entry: {
-    server: './index.tsx'
-  },
+  entry: './request-handler.tsx',
   target: 'node',
   node: {
     __dirname: false,
@@ -19,7 +17,7 @@ export default merge(common, {
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
-    filename: 'server.js',
+    filename: 'request-handler.js',
     libraryTarget: 'commonjs2',
     publicPath: '/'
   },

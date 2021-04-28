@@ -13,7 +13,7 @@ import type { ModalName, ModalProps } from './components/_common/Modals/Modal';
 
 const Modal: LoadableComponent<ModalProps> = loadable(
   (): Promise<DefaultComponent<ModalProps>> =>
-    import(/* webpackPrefetch: true, webpackChunkName: "modals" */ './components/_common/Modals/Modal'),
+    import(/* webpackChunkName: "modals" */ './components/_common/Modals/Modal'),
   { ssr: false }
 );
 

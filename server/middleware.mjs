@@ -1,24 +1,24 @@
-import type Application from 'koa';
-import path from 'path';
-import config from '../../config/config';
+import path, {dirname} from 'path';
+import config from '../config/config.js';
 
 import render from 'koa-ejs';
 import bodyParser from 'koa-bodyparser';
 import serve from 'koa-static';
 import mount from 'koa-mount';
 import session from 'koa-generic-session';
-import { errors } from './middleware/errors';
-import { storage } from './libs/storage';
-import { logger } from './libs/logger';
-import redisClient from './libs/redis-client';
-import i18n from 'shared/libs/i18n';
-import { i18nextMiddleware } from './middleware/i18next';
-import Backend from 'i18next-node-remote-backend';
+import { errors } from './middleware/errors.mjs';
+import { storage } from './libs/storage.mjs';
+import { logger } from './libs/logger.mjs';
+import redisClient from './libs/redis-client.mjs';
+import i18next from './libs/i18next.mjs';
+import { i18nextMiddleware } from './middleware/i18next.mjs';
+import { fileURLToPath } from 'url';
 
 const { server: { withStatic = true } = {} } = config;
 
-const middleware = (app: Application): void => {
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const middleware = (app) => {
   app.use(logger());
   render(app, {
     root   : path.join(__dirname, '../public'),
@@ -35,11 +35,11 @@ const middleware = (app: Application): void => {
 
   if(withStatic) {
     app.use(mount('/public', serve(path.resolve(__dirname, '../public'))));
-    app.use(mount('/', serve(path.resolve(__dirname))));
+    app.use(mount('/', serve(path.resolve(__dirname, '../dist'))));
   }
 
   app.use(storage());
-  app.use(i18nextMiddleware(i18n(Backend), {
+  app.use(i18nextMiddleware(i18next, {
     lookupSession: 'lng',
     order: ['session']
   }));

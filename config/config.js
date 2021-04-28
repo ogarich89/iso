@@ -16,4 +16,4 @@ try {
 } catch (e) {
   throw new CustomError({ message: `Configure file not found (/config/${dirname}/server.json). Read the instruction (/config/__example__/readme.txt)` });
 }
-export default { server };
+module.exports = { server };

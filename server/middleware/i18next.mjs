@@ -1,15 +1,5 @@
-import type { i18n } from 'i18next';
-import type { ParameterizedContext, Next } from 'koa';
-import type { Language } from 'types';
-
-interface Options {
-  lookupSession?: string;
-  order?: string[];
-  fallbackLng?: Language;
-}
-
-const i18nextMiddleware = (i18next: i18n, options: Options) => {
-  return async (ctx: ParameterizedContext, next: Next): Promise<void> => {
+const i18nextMiddleware = (i18next, options) => {
+  return async (ctx, next) => {
     const { lookupSession = 'lng', order = ['session'], fallbackLng = 'ru' } = options || {};
 
     const lng = order.reduce((acc, value) => {
