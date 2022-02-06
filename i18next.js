@@ -2,7 +2,6 @@ const { server: { host } } = require('./config/config')
 
 module.exports = {
   fallbackLng: 'en',
-  preload: ['en', 'ru'],
   interpolation: {
     escapeValue: false
   },

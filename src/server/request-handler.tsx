@@ -29,14 +29,6 @@ export const requestHandler: RequestHandler = async (ctx, next, { statsFile }) =
   const version = !isDevelopment ? `?version=${timestamp}` : '';
   await Promise.all(promises).catch(next);
 
-  const initialData = store.getState();
-  const initialI18nStore = ctx.i18next.languages.reduce((acc: any, lang: string) => (
-    {
-      ...acc,
-      [lang]: ctx.i18next.services.resourceStore.data[lang]
-    }
-  ), {});
-
   const html = renderToString(
     <ChunkExtractorManager extractor={extractor}>
       <Provider store={store}>
@@ -54,11 +46,11 @@ export const requestHandler: RequestHandler = async (ctx, next, { statsFile }) =
   await ctx.render('index', {
     html,
     envType: process.env.NODE_ENV || 'development',
-    initialData: serialize(initialData),
+    initialData: serialize(store.getState()),
     scriptTags,
     styleTags,
     version,
     initialLanguage: serialize(ctx.i18next.language),
-    initialI18nStore: serialize(initialI18nStore)
+    initialI18nStore: serialize(ctx.storage.get('initialI18nStore'))
   });
 }
