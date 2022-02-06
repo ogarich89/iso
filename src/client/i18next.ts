@@ -5,6 +5,9 @@ import options from '../../i18next';
 
 i18next.use(Fetch);
 i18next.use(initReactI18next);
-i18next.init(options);
+i18next.init({
+  ...options,
+  lng: window.initialLanguage
+});
 
 export default i18next;

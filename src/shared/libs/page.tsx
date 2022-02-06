@@ -14,13 +14,13 @@ export interface InitialAction {
 
 interface Page {
   (
-    path: string | string[],
+    path: string,
     name: string,
     initialAction?: InitialAction,
     exact?: boolean,
     delay?: number
   ): {
-    path: string | string[];
+    path: string;
     exact: boolean;
     component: LoadableComponent<any>;
     initialAction: InitialAction | null;

@@ -34,7 +34,7 @@ export const Header: FunctionComponent = () => {
         <nav>
           <ul>
             <li>
-              <NavLink to="/products" activeClassName={style.active}>{t('products')}</NavLink>
+              <NavLink to="/products" className={({ isActive }) => isActive ? style.active : null}>{t('products')}</NavLink>
             </li>
             <li>
               <span onClick={() => emitter.emit(TOGGLE_MODAL, { name: 'About', isShow: true })}>{t('about')}</span>
