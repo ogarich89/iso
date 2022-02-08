@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import config from '../config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 import path from 'path';
 const { server: { production } } = config;
 const isDevelopment = !production;
@@ -27,12 +28,6 @@ const common = {
   mode: isDevelopment ? 'development' : 'production',
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader'
-      },
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
@@ -90,16 +85,13 @@ const common = {
     ]
   },
   plugins: [
-    new webpack.ContextReplacementPlugin(
-      /moment[/\\]locale$/,
-      /ru|en-gb/
-    ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       isDevelopment,
       timestamp: JSON.stringify(+ new Date())
     }),
-    new webpack.LoaderOptionsPlugin({ options: { failOnError: !isDevelopment } })
+    new webpack.LoaderOptionsPlugin({ options: { failOnError: !isDevelopment } }),
+    new ESLintPlugin()
   ]
 };
 

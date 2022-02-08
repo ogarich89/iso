@@ -14,7 +14,7 @@ const { server: { production } } = config;
 const isDevelopment = !production;
 
 try {
-  fs.rmdirSync(path.resolve(__dirname, '../../dist'), { recursive: true });
+  fs.rmSync(path.resolve(__dirname, '../../dist'), { recursive: true });
 } catch (e) {
   console.error(e);
 }
@@ -53,7 +53,7 @@ export default merge(common, {
   plugins: [
     ...(isDevelopment ? [new BundleAnalyzerPlugin({ openAnalyzer: false, analyzerMode: 'static' })] : []),
     new StyleLintPlugin({
-      syntax: 'scss',
+      customSyntax: 'postcss-scss',
       context: path.resolve(__dirname, '../../src'),
       failOnError: !isDevelopment
     }),

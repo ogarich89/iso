@@ -8,31 +8,18 @@ module.exports = function(api) {
     }]
   ];
   const plugins = [
-    ['@babel/plugin-transform-runtime', { corejs: 3 }],
-    '@babel/plugin-proposal-function-bind',
-    '@babel/plugin-syntax-dynamic-import',
-    '@loadable/babel-plugin',
-    ['@babel/plugin-proposal-optional-chaining'],
-    ['@babel/plugin-proposal-decorators', { 'decoratorsBeforeExport': true }],
-    ['@babel/plugin-proposal-class-properties', { 'loose' : true }]
+    '@loadable/babel-plugin'
   ];
   const comments = true;
 
   if(process.env.BABEL_ENV !== 'server') {
-    plugins.push(...[
-      '@babel/plugin-syntax-import-meta',
-      '@babel/plugin-proposal-json-strings',
-      '@babel/plugin-proposal-function-sent',
-      '@babel/plugin-proposal-export-namespace-from',
-      '@babel/plugin-proposal-numeric-separator',
-      '@babel/plugin-proposal-throw-expressions'
-    ]);
+    plugins.push(['@babel/plugin-transform-runtime', { corejs: 3 }]);
     presets.push(['@babel/preset-env', {
       useBuiltIns: 'entry',
       corejs: 3
     }]);
   } else {
-    plugins.push(...[
+    plugins.push([
       '@babel/plugin-transform-modules-commonjs'
     ]);
   }

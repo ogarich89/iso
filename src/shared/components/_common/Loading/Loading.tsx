@@ -1,41 +1,28 @@
-import { Component } from 'react';
+import type { FunctionComponent } from 'react';
+import { useEffect, useState } from 'react';
 import style from './Loading.scss';
 
-interface Props { timer: number }
-interface State { timer: number, isActive: boolean }
+interface Props { timeout: number }
 
-export class Loading extends Component<Props, State> {
-  timer: ReturnType<typeof setTimeout> | undefined;
-  constructor(props: Readonly<Props>) {
-    super(props);
-    this.state = {
-      timer: props.timer,
-      isActive: false
-    };
-  }
-
-  componentDidMount (): void {
-    const { timer } = this.state;
-    if(timer) {
-      this.timer = setTimeout(() => this.setState({ isActive: true }), timer);
+export const Loading: FunctionComponent<Props> = ({ timeout }) => {
+  const [isActive, setIsActive] = useState(false);
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if(timeout) {
+      setTimer(setTimeout(() => setIsActive(true), timeout))
     } else {
-      this.setState({ isActive: true });
+      setIsActive(true);
     }
-  }
-
-  componentWillUnmount (): void {
-    if(this.timer) clearTimeout(this.timer);
-  }
-
-  render(): JSX.Element | null {
-    const { isActive } = this.state;
-    if(isActive) {
-      return (
-        <section className={style.loading}>
-          <strong>LOADING...</strong>
-        </section>
-      );
+    return () => {
+      if(timer) clearTimeout(timer);
     }
-    return null;
+  }, []);
+  if(isActive) {
+    return (
+      <section className={style.loading}>
+        <strong>LOADING...</strong>
+      </section>
+    );
   }
+  return null;
 }

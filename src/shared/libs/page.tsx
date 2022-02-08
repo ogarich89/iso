@@ -14,13 +14,13 @@ export interface InitialAction {
 
 interface Page {
   (
-    path: string | string[],
+    path: string,
     name: string,
     initialAction?: InitialAction,
     exact?: boolean,
     delay?: number
   ): {
-    path: string | string[];
+    path: string;
     exact: boolean;
     component: LoadableComponent<any>;
     initialAction: InitialAction | null;
@@ -32,7 +32,7 @@ export const page: Page = (path, name, initialAction, exact = true, delay = 300)
     path,
     exact,
     component: loadable(() => import(`../pages/${name}`), {
-      fallback: <Loading timer={delay}/>
+      fallback: <Loading timeout={delay}/>
     }),
     initialAction: initialAction ? initialAction : null
   };

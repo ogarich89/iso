@@ -1,7 +1,6 @@
 import './App.scss';
-import type { ReactElement } from 'react';
 import { StrictMode, useEffect, useState } from 'react';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import routes from './routes';
 import { setOverflow } from 'client/helpers/set-overflow';
 import emitter from './emitter';
@@ -25,7 +24,6 @@ interface ModalSettings {
 }
 
 export const App = () => {
-  const history = useHistory();
   const { pathname } = useLocation();
 
   const [currentPathname, setPathname] = useState(pathname);
@@ -41,24 +39,21 @@ export const App = () => {
 
   useEffect(() => {
     emitter.addListener(TOGGLE_MODAL, toggleModal);
-    history.listen(({ pathname }) => {
-      if(currentPathname !== pathname) {
-        window.scrollTo(0,0);
-        setPathname(pathname);
-      }
-    });
-  }, []);
+    if(currentPathname !== pathname) {
+      window.scrollTo(0,0);
+      setPathname(pathname);
+    }
+  }, [pathname]);
 
   return (
     <StrictMode>
       <main>
         <Header/>
-        <Switch>
+        <Routes>
           {routes.map(({ path, exact, component: Component, initialAction }, i) =>
-            <Route key={i} {...{ path, exact } } render={(props): ReactElement<typeof props> =>
-              <Component { ...{ initialAction, ...props }}/>} />
+            <Route key={i} {...{ path, exact } } element={<Component { ...{ initialAction }}/>} />
           )}
-        </Switch>
+        </Routes>
       </main>
       { Modal && modal.isShow ?
         <Modal { ...{ name: modal.name, data: modal.data, isNotClose: modal.isNotClose } }/> : null }
