@@ -1,7 +1,7 @@
-const { server: { host } } = require('./config/config')
+const { server: { host } } = require('./config/config');
 
 module.exports = {
-  fallbackLng: 'en',
+  fallbackLng: false,
   interpolation: {
     escapeValue: false
   },

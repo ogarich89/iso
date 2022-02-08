@@ -11,7 +11,6 @@ import { App } from 'shared/App';
 const ExtendedApp = withSSR()(App);
 const store = configureStore(window.__initialData__);
 
-
 loadableReady(() => {
   hydrate(
     <Provider store={store}>

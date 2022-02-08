@@ -85,10 +85,6 @@ const common = {
     ]
   },
   plugins: [
-    new webpack.ContextReplacementPlugin(
-      /moment[/\\]locale$/,
-      /ru|en-gb/
-    ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       isDevelopment,

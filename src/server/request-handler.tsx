@@ -11,23 +11,18 @@ import serialize from 'serialize-javascript';
 import type { ParameterizedContext, Next } from 'koa';
 
 interface RequestHandler {
-  (ctx: ParameterizedContext, next: Next, options: Record<string, any>): any
+  (ctx: ParameterizedContext, next: Next, options: { statsFile: string }): Promise<void>;
 }
 
 export const requestHandler: RequestHandler = async (ctx, next, { statsFile }) => {
   const store = configureStore();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
-  const promises = appRoutes.reduce((acc: Promise<any>[], route) => {
-    if (matchPath(route, ctx.path)) {
-      if(route.initialAction) {
-        acc.push(Promise.resolve(store.dispatch(route.initialAction(ctx.request))));
-      }
-    }
-    return acc;
-  }, []);
 
-  const version = !isDevelopment ? `?version=${timestamp}` : '';
-  await Promise.all(promises).catch(next);
+  const initialActions = appRoutes.reduce((acc: Array<Promise<void>>, route) => matchPath(route, ctx.path) && route.initialAction ? [
+    ...acc,
+    store.dispatch(route.initialAction(ctx.request))
+  ] : acc, []);
+  await Promise.all(initialActions).catch(next);
 
   const html = renderToString(
     <ChunkExtractorManager extractor={extractor}>
@@ -49,7 +44,7 @@ export const requestHandler: RequestHandler = async (ctx, next, { statsFile }) =
     initialData: serialize(store.getState()),
     scriptTags,
     styleTags,
-    version,
+    version: !isDevelopment ? `?version=${timestamp}` : '',
     initialLanguage: serialize(ctx.i18next.language),
     initialI18nStore: serialize(ctx.storage.get('initialI18nStore'))
   });

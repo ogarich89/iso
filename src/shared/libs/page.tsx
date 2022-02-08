@@ -32,7 +32,7 @@ export const page: Page = (path, name, initialAction, exact = true, delay = 300)
     path,
     exact,
     component: loadable(() => import(`../pages/${name}`), {
-      fallback: <Loading timer={delay}/>
+      fallback: <Loading timeout={delay}/>
     }),
     initialAction: initialAction ? initialAction : null
   };

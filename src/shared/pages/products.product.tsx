@@ -1,26 +1,24 @@
-import type { Dispatch } from 'react';
-import { Component } from 'react';
+import type { FunctionComponent } from 'react';
+import { useEffect } from 'react';
 import { ProductComponent } from '../components/product/Product';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../components/_common/Loading/Loading';
 import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
 import { receiveProduct } from '../store/actions/goods';
-import type { Product, Products, Store } from '../../types';
+import type { Store } from '../../types';
 import type { InitialAction } from '../libs/page';
+import { useLocation, useParams } from 'react-router-dom';
 
 interface Props {
-  dispatch: Dispatch<any>;
   initialAction: InitialAction;
-  products: Products;
-  product: Product;
-  location: Location;
 }
 
-class productsProduct extends Component<Props> {
-
-  componentDidMount() {
-    const { location: { pathname }, dispatch, initialAction, products, product } = this.props;
-    const [,,id] = pathname.split('/');
+const productsProduct: FunctionComponent<Props> = ({ initialAction }) => {
+  const { pathname } = useLocation();
+  const { id } = useParams() as { id: string };
+  const { products, product } = useSelector(({ goods }: Store) => goods);
+  const dispatch = useDispatch();
+  useEffect(() => {
     if(!product) {
       const found = products.find(product => +product.id === +id);
       if(!found) {
@@ -29,20 +27,15 @@ class productsProduct extends Component<Props> {
         dispatch(receiveProduct(found));
       }
     }
-  }
-
-  componentWillUnmount () {
-    this.props.dispatch(receiveProduct(undefined));
-  }
-
-  render() {
-    const { product } = this.props;
-    return (
-      product === null ?
-        <PageNotFound/> :
-        product ? <ProductComponent { ...{ product } }/> : <Loading { ...{ timer: 500 }}/>
-    );
-  }
+    return () => {
+      dispatch(receiveProduct(undefined))
+    }
+  }, [pathname]);
+  return (
+    product === null ?
+      <PageNotFound/> :
+      product ? <ProductComponent { ...{ product } }/> : <Loading timeout={500}/>
+  )
 }
 
-export default connect(({ goods: { product, products } }: Store) => ({ product, products }))(productsProduct);
+export default productsProduct;

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Welcome /> should render component 1`] = `
+<div>
+  <section
+    class="welcome"
+  >
+    <h1>
+      hello
+    </h1>
+  </section>
+</div>
+`;
