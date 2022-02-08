@@ -10,7 +10,6 @@ import { errors } from './middleware/errors.mjs';
 import { storage } from './libs/storage.mjs';
 import { logger } from './libs/logger.mjs';
 import redisClient from './libs/redis-client.mjs';
-import i18next from './libs/i18next.mjs';
 import { i18nextMiddleware } from './middleware/i18next.mjs';
 import { fileURLToPath } from 'url';
 
@@ -39,10 +38,7 @@ const middleware = (app) => {
   }
 
   app.use(storage());
-  app.use(i18nextMiddleware(i18next, {
-    lookupSession: 'lng',
-    order: ['session']
-  }));
+  app.use(i18nextMiddleware());
 };
 
 export { middleware };

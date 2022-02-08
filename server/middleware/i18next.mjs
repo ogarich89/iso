@@ -1,21 +1,13 @@
-const i18nextMiddleware = (i18next, options) => {
+import i18next from '../libs/i18next.mjs';
+
+const i18nextMiddleware = () => {
   return async (ctx, next) => {
     if (ctx.get('x-requested-with')) {
       return next();
     }
-    const { lookupSession = 'lng', order = ['session'], fallbackLng = 'ru' } = options || {};
-
-    const lng = order.reduce((acc, value) => {
-      if(value === 'session') {
-        const _lng = ctx.session[lookupSession];
-        if(!_lng) {
-          return ctx.session[lookupSession] = fallbackLng;
-        }
-        return _lng;
-      }
-    }, fallbackLng);
+    const { lng = 'en' } = ctx.session || {};
     await i18next.changeLanguage(lng);
-    ctx.storage.set("initialI18nStore", { [lng]: i18next.services.resourceStore.data[lng] })
+    ctx.storage.set('initialI18nStore', { [lng]: i18next.services.resourceStore.data[lng] })
     ctx.i18next = i18next;
     await next();
   };
