@@ -1,5 +1,5 @@
 import path, {dirname} from 'path';
-import config from '../config/config.js';
+import config from '../config/config.cjs';
 
 import render from 'koa-ejs';
 import bodyParser from 'koa-bodyparser';

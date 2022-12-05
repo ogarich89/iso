@@ -25,6 +25,8 @@ export const requestHandler: RequestHandler = async (ctx, next, { statsFile }) =
   await Promise.all(initialActions).catch(next);
 
   const html = renderToString(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <ChunkExtractorManager extractor={extractor}>
       <Provider store={store}>
         <StaticRouter location={ctx.url}>

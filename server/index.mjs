@@ -1,4 +1,4 @@
-import config from '../config/config.js';
+import config from '../config/config.cjs';
 import path from 'path';
 import http2 from 'http2';
 import http from 'http';
@@ -10,7 +10,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import { routes } from './routes.mjs';
 import { middleware } from './middleware.mjs';
-import { requestHandler } from '../dist/request-handler.js';
+import { requestHandler } from '../dist/request-handler.cjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

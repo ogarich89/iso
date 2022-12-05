@@ -35,5 +35,5 @@ $desktop: 1920;
 
 @function vw($object, $width) {
   $vw: $width * 0.01 * 1px;
-  @return $object / $vw * 1vw;
+  @return calc($object / $vw) * 1vw;
 }

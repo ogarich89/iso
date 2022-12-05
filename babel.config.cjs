@@ -18,10 +18,6 @@ module.exports = function(api) {
       useBuiltIns: 'entry',
       corejs: 3
     }]);
-  } else {
-    plugins.push([
-      '@babel/plugin-transform-modules-commonjs'
-    ]);
   }
 
   return { presets, plugins, comments };

@@ -1,8 +1,11 @@
-import path from 'path';
+import path, {dirname} from 'path';
 import { merge } from 'webpack-merge';
-import { common } from './common.config';
+import { common } from './common.config.mjs';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
+import {fileURLToPath} from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default merge(common, {
   context: path.resolve(__dirname, '../../src/server'),
@@ -17,8 +20,8 @@ export default merge(common, {
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
-    filename: 'request-handler.js',
-    libraryTarget: 'commonjs2',
+    filename: 'request-handler.cjs',
+    libraryTarget: 'commonjs-static',
     publicPath: '/'
   },
   externals: ['@loadable/component', nodeExternals()],

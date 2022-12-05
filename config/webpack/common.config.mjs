@@ -1,11 +1,14 @@
 import webpack from 'webpack';
-import config from '../config';
+import config from '../config.cjs';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 const { server: { production } } = config;
 const isDevelopment = !production;
 const isServer = process.env.BABEL_ENV === 'server';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const common = {
   resolve: {
@@ -17,13 +20,13 @@ const common = {
       shared: path.resolve(__dirname, '../../src/shared')
     }
   },
-  devtool: isDevelopment ? 'source-map' : false,
+  devtool: isDevelopment ? 'cheap-module-source-map' : false,
   stats: {
     assets  : true,
     modules : false,
     hash    : false,
     children: false,
-    warnings: false
+    warnings: true
   },
   mode: isDevelopment ? 'development' : 'production',
   module: {
@@ -31,7 +34,10 @@ const common = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        resolve: {
+          fullySpecified: false,
+        },
       },
       {
         test: /\.(scss|sass|css)$/,
@@ -69,6 +75,7 @@ const common = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
+        issuer: /\.(ts|tsx|js|jsx)$/,
         use: [
           {
             loader: 'url-loader',
@@ -76,8 +83,8 @@ const common = {
               fallback: 'file-loader',
               limit: 8192,
               emitFile: !isServer,
-              name: '[name].[hash:8].[ext]',
-              outputPath: 'images'
+              name: isDevelopment ? '[name].[ext]' : '[name].[hash:8].[ext]',
+              outputPath: 'assets'
             }
           }
         ]

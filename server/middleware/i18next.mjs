@@ -1,4 +1,5 @@
 import i18next from '../libs/i18next.mjs';
+import options from "../../i18n.cjs";
 
 const i18nextMiddleware = () => {
   return async (ctx, next) => {
@@ -6,8 +7,8 @@ const i18nextMiddleware = () => {
       return next();
     }
     const { lng = 'en' } = ctx.session || {};
-    await i18next.changeLanguage(lng);
-    ctx.storage.set('initialI18nStore', { [lng]: i18next.services.resourceStore.data[lng] })
+    await i18next.init({ ...options, lng });
+    ctx.storage.set('initialI18nStore', { [lng]: i18next.store.data[lng] })
     ctx.i18next = i18next;
     await next();
   };

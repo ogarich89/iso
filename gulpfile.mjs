@@ -2,7 +2,7 @@ import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import nodemon from 'gulp-nodemon';
 
-import config from './config/config';
+import config from './config/config.cjs';
 
 const {
   server: {
@@ -18,7 +18,7 @@ async function serve () {
   let timer;
   const stream = nodemon({
     script: 'server/index.mjs',
-    watch: 'server/*.*',
+    watch: ['server/*.*', 'src/server/*.*'],
     exec: inspect ? 'node --inspect' : 'node'
   });
   stream

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
 import { methods } from './methods';
-import config from '../../../config/config';
+import config from '../../../config/config.cjs';
 const { server: { api } } = config;
 
 export type Methods = keyof typeof methods;

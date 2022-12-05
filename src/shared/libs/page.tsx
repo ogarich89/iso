@@ -1,6 +1,6 @@
 import type { LoadableComponent } from '@loadable/component';
 import loadable from '@loadable/component';
-import type { Dispatch } from 'redux';
+import type { Dispatch } from '@reduxjs/toolkit';
 import { Loading } from 'shared/components/_common/Loading/Loading';
 import type { Request } from 'koa';
 

@@ -1,5 +1,4 @@
-import React from 'react';
-import { hydrate } from 'react-dom';
+import { hydrateRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
@@ -12,7 +11,8 @@ const ExtendedApp = withSSR()(App);
 const store = configureStore(window.__initialData__);
 
 loadableReady(() => {
-  hydrate(
+  hydrateRoot(
+    document.getElementById('root') as HTMLDivElement,
     <Provider store={store}>
       <BrowserRouter>
         <ExtendedApp
@@ -20,8 +20,7 @@ loadableReady(() => {
           initialI18nStore={window.initialI18nStore}
         />
       </BrowserRouter>
-    </Provider>,
-    document.getElementById('root')
+    </Provider>
   );
 });
 

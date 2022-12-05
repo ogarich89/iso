@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { methods } from './methods';
-import config from '../../../config/config';
+import config from '../../../config/config.cjs';
 const { server: { host } } = config;
 
 const settings = {

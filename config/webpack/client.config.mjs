@@ -1,23 +1,17 @@
-import path from 'path';
-import fs from 'fs';
+import path, {dirname} from 'path';
 import { merge } from 'webpack-merge';
-import { common } from './common.config';
+import { common } from './common.config.mjs';
 import LoadablePlugin from '@loadable/webpack-plugin';
-import ImageminPlugin from 'imagemin-webpack-plugin';
-import glob from 'glob';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-import config from '../config';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+import config from '../config.cjs';
+import {fileURLToPath} from "url";
 const { server: { production } } = config;
 const isDevelopment = !production;
-
-try {
-  fs.rmSync(path.resolve(__dirname, '../../dist'), { recursive: true });
-} catch (e) {
-  console.error(e);
-}
 
 export default merge(common, {
   context: path.resolve(__dirname, '../../src/client'),
@@ -26,9 +20,11 @@ export default merge(common, {
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
-    filename: isDevelopment ? '[name].js' : '[name].[fullhash].js',
-    chunkFilename: isDevelopment ? '[name].js' : '[name].[chunkhash].js',
-    publicPath: '/'
+    filename: isDevelopment ? 'js/[name].js' : 'js/[name].[contenthash].js',
+    chunkFilename: isDevelopment ? 'js/[name].js' : 'js/[name].[contenthash].js',
+    publicPath: '/',
+    assetModuleFilename: isDevelopment ? 'assets/[name].[ext]' : 'assets/[name].[hash:8].[ext]',
+    clean: true,
   },
   optimization: {
     splitChunks: !isDevelopment ? {
@@ -58,31 +54,9 @@ export default merge(common, {
       failOnError: !isDevelopment
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[name].css'
+      filename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css',
+      chunkFilename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css'
     }),
     new LoadablePlugin(),
-    new ImageminPlugin({
-      disable: isDevelopment,
-      cacheFolder: path.resolve(__dirname, '../../.cache'),
-      pngquant: {
-        quality: '70'
-      },
-      optipng: {
-        optimizationLevel: 7
-      },
-      jpegtran: {
-        progressive: true
-      },
-      svgo: {
-        plugins: [
-          { removeViewBox: false }
-        ]
-      },
-      externalImages: {
-        context: path.resolve(__dirname, '../../'),
-        sources: glob.sync('dist/images/**/*.*')
-      }
-    })
   ]
 });

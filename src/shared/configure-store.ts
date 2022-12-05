@@ -1,12 +1,12 @@
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import type { ThunkMiddleware } from 'redux-thunk';
-import thunk from 'redux-thunk';
+import { configureStore as _configureStore } from '@reduxjs/toolkit';
 import reducer from './store';
 
-const configureStore = (preloadState?: {[key: string]: any}) => {
-  const composeEnhancers = composeWithDevTools({ name: 'ISOjs' });
-  return createStore(reducer, preloadState, composeEnhancers(applyMiddleware(thunk  as ThunkMiddleware<any, any>)));
+const configureStore = (preloadedState?: {[key: string]: any}) => {
+  return _configureStore({
+    reducer,
+    preloadedState,
+    devTools: isDevelopment ? false : { name: 'ISOjs' }
+  })
 }
 
 export default configureStore;

@@ -1,4 +1,4 @@
-const { server: { host } } = require('./config/config');
+const { server: { host } } = require('./config/config.cjs');
 
 module.exports = {
   fallbackLng: false,

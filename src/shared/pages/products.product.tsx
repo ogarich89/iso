@@ -8,6 +8,7 @@ import { receiveProduct } from '../store/actions/goods';
 import type { Store } from '../../types';
 import type { InitialAction } from '../libs/page';
 import { useLocation, useParams } from 'react-router-dom';
+import type { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 interface Props {
   initialAction: InitialAction;
@@ -17,10 +18,10 @@ const productsProduct: FunctionComponent<Props> = ({ initialAction }) => {
   const { pathname } = useLocation();
   const { id } = useParams() as { id: string };
   const { products, product } = useSelector(({ goods }: Store) => goods);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<Store, any, AnyAction>>();
   useEffect(() => {
     if(!product) {
-      const found = products.find(product => +product.id === +id);
+      const found = products?.find(product => +product.id === +id);
       if(!found) {
         dispatch(initialAction({ originalUrl: pathname }));
       } else {

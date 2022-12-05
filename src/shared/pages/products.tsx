@@ -6,6 +6,7 @@ import { Loading } from '../components/_common/Loading/Loading';
 import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
 import type { Store } from '../../types';
 import type { InitialAction } from '../libs/page';
+import type { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 interface Props {
   initialAction: InitialAction;
@@ -13,7 +14,7 @@ interface Props {
 
 const products: FunctionComponent<Props> = ({ initialAction }) => {
   const { products } = useSelector(({ goods }: Store) => goods);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<Store, any, AnyAction>>();
   useEffect(() => {
     if(!products?.length) {
       dispatch(initialAction());
