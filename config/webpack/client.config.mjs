@@ -5,6 +5,7 @@ import LoadablePlugin from '@loadable/webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import TerserPlugin from "terser-webpack-plugin";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -27,6 +28,19 @@ export default merge(common, {
     clean: true,
   },
   optimization: {
+    minimize: !isDevelopment,
+    minimizer: [
+      new TerserPlugin({
+        minify: TerserPlugin.swcMinify,
+        terserOptions: {
+          compress: true,
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+    ],
     splitChunks: !isDevelopment ? {
       cacheGroups: {
         vendors: {

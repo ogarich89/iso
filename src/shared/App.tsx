@@ -1,5 +1,5 @@
 import './App.scss';
-import { StrictMode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import routes from './routes';
 import { setOverflow } from 'client/helpers/set-overflow';
@@ -46,7 +46,7 @@ export const App = () => {
   }, [pathname]);
 
   return (
-    <StrictMode>
+    <>
       <main>
         <Header/>
         <Routes>
@@ -57,7 +57,7 @@ export const App = () => {
       </main>
       { Modal && modal.isShow ?
         <Modal { ...{ name: modal.name, data: modal.data, isNotClose: modal.isNotClose } }/> : null }
-    </StrictMode>
+    </>
   )
 };
 

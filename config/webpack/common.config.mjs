@@ -34,10 +34,28 @@ const common = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        resolve: {
-          fullySpecified: false,
+        loader: 'swc-loader',
+        options: {
+          sourceMap: isDevelopment,
+          jsc: {
+            experimental: {
+              plugins: [['@swc/plugin-loadable-components', {}]]
+            },
+            parser: {
+              syntax: 'typescript',
+              tsx: true,
+              dynamicImport: true
+            },
+            transform: {
+              react: {
+                runtime: 'automatic'
+              }
+            }
+          }
         },
+        resolve: {
+          fullySpecified: false
+        }
       },
       {
         test: /\.(scss|sass|css)$/,
