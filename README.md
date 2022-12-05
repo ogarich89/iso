@@ -14,9 +14,9 @@ ISO uses a number of open source projects to work properly:
 * [Typescript](https://www.typescriptlang.org/) - typed JavaScript at Any Scale.
 * [Koa](https://koajs.com/) - fast node.js network app framework
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
-* [Redux](https://redux.js.org/) - predictable state container for JavaScript apps.
+* [Redux Toolkit](https://redux-toolkit.js.org/) - The official, opinionated, batteries-included toolset for efficient Redux development
 * [Webpack](https://webpack.js.org/) - module bundler
-* [Babel](https://babeljs.io/) - compiler for writing next generation JavaScript.
+* [SWC](https://swc.rs/) - Rust-based platform for the Web
 * [ESLint](https://eslint.org/) - pluggable linting utility for JavaScript and JSX.
 * [Loadable-components](https://www.smooth-code.com/open-source/loadable-components/) - React code splitting library.
 * Etc. (See package.json)
@@ -28,7 +28,7 @@ And of course ISO itself is open source with a [public repository]
 
 ### Install
 
-ISO requires [Node.js](https://nodejs.org/) v10+ and [Redis](https://redis.io) to run.
+ISO requires [Node.js](https://nodejs.org/) v16+ and [Redis](https://redis.io) to run.
 
 
 ```sh
