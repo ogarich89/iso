@@ -6,7 +6,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const { server: { production } } = config;
 const isDevelopment = !production;
-const isServer = process.env.BABEL_ENV === 'server';
+const isServer = process.env.SERVER === 'true';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
