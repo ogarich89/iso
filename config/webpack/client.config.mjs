@@ -6,18 +6,23 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import TerserPlugin from "terser-webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import webpack from 'webpack';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import config from '../config.cjs';
 import {fileURLToPath} from "url";
-const { server: { production } } = config;
+const { server: { production, analyze } } = config;
 const isDevelopment = !production;
 
-export default merge(common, {
+export default merge(common(), {
   context: path.resolve(__dirname, '../../src/client'),
   entry: {
-    bundle: './index.tsx'
+    bundle: [
+      './index.tsx',
+      'webpack-hot-middleware/client'
+    ]
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -41,6 +46,7 @@ export default merge(common, {
         extractComments: false,
       }),
     ],
+    ...(isDevelopment ? { runtimeChunk: "single" } : {}),
     splitChunks: !isDevelopment ? {
       cacheGroups: {
         vendors: {
@@ -61,7 +67,8 @@ export default merge(common, {
     } : false
   },
   plugins: [
-    ...(isDevelopment ? [new BundleAnalyzerPlugin({ openAnalyzer: false, analyzerMode: 'static' })] : []),
+    ...(isDevelopment ? [new ReactRefreshWebpackPlugin()] : []),
+    ...(analyze ? [new BundleAnalyzerPlugin({ openAnalyzer: false, analyzerMode: 'static' })] : []),
     new StyleLintPlugin({
       customSyntax: 'postcss-scss',
       context: path.resolve(__dirname, '../../src'),
@@ -72,5 +79,6 @@ export default merge(common, {
       chunkFilename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css'
     }),
     new LoadablePlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ]
 });

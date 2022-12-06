@@ -1,12 +1,11 @@
 {
   "port": 5000,
   "browserSyncPort": 3003,
-  "reloadDelay": 500,
   "host": "http://localhost:3003",
   "api": "https://reqres.in",
   "sessionRedisDb": 5,
   "production": false,
   "withStatic": true,
   "inspect": true,
-  "reload": true
+  "analyze": false
 }
