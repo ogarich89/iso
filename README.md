@@ -47,7 +47,12 @@ $ yarn start
 ```sh
 $ yarn client
 $ yarn server
-$ yarn nodemon
+```
+
+or
+
+```sh
+$ yarn dev
 ```
 
 #### Building for source

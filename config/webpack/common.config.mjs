@@ -6,11 +6,10 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const { server: { production } } = config;
 const isDevelopment = !production;
-const isServer = process.env.SERVER === 'true';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const common = {
+const common = ({ isServer } = {}) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
@@ -118,7 +117,7 @@ const common = {
     new webpack.LoaderOptionsPlugin({ options: { failOnError: !isDevelopment } }),
     new ESLintPlugin()
   ]
-};
+})
 
 
 export { common };

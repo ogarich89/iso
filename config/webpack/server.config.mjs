@@ -7,7 +7,7 @@ import {fileURLToPath} from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default merge(common, {
+export default merge(common({ isServer: true }), {
   context: path.resolve(__dirname, '../../src/server'),
   entry: './request-handler.tsx',
   target: 'node',
