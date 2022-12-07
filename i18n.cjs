@@ -1,15 +1,15 @@
 const { server: { host } } = require('./config/config.cjs');
 
-module.exports = {
+module.exports = (isServer = false) => ({
   fallbackLng: false,
   interpolation: {
     escapeValue: false
   },
   backend: {
-    loadPath: `${host}/public/locales/{{lng}}/{{ns}}.json`
+    loadPath: `${isServer ? host : ''}/public/locales/{{lng}}/{{ns}}.json`
   },
   debug: false,
   react: {
     useSuspense: false
   }
-}
+})
