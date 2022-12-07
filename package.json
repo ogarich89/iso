@@ -2,7 +2,7 @@
   "name": "iso",
   "version": "0.0.1",
   "description": "Iso is a framework for creating isomorphic single-page application with using SSR technology on NodeJS.",
-  "main": "dist/server.js",
+  "main": "server/index.mjs",
   "repository": "git@github.com:ogarich89/iso.git",
   "type": "module",
   "config": {
@@ -14,8 +14,8 @@
     "server": "gulp server",
     "nodemon": "gulp nodemon",
     "dev": "gulp development",
-    "build": "webpack $npm_package_config_client && SERVER=true webpack $npm_package_config_server",
-    "production": "NODE_ENV=production webpack $npm_package_config_client && NODE_ENV=production SERVER=true webpack $npm_package_config_server",
+    "build": "webpack $npm_package_config_client && webpack $npm_package_config_server",
+    "production": "NODE_ENV=production webpack $npm_package_config_client && NODE_ENV=production webpack $npm_package_config_server",
     "start": "yarn build && node $npm_package_main",
     "test": "jest --coverage",
     "typecheck": "tsc --noEmit"

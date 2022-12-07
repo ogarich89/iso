@@ -1,11 +1,10 @@
 {
-  "port": 5000,
+  "port": 3000,
+  "host": "http://localhost:3000",
   "browserSyncPort": 3003,
-  "host": "http://localhost:3003",
   "api": "https://reqres.in",
   "sessionRedisDb": 5,
   "production": false,
   "withStatic": true,
-  "inspect": true,
-  "analyze": false
+  "inspect": true
 }

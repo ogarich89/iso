@@ -5,7 +5,6 @@
   "sessionRedisDb": 3,
   "production": false,
   "withStatic": false,
-  "inspect": false,
   "certificate": {
     "key": "/path/to/key.pem",
     "cert": "/path/to/cert.pem"

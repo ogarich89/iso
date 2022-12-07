@@ -23,32 +23,32 @@ export const nodemon = async () => {
   const stream = gulpNodemon({
     script: 'server/index.mjs',
     watch: ['server/*.*', 'dist/request-handler.cjs'],
-    exec: inspect ? 'node --inspect' : 'node'
+    exec: inspect ? 'node --inspect' : 'node',
+    stdout: !inspect
   });
   stream
     .on('crash', () => stream.emit('restart', 10));
 }
 
 export const server = () => {
-  let initialized = false;
+  serverCompiler.watch({}, (err, stats) => {
+    if(err) {
+      console.error(err)
+    }
+    console.log(stats.toString({
+      modules: false,
+      colors: true
+    }))
+  })
   return new Promise(resolve => {
-    serverCompiler.watch({}, (err, stats) => {
-      if(err) {
-        console.error(err)
-      }
-      console.log(stats.toString({
-        modules: false,
-        colors: true
-      }))
-      if(!initialized) {
-        initialized = true;
-        resolve(initialized);
-      }
-    })
+    serverCompiler.hooks.done.tap('server', () => resolve())
   })
 }
 
 export const client = () => {
+  const devMiddleware = webpackDevMiddleware(clientCompiler, {
+    publicPath: "/",
+  });
   browserSync.init(null, {
     host: 'localhost',
     port: browserSyncPort,
@@ -61,21 +61,11 @@ export const client = () => {
       scroll: false
     },
     middleware: [
-      webpackDevMiddleware(clientCompiler, {
-        publicPath: "/",
-      }),
+      devMiddleware,
       webpackHotMiddleware(clientCompiler),
     ]
   });
-  let initialized = false;
-  return new Promise(resolve => {
-    clientCompiler.hooks.done.tap('done', () => {
-      if(!initialized) {
-        initialized = true;
-        resolve(initialized)
-      }
-    })
-  })
+  return new Promise(resolve => devMiddleware.waitUntilValid(resolve))
 }
 
 export const development = async () => {

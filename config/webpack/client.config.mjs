@@ -78,7 +78,7 @@ export default merge(common(), {
       filename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css',
       chunkFilename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css'
     }),
-    new LoadablePlugin(),
+    new LoadablePlugin({ writeToDisk: true }),
     new webpack.HotModuleReplacementPlugin(),
   ]
 });
