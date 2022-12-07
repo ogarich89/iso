@@ -1,5 +1,5 @@
 import browserSync from 'browser-sync';
-import nodemon from 'gulp-nodemon';
+import gulpNodemon from 'gulp-nodemon';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -19,28 +19,32 @@ const {
   }
 } = config;
 
-export const server = async () => {
-  let initialized = false;
+export const nodemon = () => {
+  const stream = gulpNodemon({
+    script: 'server/index.mjs',
+    watch: ['server/*.*', 'dist/request-handler.cjs'],
+    exec: inspect ? 'node --inspect' : 'node'
+  });
+  stream
+    .on('crash', () => stream.emit('restart', 10));
+}
 
-  serverCompiler.watch({}, (err, stats) => {
-    if(err) {
-      console.error(err)
-    }
-    console.log(stats.toString({
-      modules: false,
-      colors: true
-    }))
-    if(!initialized) {
-      const stream = nodemon({
-        script: 'server/index.mjs',
-        watch: ['server/*.*', 'dist/request-handler.cjs'],
-        exec: inspect ? 'node --inspect' : 'node',
-        open: true
-      });
-      stream
-        .on('crash', () => stream.emit('restart', 10));
-    }
-    initialized = true;
+export const server = () => {
+  let initialized = false;
+  return new Promise(resolve => {
+    serverCompiler.watch({}, (err, stats) => {
+      if(err) {
+        console.error(err)
+      }
+      console.log(stats.toString({
+        modules: false,
+        colors: true
+      }))
+      if(!initialized) {
+        initialized = true;
+        resolve(initialized);
+      }
+    })
   })
 }
 
@@ -64,15 +68,19 @@ export const client = () => {
       webpackHotMiddleware(clientCompiler),
     ]
   });
+  let initialized = false;
+  return new Promise(resolve => {
+    clientCompiler.hooks.done.tap('done', () => {
+      if(!initialized) {
+        initialized = true;
+        resolve(initialized)
+      }
+    })
+  })
 }
 
 export const development = async () => {
-  let initialized = false;
-  client();
-  clientCompiler.hooks.afterDone.tap('done', () => {
-    if(!initialized) {
-      server();
-    }
-    initialized = true;
-  })
+  await client();
+  await server();
+  await nodemon();
 }

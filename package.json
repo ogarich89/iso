@@ -12,6 +12,7 @@
   "scripts": {
     "client": "gulp client",
     "server": "gulp server",
+    "nodemon": "gulp nodemon",
     "dev": "gulp development",
     "build": "webpack $npm_package_config_client && SERVER=true webpack $npm_package_config_server",
     "production": "NODE_ENV=production webpack $npm_package_config_client && NODE_ENV=production SERVER=true webpack $npm_package_config_server",

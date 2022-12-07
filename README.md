@@ -47,6 +47,7 @@ $ yarn start
 ```sh
 $ yarn client
 $ yarn server
+$ yarn nodemon
 ```
 
 or
