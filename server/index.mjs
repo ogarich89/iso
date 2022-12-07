@@ -39,5 +39,5 @@ const server = certificate ? http2.createSecureServer({
 }, app.callback()) : http.createServer(app.callback());
 
 server.listen(port, () => {
-  console.info('==> Server is listening on port %s.', port);
+  console.info('Server listening on port %s', port);
 });
