@@ -6,5 +6,7 @@ import options from '../../i18n.cjs';
 
 i18next.use(Fetch);
 i18next.use(initReactI18next);
-i18next.init(options as InitOptions);
+i18next.init({ ...options, backend: {
+  loadPath: '/public/locales/{{lng}}/{{ns}}.json'
+} } as InitOptions);
 

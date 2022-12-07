@@ -19,7 +19,7 @@ const {
   }
 } = config;
 
-export const nodemon = () => {
+export const nodemon = async () => {
   const stream = gulpNodemon({
     script: 'server/index.mjs',
     watch: ['server/*.*', 'dist/request-handler.cjs'],
@@ -53,9 +53,8 @@ export const client = () => {
     host: 'localhost',
     port: browserSyncPort,
     proxy: `http://localhost:${port}/`,
-    online: false,
+    online: true,
     open: false,
-    logLevel: "silent",
     ghostMode: {
       clicks: false,
       forms: false,

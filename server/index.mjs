@@ -16,7 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const statsFile = path.resolve(__dirname, '../dist/loadable-stats.json');
 
-const { server: { port, certificate, browserSyncPort } } = config;
+const { server: { port, certificate } } = config;
 
 const app = new Koa();
 app.keys = ['secret', 'key'];
@@ -39,5 +39,5 @@ const server = certificate ? http2.createSecureServer({
 }, app.callback()) : http.createServer(app.callback());
 
 server.listen(port, () => {
-  console.info('==> Server is listening on port %s. Open up http://localhost:%s/ in your browser.', port, browserSyncPort);
+  console.info('==> Server is listening on port %s.', port);
 });
