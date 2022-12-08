@@ -1,9 +1,9 @@
 import cx from 'classnames';
+import CloseIcon from 'images/icons/close.svg';
 
 import { About } from 'shared/components/_common/Modals/About/About';
 import emitter from 'shared/emitter';
 import { TOGGLE_MODAL } from 'shared/emitter/constants';
-import { SVG } from 'shared/helpers';
 
 import style from './Modal.scss';
 
@@ -43,10 +43,7 @@ const Modal: FunctionComponent<ModalProps> = ({ name, data, isNotClose }) => {
             className={style.closeBtn}
             onClick={() => emitter.emit(TOGGLE_MODAL, { isShow: false })}
           >
-            <span
-              className="icon"
-              dangerouslySetInnerHTML={{ __html: SVG.close }}
-            />
+            <CloseIcon className="icon" />
           </button>
           {TagName ? <TagName {...{ data }} /> : null}
         </div>
