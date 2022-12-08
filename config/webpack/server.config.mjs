@@ -1,9 +1,11 @@
-import { dirname, resolve } from 'path';
-import { merge } from 'webpack-merge';
-import { common } from './common.config.mjs';
 import webpack from 'webpack';
+import { merge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
+
+import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+
+import { common } from './common.config.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

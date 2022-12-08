@@ -41,7 +41,9 @@ export const Header: FunctionComponent = () => {
             <li>
               <NavLink
                 to="/products"
-                className={({ isActive }) => (isActive ? style.active : null)}
+                className={({ isActive }) =>
+                  isActive ? style.active : undefined
+                }
               >
                 {t('products')}
               </NavLink>

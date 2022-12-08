@@ -3,10 +3,10 @@ import gulpNodemon from 'gulp-nodemon';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackClientConfig from './config/webpack/client.config.mjs';
-import webpackServerConfig from './config/webpack/server.config.mjs';
 
 import config from './config/config.cjs';
+import webpackClientConfig from './config/webpack/client.config.mjs';
+import webpackServerConfig from './config/webpack/server.config.mjs';
 
 const clientCompiler = webpack(webpackClientConfig);
 const serverCompiler = webpack(webpackServerConfig);
