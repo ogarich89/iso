@@ -6,24 +6,68 @@
     "jest": true,
     "node": true
   },
-  "extends": ["plugin:@typescript-eslint/recommended"],
-  "plugins": ["react", "@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+  "plugins": ["react", "@typescript-eslint", "import"],
   "parser": "@typescript-eslint/parser",
   "rules": {
+    "prettier/prettier": ["error", { "singleQuote": true }],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "internal",
+          "builtin",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "pathGroups": [
+          {
+            "pattern": "**/*.scss",
+            "group": "object",
+            "position": "before"
+          },
+          {
+            "pattern": "**/*.css",
+            "group": "object"
+          },
+          {
+            "pattern": "client/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "server/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "shared/**",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["type"],
+        "warnOnUnassignedImports": true
+      }
+    ],
+    "@typescript-eslint/no-duplicate-imports": ["error"],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/class-name-casing": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": 0,
     "linebreak-style": ["error","unix"],
-    "quotes": ["error","single"],
     "jsx-quotes": ["error", "prefer-double"],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/jsx-key": 2,
-    "comma-dangle": ["error", "never"],
     "eqeqeq": 2,
     "object-curly-spacing": ["error", "always"],
     "prefer-destructuring": ["error", {
@@ -36,7 +80,8 @@
     "prefer-const": ["error", {
       "destructuring": "any",
       "ignoreReadBeforeAssign": false
-    }]
+    }],
+    "max-len": ["error", { "code": 120, "ignorePattern": "^import .*" }]
   },
   "globals": {
     "isDevelopment": true,

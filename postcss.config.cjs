@@ -3,6 +3,6 @@ module.exports = {
     'autoprefixer',
     'postcss-import',
     'postcss-combine-media-query',
-    'cssnano'
-  ]
-}
+    'cssnano',
+  ],
+};

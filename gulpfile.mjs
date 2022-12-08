@@ -12,11 +12,7 @@ const clientCompiler = webpack(webpackClientConfig);
 const serverCompiler = webpack(webpackServerConfig);
 
 const {
-  server: {
-    inspect = false,
-    port = 5000,
-    browserSyncPort = 3003
-  }
+  server: { inspect = false, port = 5000, browserSyncPort = 3003 },
 } = config;
 
 export const nodemon = async () => {
@@ -24,30 +20,31 @@ export const nodemon = async () => {
     script: 'server/index.mjs',
     watch: ['server/*.*', 'dist/request-handler.cjs'],
     exec: inspect ? 'node --inspect' : 'node',
-    stdout: !inspect
+    stdout: !inspect,
   });
-  stream
-    .on('crash', () => stream.emit('restart', 10));
-}
+  stream.on('crash', () => stream.emit('restart', 300));
+};
 
 export const server = () => {
   serverCompiler.watch({}, (err, stats) => {
-    if(err) {
-      console.error(err)
+    if (err) {
+      console.error(err);
     }
-    console.log(stats.toString({
-      modules: false,
-      colors: true
-    }))
-  })
-  return new Promise(resolve => {
-    serverCompiler.hooks.done.tap('server', () => resolve())
-  })
-}
+    console.log(
+      stats.toString({
+        modules: false,
+        colors: true,
+      })
+    );
+  });
+  return new Promise((resolve) => {
+    serverCompiler.hooks.done.tap('server', () => resolve());
+  });
+};
 
 export const client = () => {
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
-    publicPath: "/",
+    publicPath: '/',
   });
   browserSync.init(null, {
     host: 'localhost',
@@ -58,18 +55,15 @@ export const client = () => {
     ghostMode: {
       clicks: false,
       forms: false,
-      scroll: false
+      scroll: false,
     },
-    middleware: [
-      devMiddleware,
-      webpackHotMiddleware(clientCompiler),
-    ]
+    middleware: [devMiddleware, webpackHotMiddleware(clientCompiler)],
   });
-  return new Promise(resolve => devMiddleware.waitUntilValid(resolve))
-}
+  return new Promise((resolve) => devMiddleware.waitUntilValid(resolve));
+};
 
 export const development = async () => {
   await client();
   await server();
   await nodemon();
-}
+};

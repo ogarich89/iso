@@ -1,6 +1,8 @@
-import type { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import style from './Welcome.scss';
+
+import type { FunctionComponent } from 'react';
 
 export const Welcome: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -8,5 +10,5 @@ export const Welcome: FunctionComponent = () => {
     <section className={style.welcome}>
       <h1>{t('hello')}</h1>
     </section>
-  )
-}
+  );
+};

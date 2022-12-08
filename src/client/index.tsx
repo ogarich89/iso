@@ -1,12 +1,14 @@
-import { hydrateRoot } from 'react-dom/client';
-import { RecoilRoot } from 'recoil';
-import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
+import { hydrateRoot } from 'react-dom/client';
 import { withSSR } from 'react-i18next';
-import './i18next';
+import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+
+import 'client/i18next';
 
 import { App } from 'shared/App';
-import { initializeState } from '../shared/recoil/initialize';
+import { initializeState } from 'shared/recoil/initialize';
+
 const ExtendedApp = withSSR()(App);
 
 loadableReady(() => {
@@ -22,4 +24,3 @@ loadableReady(() => {
     </RecoilRoot>
   );
 });
-

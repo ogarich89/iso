@@ -1,9 +1,10 @@
+import { PageNotFound } from 'shared/components/_common/PageNotFound/PageNotFound';
+
 import type { FunctionComponent } from 'react';
-import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
 
 const pageNotFound: FunctionComponent = () => (
   <>
-    <PageNotFound/>
+    <PageNotFound />
   </>
-)
+);
 export default pageNotFound;

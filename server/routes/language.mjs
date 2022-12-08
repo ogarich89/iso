@@ -4,6 +4,6 @@ export default [
   {
     method: 'post',
     path: '/session/language',
-    controller: language
-  }
+    controller: language,
+  },
 ];

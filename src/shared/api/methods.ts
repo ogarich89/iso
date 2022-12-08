@@ -1,12 +1,10 @@
 export const methods = {
-  'product': {
+  product: {
     url: '/api/product/',
-    method: 'GET'
+    method: 'GET',
   },
-  'products': {
+  products: {
     url: '/api/products/',
-    method: 'GET'
-  }
-}
-
-
+    method: 'GET',
+  },
+};

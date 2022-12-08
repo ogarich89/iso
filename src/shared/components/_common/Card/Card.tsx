@@ -1,9 +1,17 @@
-import type { FunctionComponent } from 'react';
-import type { Product } from '../../../../types';
-import style from './Card.scss';
 import { Link } from 'react-router-dom';
 
-export const Card: FunctionComponent<Product> = ({ id, color, pantone_value, year, name }) => (
+import style from './Card.scss';
+
+import type { FunctionComponent } from 'react';
+import type { Product } from 'types';
+
+export const Card: FunctionComponent<Product> = ({
+  id,
+  color,
+  pantone_value,
+  year,
+  name,
+}) => (
   <Link
     style={{ backgroundColor: color }}
     className={style.card}

@@ -1,9 +1,13 @@
 import redis from 'koa-redis';
+
 import config from '../../config/config.cjs';
-const { server: { sessionRedisDb } } = config;
+
+const {
+  server: { sessionRedisDb },
+} = config;
 
 const redisClient = redis({
-  db: sessionRedisDb
+  db: sessionRedisDb,
 });
 
 export default redisClient;

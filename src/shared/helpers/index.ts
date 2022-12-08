@@ -7,6 +7,3 @@ export const isExternal = (url: string): boolean => {
 export const DATE_FORMAT = 'DD.MM.YYYY HH:mm';
 
 export const SVG: Record<keyof typeof svg, string> = svg;
-
-
-

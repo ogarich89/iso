@@ -1,12 +1,14 @@
-import type { FunctionComponent } from 'react';
 import { useEffect } from 'react';
-import { ProductComponent } from '../components/product/Product';
-import { Loading } from '../components/_common/Loading/Loading';
-import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
-import type { InitialAction, Product } from '../../types';
 import { useLocation, useParams } from 'react-router-dom';
-import { productSelector } from '../recoil/selectors/products';
 import { useRecoilState, useResetRecoilState } from 'recoil';
+
+import { Loading } from 'shared/components/_common/Loading/Loading';
+import { PageNotFound } from 'shared/components/_common/PageNotFound/PageNotFound';
+import { ProductComponent } from 'shared/components/product/Product';
+import { productSelector } from 'shared/recoil/selectors/products';
+
+import type { FunctionComponent } from 'react';
+import type { InitialAction, Product } from 'types';
 
 interface Props {
   initialAction: InitialAction<Product>;
@@ -18,21 +20,23 @@ const productsProduct: FunctionComponent<Props> = ({ initialAction }) => {
   const [product, setProduct] = useRecoilState(productSelector(id));
   const resetProduct = useResetRecoilState(productSelector(id));
   useEffect(() => {
-    if(!product) {
+    if (!product) {
       (async () => {
-        const [ [, data] ] = await initialAction({ originalUrl: pathname });
-        setProduct(data)
-      })()
+        const [[, data]] = await initialAction({ originalUrl: pathname });
+        setProduct(data);
+      })();
     }
     return () => {
-      resetProduct()
-    }
+      resetProduct();
+    };
   }, [pathname]);
-  return (
-    product === null ?
-      <PageNotFound/> :
-      product ? <ProductComponent { ...{ product } }/> : <Loading timeout={500}/>
-  )
-}
+  return product === null ? (
+    <PageNotFound />
+  ) : product ? (
+    <ProductComponent {...{ product }} />
+  ) : (
+    <Loading timeout={500} />
+  );
+};
 
 export default productsProduct;

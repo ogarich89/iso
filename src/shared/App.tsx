@@ -1,18 +1,27 @@
-import './App.scss';
+import loadable from '@loadable/component';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import routes from './routes';
+
 import { setOverflow } from 'client/helpers/set-overflow';
-import emitter from './emitter';
-import { TOGGLE_MODAL } from './emitter/constants';
-import type { DefaultComponent, LoadableComponent } from '@loadable/component';
-import loadable from '@loadable/component';
+
+import emitter from 'shared/emitter';
+import { TOGGLE_MODAL } from 'shared/emitter/constants';
 import { Header } from 'shared/layouts/Header/Header';
-import type { ModalName, ModalProps } from './components/_common/Modals/Modal';
+import routes from 'shared/routes';
+
+import './App.scss';
+
+import type { DefaultComponent, LoadableComponent } from '@loadable/component';
+import type {
+  ModalName,
+  ModalProps,
+} from 'shared/components/_common/Modals/Modal';
 
 const Modal: LoadableComponent<ModalProps> = loadable(
   (): Promise<DefaultComponent<ModalProps>> =>
-    import(/* webpackChunkName: "modals" */ './components/_common/Modals/Modal'),
+    import(
+      /* webpackChunkName: "modals" */ './components/_common/Modals/Modal'
+    ),
   { ssr: false }
 );
 
@@ -29,18 +38,23 @@ export const App = () => {
   const [currentPathname, setPathname] = useState(pathname);
   const [modal, setModal] = useState<ModalSettings>({
     isShow: false,
-    isNotClose: false
+    isNotClose: false,
   });
 
-  const toggleModal = ({ name, isShow = false, data, isNotClose = false }: ModalSettings): void => {
+  const toggleModal = ({
+    name,
+    isShow = false,
+    data,
+    isNotClose = false,
+  }: ModalSettings): void => {
     setModal({ name, isShow, data, isNotClose });
     setOverflow(isShow);
   };
 
   useEffect(() => {
     emitter.addListener(TOGGLE_MODAL, toggleModal);
-    if(currentPathname !== pathname) {
-      window.scrollTo(0,0);
+    if (currentPathname !== pathname) {
+      window.scrollTo(0, 0);
       setPathname(pathname);
     }
   }, [pathname]);
@@ -48,16 +62,28 @@ export const App = () => {
   return (
     <>
       <main>
-        <Header/>
+        <Header />
         <Routes>
-          {routes.map(({ path, exact, component: Component, initialAction }, i) =>
-            <Route key={i} {...{ path, exact } } element={<Component { ...{ initialAction }}/>} />
+          {routes.map(
+            ({ path, exact, component: Component, initialAction }, i) => (
+              <Route
+                key={i}
+                {...{ path, exact }}
+                element={<Component {...{ initialAction }} />}
+              />
+            )
           )}
         </Routes>
       </main>
-      { Modal && modal.isShow ?
-        <Modal { ...{ name: modal.name, data: modal.data, isNotClose: modal.isNotClose } }/> : null }
+      {Modal && modal.isShow ? (
+        <Modal
+          {...{
+            name: modal.name,
+            data: modal.data,
+            isNotClose: modal.isNotClose,
+          }}
+        />
+      ) : null}
     </>
-  )
+  );
 };
-

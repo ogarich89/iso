@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../*"],
+        "paths": [
+          {
+            "name": "react",
+            "importNames": ["default"],
+            "message": "Please don't use the default import from 'react'. Read more: https://bit.ly/3wTRLZT"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -14,6 +14,9 @@ let server;
 try {
   server = require(`./${dirname}/server.json`);
 } catch (e) {
-  throw new CustomError({ message: `Configure file not found (/config/${dirname}/server.json). Read the instruction (/config/__example__/readme.txt)` });
+  throw new CustomError({
+    // eslint-disable-next-line max-len
+    message: `Configure file not found (/config/${dirname}/server.json). Read the instruction (/config/__example__/readme.txt)`,
+  });
 }
 module.exports = { server };

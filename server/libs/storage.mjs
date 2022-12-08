@@ -7,8 +7,8 @@ const storage = () => {
       ctx.storage = (() => {
         const _store = {};
         return {
-          get: (name, _default) => _store[name] ? _store[name] : _default,
-          set: (name, value) => _store[name] = value
+          get: (name, _default) => (_store[name] ? _store[name] : _default),
+          set: (name, value) => (_store[name] = value),
         };
       })();
     }

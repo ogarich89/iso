@@ -13,7 +13,11 @@
     "allowJs": true,
     "noEmit": true,
     "experimentalDecorators": true,
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "paths": {
+      "i18n": ["../i18n.cjs"],
+      "config": ["../config/config.cjs"]
+    }
   },
   "include": [
     "src"
@@ -21,5 +25,5 @@
   "exclude": [
     "**/*.test.ts",
     "**/*.test.tsx"
-  ]
+  ],
 }

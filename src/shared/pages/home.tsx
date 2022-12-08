@@ -1,9 +1,10 @@
+import { Welcome } from 'shared/components/home/Welcome/Welcome';
+
 import type { FunctionComponent } from 'react';
-import { Welcome } from '../components/home/Welcome/Welcome';
 
 const home: FunctionComponent = () => (
   <>
-    <Welcome/>
+    <Welcome />
   </>
-)
+);
 export default home;

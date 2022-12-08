@@ -1,8 +1,9 @@
 import axios from 'axios';
+
 import { methods } from './methods';
 
 const settings = {
-  headers: { 'x-requested-with': 'XMLHttpRequest' }
+  headers: { 'x-requested-with': 'XMLHttpRequest' },
 };
 
 export const session = {
@@ -15,5 +16,5 @@ export const session = {
     const { url } = methods[key];
     const { data } = await axios.post(url, body, window ? settings : undefined);
     return data;
-  }
-}
+  },
+};
