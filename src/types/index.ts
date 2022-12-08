@@ -1,6 +1,5 @@
-import type i18next from 'i18next';
-
-export type I18next = typeof i18next;
+import type { Request } from 'koa';
+import type { RecoilState } from 'recoil';
 
 declare global {
     interface Window {
@@ -20,14 +19,11 @@ export interface Product {
 
 export type Products = Product[];
 
-export interface Store {
-    goods: {
-        products: Product[],
-        product: Product
-    }
+export interface InitialAction<Data> {
+    (req?: Pick<Request, 'originalUrl'>): Promise<Array<[RecoilState<Data>, Data]>>
 }
 
-export type Language = 'ru' | 'en';
+
 
 
 

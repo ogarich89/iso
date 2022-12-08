@@ -4,7 +4,7 @@ Iso is starter-pack for creating isomorphic single-page application with using S
 Powered by [ogarich89](https://github.com/ogarich89)
 
 > #### Warning
-> For a comfortable development you will need the knowledge of React, Redux and Koa.
+> For a comfortable development you will need the knowledge of React, Recoil and Koa.
 
 ### Tech
 
@@ -14,7 +14,7 @@ ISO uses a number of open source projects to work properly:
 * [Typescript](https://www.typescriptlang.org/) - typed JavaScript at Any Scale.
 * [Koa](https://koajs.com/) - fast node.js network app framework
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
-* [Redux Toolkit](https://redux-toolkit.js.org/) - The official, opinionated, batteries-included toolset for efficient Redux development
+* [Recoil](https://recoiljs.org/) - A state management library for React
 * [Webpack](https://webpack.js.org/) - module bundler
 * [SWC](https://swc.rs/) - Rust-based platform for the Web
 * [ESLint](https://eslint.org/) - pluggable linting utility for JavaScript and JSX.

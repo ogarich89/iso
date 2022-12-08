@@ -1,35 +1,31 @@
 import type { FunctionComponent } from 'react';
 import { useEffect } from 'react';
 import { ProductComponent } from '../components/product/Product';
-import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../components/_common/Loading/Loading';
 import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
-import { receiveProduct } from '../store/actions/goods';
-import type { Store } from '../../types';
-import type { InitialAction } from '../libs/page';
+import type { InitialAction, Product } from '../../types';
 import { useLocation, useParams } from 'react-router-dom';
-import type { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { productSelector } from '../recoil/selectors/products';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
 interface Props {
-  initialAction: InitialAction;
+  initialAction: InitialAction<Product>;
 }
 
 const productsProduct: FunctionComponent<Props> = ({ initialAction }) => {
   const { pathname } = useLocation();
   const { id } = useParams() as { id: string };
-  const { products, product } = useSelector(({ goods }: Store) => goods);
-  const dispatch = useDispatch<ThunkDispatch<Store, any, AnyAction>>();
+  const [product, setProduct] = useRecoilState(productSelector(id));
+  const resetProduct = useResetRecoilState(productSelector(id));
   useEffect(() => {
     if(!product) {
-      const found = products?.find(product => +product.id === +id);
-      if(!found) {
-        dispatch(initialAction({ originalUrl: pathname }));
-      } else {
-        dispatch(receiveProduct(found));
-      }
+      (async () => {
+        const [ [, data] ] = await initialAction({ originalUrl: pathname });
+        setProduct(data)
+      })()
     }
     return () => {
-      dispatch(receiveProduct(undefined))
+      resetProduct()
     }
   }, [pathname]);
   return (

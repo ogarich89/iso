@@ -1,23 +1,24 @@
 import type { FunctionComponent } from 'react';
 import { useEffect } from 'react';
 import { ProductsComponent } from '../components/products/Products';
-import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../components/_common/Loading/Loading';
 import { PageNotFound } from '../components/_common/PageNotFound/PageNotFound';
-import type { Store } from '../../types';
-import type { InitialAction } from '../libs/page';
-import type { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import type { InitialAction, Products } from '../../types';
+import { productsSelector } from '../recoil/selectors/products';
+import { useRecoilState } from 'recoil';
 
 interface Props {
-  initialAction: InitialAction;
+  initialAction: InitialAction<Products>;
 }
 
 const products: FunctionComponent<Props> = ({ initialAction }) => {
-  const { products } = useSelector(({ goods }: Store) => goods);
-  const dispatch = useDispatch<ThunkDispatch<Store, any, AnyAction>>();
+  const [products, setProducts] = useRecoilState(productsSelector);
   useEffect(() => {
     if(!products?.length) {
-      dispatch(initialAction());
+      (async () => {
+        const [ [, data ] ] = await initialAction();
+        setProducts(data)
+      })()
     }
   }, []);
   return (
