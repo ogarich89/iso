@@ -1,9 +1,6 @@
-import Koa from 'koa';
-import Router from 'koa-router';
+import Fastify from 'fastify';
 
 import fs from 'fs';
-import http from 'http';
-import http2 from 'http2';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,31 +18,33 @@ const {
   server: { port, certificate },
 } = config;
 
-const app = new Koa();
-app.keys = ['secret', 'key'];
-const router = new Router();
+const app = new Fastify({
+  logger: true,
+  exposeHeadRoutes: true,
+  ...(certificate
+    ? {
+        http2: true,
+        https: {
+          key: fs.readFileSync(certificate.key),
+          cert: fs.readFileSync(certificate.cert),
+          allowHTTP1: true,
+        },
+      }
+    : {}),
+});
 
 middleware(app);
 
 routes.forEach(({ path, method, controller }) => {
-  router[method](path, controller);
+  app.route({
+    method,
+    url: path,
+    handler: controller,
+  });
 });
 
-router.get('(.*)', (ctx, next) => requestHandler(ctx, next, { statsFile }));
+app.get('*', {}, (request, reply) =>
+  requestHandler(request, reply, { statsFile })
+);
 
-app.use(router.routes());
-
-const server = certificate
-  ? http2.createSecureServer(
-      {
-        key: fs.readFileSync(certificate.key),
-        cert: fs.readFileSync(certificate.cert),
-        allowHTTP1: true,
-      },
-      app.callback()
-    )
-  : http.createServer(app.callback());
-
-server.listen(port, () => {
-  console.info('Server listening on port %s', port);
-});
+app.listen({ port });

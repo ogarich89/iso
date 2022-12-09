@@ -1,48 +1,55 @@
-import bodyParser from 'koa-bodyparser';
-import render from 'koa-ejs';
-import session from 'koa-generic-session';
-import mount from 'koa-mount';
-import serve from 'koa-static';
+import cookie from '@fastify/cookie';
+import { fastifyRequestContext } from '@fastify/request-context';
+import session from '@fastify/session';
+import serve from '@fastify/static';
+import view from '@fastify/view';
+import connect from 'connect-redis';
+import ejs from 'ejs';
+import Redis from 'ioredis';
 
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 import config from '../config/config.cjs';
 
-import { logger } from './libs/logger.mjs';
-import redisClient from './libs/redis-client.mjs';
-import { storage } from './libs/storage.mjs';
-import { errors } from './middleware/errors.mjs';
-import { i18nextMiddleware } from './middleware/i18next.mjs';
-
-const { server: { withStatic = true } = {} } = config;
+const { server: { withStatic = true, sessionRedisDb } = {} } = config;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const RedisStore = connect(session);
+const redisClient = new Redis({
+  db: sessionRedisDb,
+});
+
 const middleware = (app) => {
-  app.use(logger());
-  render(app, {
+  app.register(cookie);
+  app.register(fastifyRequestContext);
+
+  app.register(view, {
+    engine: {
+      ejs,
+    },
     root: resolve(__dirname, '../public'),
-    layout: false,
-    viewExt: 'ejs',
-    cache: false,
   });
 
-  app.use(errors());
-  app.use(bodyParser({ jsonLimit: '4mb' }));
-  app.use(
-    session({
-      store: redisClient,
-    })
-  );
+  app.register(session, {
+    store: new RedisStore({
+      client: redisClient,
+    }),
+    secret: 'VY0{W6C3u@syL>H((&^RQU"Q-t%gYfVl]vhVIT;xql3JTS$-B`Ek1264S}sX_49',
+  });
 
   if (withStatic) {
-    app.use(mount('/public', serve(resolve(__dirname, '../public'))));
-    app.use(mount('/', serve(resolve(__dirname, '../dist'))));
+    // app.register(serve, {
+    //   root: resolve(__dirname, '../public'),
+    //   prefix: '/public',
+    // });
+    // app.register(serve, {
+    //   root: resolve(__dirname, '../dist'),
+    //   prefix: '/',
+    //   decorateReply: false,
+    // });
   }
-
-  app.use(storage());
-  app.use(i18nextMiddleware());
 };
 
 export { middleware };

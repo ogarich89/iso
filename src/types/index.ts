@@ -1,4 +1,4 @@
-import type { Request } from 'koa';
+import type { FastifyRequest } from 'fastify';
 import type { RecoilState } from 'recoil';
 
 declare global {
@@ -20,7 +20,7 @@ export interface Product {
 export type Products = Product[];
 
 export interface InitialAction<Data> {
-  (req?: Pick<Request, 'originalUrl'>): Promise<
+  (req?: Pick<FastifyRequest, 'url'>): Promise<
     Array<[RecoilState<Data>, Data]>
   >;
 }
