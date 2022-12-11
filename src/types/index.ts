@@ -27,7 +27,7 @@ export interface InitialAction<Data> {
 
 export interface Request extends FastifyRequest {
   session: {
-    lng: string;
+    lng: Languages;
     get(key: string): string;
     set(key: string, value: string): void;
   };
@@ -35,4 +35,11 @@ export interface Request extends FastifyRequest {
 
 export interface Reply extends FastifyReply {
   view: (path: string, options: Record<string, unknown>) => Promise<string>;
+}
+
+type Languages = 'en' | 'ru';
+
+export interface Schema {
+  product: Product;
+  products: Products;
 }

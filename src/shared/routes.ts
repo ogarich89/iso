@@ -5,8 +5,8 @@ import type { Product, Products } from 'types';
 
 const routes = [
   page('/', 'home'),
-  page<Products>('/products', 'products', getProducts),
-  page<Product>('/products/:id', 'products.product', getProduct),
+  page<Products | null>('/products', 'products', getProducts),
+  page<Product | null>('/products/:id', 'products.product', getProduct),
   page('*', 'page-not-found', undefined, false),
 ] as const;
 

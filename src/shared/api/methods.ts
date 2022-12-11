@@ -7,4 +7,4 @@ export const methods = {
     url: '/api/products/',
     method: 'GET',
   },
-};
+} as const;
