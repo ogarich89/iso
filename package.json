@@ -1,6 +1,6 @@
 {
   "name": "iso",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Iso is a framework for creating isomorphic single-page application with using SSR technology on NodeJS.",
   "main": "server/index.mjs",
   "repository": "git@github.com:ogarich89/iso.git",
