@@ -32,7 +32,7 @@ export default merge(common(), {
     chunkFilename: isDevelopment
       ? 'js/[name].js'
       : 'js/[name].[contenthash].js',
-    publicPath: withStatic ? '/dist' : '/',
+    publicPath: withStatic ? '/dist/' : '/',
     assetModuleFilename: isDevelopment
       ? 'assets/[name].[ext]'
       : 'assets/[name].[hash:8].[ext]',
