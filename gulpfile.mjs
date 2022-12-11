@@ -18,7 +18,7 @@ const {
 export const nodemon = async () => {
   const stream = gulpNodemon({
     script: 'server/index.mjs',
-    watch: ['server/*.*', 'dist/request-handler.cjs'],
+    watch: ['server/**/*.*', 'dist/request-handler.cjs'],
     exec: inspect ? 'node --inspect' : 'node',
     stdout: !inspect,
   });

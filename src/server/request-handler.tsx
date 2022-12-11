@@ -1,6 +1,9 @@
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
+import options from 'i18n';
+import i18next from 'i18next';
+import Backend from 'i18next-node-remote-backend';
 import { renderToString } from 'react-dom/server';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { matchPath } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
 import { RecoilRoot } from 'recoil';
@@ -10,31 +13,38 @@ import { App } from 'shared/App';
 import { initializeState } from 'shared/recoil/initialize';
 import appRoutes from 'shared/routes';
 
-import type { ParameterizedContext, Next } from 'koa';
+import type { InitOptions } from 'i18next';
+import type { Request, Reply } from 'types';
+
+i18next.use(Backend);
+i18next.use(initReactI18next);
 
 interface RequestHandler {
   (
-    ctx: ParameterizedContext,
-    next: Next,
+    request: Request,
+    reply: Reply,
     options: { statsFile: string }
-  ): Promise<void>;
+  ): Promise<string>;
 }
 
 export const requestHandler: RequestHandler = async (
-  ctx,
-  next,
+  request,
+  reply,
   { statsFile }
 ) => {
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
 
-  const route = appRoutes.find((route) => matchPath(route, ctx.path));
-  const state = route ? await route.initialAction(ctx.request) : [];
+  const route = appRoutes.find((route) => matchPath(route, request.routerPath));
+  const state = route ? await route.initialAction(request) : [];
+
+  const lng = request.session.get('lng') || 'en';
+  await i18next.init({ ...options(true), lng } as InitOptions);
 
   const html = renderToString(
     <ChunkExtractorManager extractor={extractor}>
       <RecoilRoot initializeState={initializeState(state)}>
-        <StaticRouter location={ctx.url}>
-          <I18nextProvider i18n={ctx.i18next}>
+        <StaticRouter location={request.url}>
+          <I18nextProvider i18n={i18next}>
             <App />
           </I18nextProvider>
         </StaticRouter>
@@ -44,14 +54,14 @@ export const requestHandler: RequestHandler = async (
   const scriptTags = extractor.getScriptTags();
   const styleTags = extractor.getStyleTags();
 
-  await ctx.render('index', {
+  return await reply.view('index', {
     html,
     envType: process.env.NODE_ENV || 'development',
     initialData: serialize(state),
     scriptTags,
     styleTags,
     version: !isDevelopment ? `?version=${timestamp}` : '',
-    initialLanguage: serialize(ctx.i18next.language),
-    initialI18nStore: serialize(ctx.storage.get('initialI18nStore')),
+    initialLanguage: serialize(i18next.language),
+    initialI18nStore: serialize({ [lng]: i18next.store.data[lng] }),
   });
 };
