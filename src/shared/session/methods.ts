@@ -1,5 +1,5 @@
 export const methods = {
   language: {
-    url: '/session/language/',
+    url: '/session/language',
   },
 };
