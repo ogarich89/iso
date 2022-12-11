@@ -4,7 +4,7 @@ Iso is starter-pack for creating isomorphic single-page application with using S
 Powered by [ogarich89](https://github.com/ogarich89)
 
 > #### Warning
-> For a comfortable development you will need the knowledge of React, Recoil and Koa.
+> For a comfortable development you will need the knowledge of React, Recoil and Fastify.
 
 ### Tech
 
@@ -12,7 +12,7 @@ ISO uses a number of open source projects to work properly:
 
 * [Node.js](https://nodejs.org/) - evented I/O for the backend
 * [Typescript](https://www.typescriptlang.org/) - typed JavaScript at Any Scale.
-* [Koa](https://koajs.com/) - fast node.js network app framework
+* [Fastify](https://www.fastify.io/) - Fast and low overhead web framework, for Node.js
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
 * [Recoil](https://recoiljs.org/) - A state management library for React
 * [Webpack](https://webpack.js.org/) - module bundler

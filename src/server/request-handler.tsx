@@ -1,4 +1,3 @@
-import { requestContext } from '@fastify/request-context';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import options from 'i18n';
 import i18next from 'i18next';
@@ -14,17 +13,18 @@ import { App } from 'shared/App';
 import { initializeState } from 'shared/recoil/initialize';
 import appRoutes from 'shared/routes';
 
-import type { FastifyRequest, FastifyReply } from 'fastify';
+import type { InitOptions } from 'i18next';
+import type { Request, Reply } from 'types';
 
 i18next.use(Backend);
 i18next.use(initReactI18next);
 
 interface RequestHandler {
   (
-    request: FastifyRequest,
-    reply: FastifyReply,
+    request: Request,
+    reply: Reply,
     options: { statsFile: string }
-  ): Promise<void>;
+  ): Promise<string>;
 }
 
 export const requestHandler: RequestHandler = async (
@@ -37,9 +37,8 @@ export const requestHandler: RequestHandler = async (
   const route = appRoutes.find((route) => matchPath(route, request.routerPath));
   const state = route ? await route.initialAction(request) : [];
 
-  const { lng = 'en' } = request.session || {};
-  console.log(lng);
-  await i18next.init({ ...options(true), lng });
+  const lng = request.session.get('lng') || 'en';
+  await i18next.init({ ...options(true), lng } as InitOptions);
 
   const html = renderToString(
     <ChunkExtractorManager extractor={extractor}>
@@ -58,11 +57,11 @@ export const requestHandler: RequestHandler = async (
   return await reply.view('index', {
     html,
     envType: process.env.NODE_ENV || 'development',
-    initialData: serialize(i18next.store.data[lng]),
+    initialData: serialize(state),
     scriptTags,
     styleTags,
     version: !isDevelopment ? `?version=${timestamp}` : '',
-    initialLanguage: serialize(i18next?.language),
-    initialI18nStore: serialize(requestContext.get('initialI18nStore')),
+    initialLanguage: serialize(i18next.language),
+    initialI18nStore: serialize({ [lng]: i18next.store.data[lng] }),
   });
 };

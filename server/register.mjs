@@ -1,5 +1,4 @@
 import cookie from '@fastify/cookie';
-import { fastifyRequestContext } from '@fastify/request-context';
 import session from '@fastify/session';
 import serve from '@fastify/static';
 import view from '@fastify/view';
@@ -21,9 +20,8 @@ const redisClient = new Redis({
   db: sessionRedisDb,
 });
 
-const middleware = (app) => {
+const register = (app) => {
   app.register(cookie);
-  app.register(fastifyRequestContext);
 
   app.register(view, {
     engine: {
@@ -36,20 +34,24 @@ const middleware = (app) => {
     store: new RedisStore({
       client: redisClient,
     }),
+    cookieName: 'session_id',
+    cookie: { secure: false },
     secret: 'VY0{W6C3u@syL>H((&^RQU"Q-t%gYfVl]vhVIT;xql3JTS$-B`Ek1264S}sX_49',
   });
 
   if (withStatic) {
-    // app.register(serve, {
-    //   root: resolve(__dirname, '../public'),
-    //   prefix: '/public',
-    // });
-    // app.register(serve, {
-    //   root: resolve(__dirname, '../dist'),
-    //   prefix: '/',
-    //   decorateReply: false,
-    // });
+    app.register(serve, {
+      root: resolve(__dirname, '../public'),
+      prefix: '/public',
+    });
+    ['js', 'css', 'assets'].forEach((key) => {
+      app.register(serve, {
+        root: resolve(__dirname, `../dist/${key}`),
+        prefix: `/${key}`,
+        decorateReply: false,
+      });
+    });
   }
 };
 
-export { middleware };
+export { register };

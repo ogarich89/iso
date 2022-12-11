@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import config from '../config/config.cjs';
 import { requestHandler } from '../dist/request-handler.cjs';
 
-import { middleware } from './middleware.mjs';
+import { register } from './register.mjs';
 import { routes } from './routes.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -20,7 +20,6 @@ const {
 
 const app = new Fastify({
   logger: true,
-  exposeHeadRoutes: true,
   ...(certificate
     ? {
         http2: true,
@@ -33,13 +32,14 @@ const app = new Fastify({
     : {}),
 });
 
-middleware(app);
+register(app);
 
-routes.forEach(({ path, method, controller }) => {
+routes.forEach(({ url, method, handler, schema }) => {
   app.route({
     method,
-    url: path,
-    handler: controller,
+    url,
+    handler,
+    schema,
   });
 });
 

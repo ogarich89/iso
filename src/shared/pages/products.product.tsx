@@ -22,7 +22,7 @@ const productsProduct: FunctionComponent<Props> = ({ initialAction }) => {
   useEffect(() => {
     if (!product) {
       (async () => {
-        const [[, data]] = await initialAction({ originalUrl: pathname });
+        const [[, data]] = await initialAction({ url: pathname });
         setProduct(data);
       })();
     }
