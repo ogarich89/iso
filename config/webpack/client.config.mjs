@@ -17,7 +17,7 @@ import { common } from './common.config.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const {
-  server: { production, analyze },
+  server: { production, analyze, withStatic },
 } = config;
 const isDevelopment = !production;
 
@@ -32,7 +32,7 @@ export default merge(common(), {
     chunkFilename: isDevelopment
       ? 'js/[name].js'
       : 'js/[name].[contenthash].js',
-    publicPath: '/',
+    publicPath: withStatic ? '/dist' : '/',
     assetModuleFilename: isDevelopment
       ? 'assets/[name].[ext]'
       : 'assets/[name].[hash:8].[ext]',

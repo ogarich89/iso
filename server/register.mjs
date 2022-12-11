@@ -44,12 +44,10 @@ const register = (app) => {
       root: resolve(__dirname, '../public'),
       prefix: '/public',
     });
-    ['js', 'css', 'assets'].forEach((key) => {
-      app.register(serve, {
-        root: resolve(__dirname, `../dist/${key}`),
-        prefix: `/${key}`,
-        decorateReply: false,
-      });
+    app.register(serve, {
+      root: resolve(__dirname, '../dist'),
+      prefix: '/dist',
+      decorateReply: false,
     });
   }
 };

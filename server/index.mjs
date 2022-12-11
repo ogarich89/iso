@@ -19,7 +19,11 @@ const {
 } = config;
 
 const app = new Fastify({
-  logger: true,
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+    },
+  },
   ...(certificate
     ? {
         http2: true,

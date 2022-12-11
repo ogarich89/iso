@@ -20,7 +20,6 @@ export const nodemon = async () => {
     script: 'server/index.mjs',
     watch: ['server/**/*.*', 'dist/request-handler.cjs'],
     exec: inspect ? 'node --inspect' : 'node',
-    stdout: !inspect,
   });
   stream.on('crash', () => stream.emit('restart', 300));
 };
@@ -44,7 +43,7 @@ export const server = () => {
 
 export const client = () => {
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
-    publicPath: '/',
+    publicPath: webpackClientConfig.output.publicPath,
   });
   browserSync.init(null, {
     host: 'localhost',
