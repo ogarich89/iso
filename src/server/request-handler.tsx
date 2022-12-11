@@ -34,7 +34,9 @@ export const requestHandler: RequestHandler = async (
 ) => {
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
 
-  const route = appRoutes.find((route) => matchPath(route, request.routerPath));
+  const [path] = request.url.split('?');
+
+  const route = appRoutes.find((route) => matchPath(route, path));
   const state = route ? await route.initialAction(request) : [];
 
   const lng = request.session.get('lng') || 'en';
