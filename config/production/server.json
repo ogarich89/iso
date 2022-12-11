@@ -8,5 +8,6 @@
   "certificate": {
     "key": "/path/to/key.pem",
     "cert": "/path/to/cert.pem"
-  }
+  },
+  "logger": false
 }

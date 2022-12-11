@@ -15,15 +15,19 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const statsFile = resolve(__dirname, '../dist/loadable-stats.json');
 
 const {
-  server: { port, certificate },
+  server: { port, certificate, logger },
 } = config;
 
 const app = new Fastify({
-  logger: {
-    transport: {
-      target: 'pino-pretty',
-    },
-  },
+  ...(logger
+    ? {
+        logger: {
+          transport: {
+            target: 'pino-pretty',
+          },
+        },
+      }
+    : {}),
   ...(certificate
     ? {
         http2: true,
