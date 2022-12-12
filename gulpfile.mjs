@@ -4,16 +4,14 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import config from './config/config.cjs';
+import { config } from './config/config.cjs';
 import webpackClientConfig from './config/webpack/client.config.mjs';
 import webpackServerConfig from './config/webpack/server.config.mjs';
 
 const clientCompiler = webpack(webpackClientConfig);
 const serverCompiler = webpack(webpackServerConfig);
 
-const {
-  server: { inspect = false, port = 5000, browserSyncPort = 3003 },
-} = config;
+const { inspect = false, port = 5000, browserSyncPort = 3003 } = config;
 
 export const nodemon = async () => {
   const stream = gulpNodemon({

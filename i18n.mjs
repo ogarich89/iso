@@ -1,8 +1,6 @@
-import config from './config/config.cjs';
+import { config } from './config/config.cjs';
 
-const {
-  server: { host },
-} = config;
+const { host } = config;
 
 export default (isServer = false) => ({
   fallbackLng: false,

@@ -10,15 +10,13 @@ import { merge } from 'webpack-merge';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import config from '../config.cjs';
+import { config } from '../config.cjs';
 
 import { common } from './common.config.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const {
-  server: { production, analyze, withStatic },
-} = config;
+const { production, analyze, withStatic } = config;
 const isDevelopment = !production;
 
 export default merge(common(), {

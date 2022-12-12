@@ -40,18 +40,31 @@ $ yarn start
 
 ### Development
 
-1. Create folder 'development' in directory '/config'
-2. Create file 'server.json' in folder '/config/development' (example settings in '/config/\_\_example\_\_/server.json')
-3. Run each command in a separate terminal tab
-
+- Create configuration file
+```sh
+$ touch config/environment/development.json
+```
+- Set params 
+```json
+{
+ "port": 3000,
+ "host": "http://localhost:3000",
+ "browserSyncPort": 3003,
+ "api": "https://reqres.in",
+ "sessionRedisDb": 2,
+ "production": false,
+ "withStatic": true,
+ "inspect": true,
+ "logger": true
+}
+```
+- Run each command in a separate terminal tab
 ```sh
 $ yarn client
 $ yarn server
 $ yarn nodemon
 ```
-
 or
-
 ```sh
 $ yarn dev
 ```

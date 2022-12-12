@@ -9,9 +9,9 @@ import Redis from 'ioredis';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import config from '../config/config.cjs';
+import { config } from '../config/config.cjs';
 
-const { server: { withStatic = true, sessionRedisDb } = {} } = config;
+const { withStatic = true, sessionRedisDb } = config;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

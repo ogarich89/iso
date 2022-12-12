@@ -5,10 +5,8 @@ import webpack from 'webpack';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import config from '../config.cjs';
-const {
-  server: { production },
-} = config;
+import { config } from '../config.cjs';
+const { production } = config;
 const isDevelopment = !production;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

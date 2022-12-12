@@ -1,14 +1,12 @@
 import axios from 'axios';
-import config from 'config';
+import { config } from 'config';
 
 import { methods } from 'shared/api/methods';
 
 import type { AxiosRequestConfig } from 'axios';
 import type { Schema } from 'types';
 
-const {
-  server: { api },
-} = config;
+const { api } = config;
 
 export type Methods = keyof typeof methods;
 

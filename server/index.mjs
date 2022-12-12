@@ -4,7 +4,7 @@ import fs from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import config from '../config/config.cjs';
+import { config } from '../config/config.cjs';
 import { requestHandler } from '../dist/request-handler.cjs';
 
 import { register } from './register.mjs';
@@ -14,9 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const statsFile = resolve(__dirname, '../dist/loadable-stats.json');
 
-const {
-  server: { port, certificate, logger },
-} = config;
+const { port, certificate, logger } = config;
 
 const app = new Fastify({
   ...(logger

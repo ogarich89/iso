@@ -4,7 +4,7 @@ dist/
 .vscode
 yarn-error.log
 package-lock.json
-config/development
+config/environment/development.json
 coverage
 .cache
 .swc
