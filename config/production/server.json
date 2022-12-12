@@ -2,7 +2,7 @@
   "port": 4000,
   "host": "https://isojs.local",
   "api": "https://reqres.in",
-  "sessionRedisDb": 3,
+  "sessionRedisDb": 1,
   "production": true,
   "withStatic": false,
   "certificate": {

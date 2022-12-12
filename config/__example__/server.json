@@ -3,8 +3,9 @@
   "host": "http://localhost:3000",
   "browserSyncPort": 3003,
   "api": "https://reqres.in",
-  "sessionRedisDb": 5,
+  "sessionRedisDb": 3,
   "production": false,
   "withStatic": true,
-  "inspect": true
+  "inspect": true,
+  "logger": true
 }

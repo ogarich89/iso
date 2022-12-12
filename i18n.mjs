@@ -1,8 +1,10 @@
+import config from './config/config.cjs';
+
 const {
   server: { host },
-} = require('./config/config.cjs');
+} = config;
 
-module.exports = (isServer = false) => ({
+export default (isServer = false) => ({
   fallbackLng: false,
   interpolation: {
     escapeValue: false,

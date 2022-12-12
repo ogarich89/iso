@@ -15,7 +15,7 @@
     "experimentalDecorators": true,
     "types": ["node", "jest"],
     "paths": {
-      "i18n": ["../i18n.cjs"],
+      "i18n": ["../i18n.mjs"],
       "config": ["../config/config.cjs"]
     }
   },

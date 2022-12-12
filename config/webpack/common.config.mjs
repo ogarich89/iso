@@ -22,7 +22,7 @@ const common = ({ isServer } = {}) => ({
       server: resolve(__dirname, '../../src/server'),
       shared: resolve(__dirname, '../../src/shared'),
       types: resolve(__dirname, '../../src/types/index.ts'),
-      i18n: resolve(__dirname, '../../i18n.cjs'),
+      i18n: resolve(__dirname, '../../i18n.mjs'),
       config: resolve(__dirname, '../../config/config.cjs'),
     },
   },
