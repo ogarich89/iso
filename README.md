@@ -1,4 +1,6 @@
-# Iso
+# Iso ![GitHub package.json version](https://img.shields.io/github/package-json/v/ogarich89/iso?style=flat-square) 
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/ogarich89/iso/react?style=for-the-badge) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/ogarich89/iso/fastify?style=for-the-badge) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/ogarich89/iso/typescript?style=for-the-badge)
+
 Iso is starter-pack for creating isomorphic single-page application with using SSR technology on NodeJS.
 
 Powered by [ogarich89](https://github.com/ogarich89)
