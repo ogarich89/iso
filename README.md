@@ -10,14 +10,16 @@ Powered by [ogarich89](https://github.com/ogarich89)
 
 ISO uses a number of open source projects to work properly:
 
-* [Node.js](https://nodejs.org/) - evented I/O for the backend
-* [Typescript](https://www.typescriptlang.org/) - typed JavaScript at Any Scale.
+* [Node.js](https://nodejs.org/) - Open-source, cross-platform JavaScript runtime environment.
+* [Typescript](https://www.typescriptlang.org/) - JavaScript with syntax for types.
 * [Fastify](https://www.fastify.io/) - Fast and low overhead web framework, for Node.js
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
-* [Recoil](https://recoiljs.org/) - A state management library for React
-* [Webpack](https://webpack.js.org/) - module bundler
+* [Recoil](https://recoiljs.org/) - State management library for React
+* [Webpack](https://webpack.js.org/) - Module bundler
+* [HMR](https://webpack.js.org/concepts/hot-module-replacement/) - Hot Module Replacement
+* [Browsersync](https://browsersync.io/) - Time-saving synchronised browser testing
 * [SWC](https://swc.rs/) - Rust-based platform for the Web
-* [ESLint](https://eslint.org/) - pluggable linting utility for JavaScript and JSX.
+* [ESLint](https://eslint.org/) - Statically analyzes your code to quickly find problems.
 * [Loadable-components](https://www.smooth-code.com/open-source/loadable-components/) - React code splitting library.
 * Etc. (See package.json)
 
