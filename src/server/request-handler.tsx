@@ -64,6 +64,6 @@ export const requestHandler: RequestHandler = async (
     styleTags,
     version: !isDevelopment ? `?version=${timestamp}` : '',
     initialLanguage: serialize(i18next.language),
-    initialI18nStore: serialize({ [lng]: i18next.store.data[lng] }),
+    initialI18nStore: serialize(i18next.store.data),
   });
 };
