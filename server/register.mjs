@@ -11,14 +11,19 @@ import { fileURLToPath } from 'url';
 
 import { config } from '../config/config.cjs';
 
-const { withStatic = true, sessionRedisDb } = config;
+const { withStatic = true, sessionRedisDb, withRedis } = config;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const RedisStore = connect(session);
-const redisClient = new Redis({
-  db: sessionRedisDb,
-});
+const initRedisStore = () => {
+  const RedisStore = connect(session);
+  const redisClient = new Redis({
+    db: sessionRedisDb,
+  });
+  return new RedisStore({
+    client: redisClient,
+  });
+};
 
 const register = (app) => {
   app.register(cookie);
@@ -31,9 +36,7 @@ const register = (app) => {
   });
 
   app.register(session, {
-    store: new RedisStore({
-      client: redisClient,
-    }),
+    ...(withRedis ? { store: initRedisStore() } : {}),
     cookieName: 'session_id',
     cookie: { secure: false },
     secret: 'VY0{W6C3u@syL>H((&^RQU"Q-t%gYfVl]vhVIT;xql3JTS$-B`Ek1264S}sX_49',

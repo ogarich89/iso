@@ -28,7 +28,7 @@ And of course ISO itself is open source with a [public repository]
 
 ### Install
 
-ISO requires [Node.js](https://nodejs.org/) v16+ and [Redis](https://redis.io) to run.
+ISO requires [Node.js](https://nodejs.org/) v16+ and [Redis](https://redis.io) (optional) to run.
 
 
 ```sh
@@ -54,10 +54,23 @@ $ touch config/environment/development.json
  "sessionRedisDb": 2,
  "production": false,
  "withStatic": true,
+ "withRedis": false,
  "inspect": true,
  "logger": true
 }
 ```
+
+`port` - Node.js server port \
+`host` - Site hostname \
+`browserSyncPort` - Development proxy server port with browserSync and HMR \
+`api` - Backend API hostname \
+`sessionRedisDb` - Redis database index \
+`production` - Webpack production mode \
+`withStatic` - Serve static files with NodeJS server \
+`withRedis` - Session with Redis store \
+`inspect` - Debugging Node.js with Chrome DevTools \
+`logger` - Fastify logger \
+
 - Run each command in a separate terminal tab
 ```sh
 $ yarn client

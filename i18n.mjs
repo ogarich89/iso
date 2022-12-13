@@ -1,4 +1,4 @@
-import { config } from './config/config.cjs';
+import { config } from 'config';
 
 const { host } = config;
 
