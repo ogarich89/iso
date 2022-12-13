@@ -69,7 +69,7 @@ $ touch config/environment/development.json
 `withStatic` - Serve static files with NodeJS server \
 `withRedis` - Session with Redis store \
 `inspect` - Debugging Node.js with Chrome DevTools \
-`logger` - Fastify logger \
+`logger` - Fastify logger
 
 - Run each command in a separate terminal tab
 ```sh
