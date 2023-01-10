@@ -1,7 +1,7 @@
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import options from 'i18n';
 import i18next from 'i18next';
-import Backend from 'i18next-node-remote-backend';
+import Backend from 'i18next-http-backend';
 import { renderToString } from 'react-dom/server';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { matchPath } from 'react-router-dom';

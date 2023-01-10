@@ -1,6 +1,6 @@
 import options from 'i18n';
 import i18next from 'i18next';
-import Fetch from 'i18next-fetch-backend';
+import Fetch from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
 import type { InitOptions } from 'i18next';
