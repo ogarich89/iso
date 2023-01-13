@@ -1,6 +1,6 @@
 import { config } from 'config';
 
-const { host } = config;
+const { port } = config;
 
 export default (isServer = false) => ({
   fallbackLng: false,
@@ -8,7 +8,9 @@ export default (isServer = false) => ({
     escapeValue: false,
   },
   backend: {
-    loadPath: `${isServer ? host : ''}/public/locales/{{lng}}/{{ns}}.json`,
+    loadPath: `${
+      isServer ? `http://0.0.0.0:${port}` : ''
+    }/public/locales/{{lng}}/{{ns}}.json`,
   },
   debug: false,
   react: {

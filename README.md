@@ -52,7 +52,6 @@ $ touch config/environment/development.json
 ```json
 {
  "port": 3000,
- "host": "http://localhost:3000",
  "browserSyncPort": 3003,
  "api": "https://reqres.in",
  "sessionRedisDb": 2,
@@ -65,7 +64,6 @@ $ touch config/environment/development.json
 ```
 
 `port` - Node.js server port \
-`host` - Site hostname \
 `browserSyncPort` - Development proxy server port with browserSync and HMR \
 `api` - Backend API hostname \
 `sessionRedisDb` - Redis database index \

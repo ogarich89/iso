@@ -1,6 +1,5 @@
 {
   "port": 4000,
-  "host": "https://isojs.local",
   "api": "https://reqres.in",
   "sessionRedisDb": 2,
   "production": false,
