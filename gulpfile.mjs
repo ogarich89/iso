@@ -42,6 +42,7 @@ export const server = () => {
 export const client = () => {
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
     publicPath: webpackClientConfig.output.publicPath,
+    writeToDisk: true,
   });
   browserSync.init(null, {
     host: 'localhost',
