@@ -45,11 +45,11 @@ $ yarn install
 
 ### Development
 
-- Create configuration file
+#### 1. Create configuration file
 ```sh
 $ touch config/environment/development.json
 ```
-- Set params 
+#### 2. Set params 
 ```json
 {
  "port": 3000,
@@ -85,13 +85,13 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/iso?connect_timeout=1
 ```
 
 
-- Run each command in a separate terminal tab
+#### 3. Run each command in a separate terminal tab
 ```sh
 $ yarn client
 $ yarn server
 $ yarn nodemon
 ```
-or
+#### or
 ```sh
 $ yarn dev
 ```
@@ -109,9 +109,10 @@ _Open in browser_ http://localhost:3000
 
 ---
 
+### Production
 
+#### 1. Building for source
 
-#### Building for source
 For production release:
 ```sh
 $ yarn production
@@ -120,6 +121,14 @@ Depending on NODE_ENV (development | production | staging):
 ```sh
 $ yarn build
 ```
+
+#### 2. Run Node.js server
+
+```sh
+$ node server/index.mjs
+```
+
+
 
 
 
