@@ -85,15 +85,16 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/iso?connect_timeout=1
 ```
 
 
-#### 3. Run each command in a separate terminal tab
+#### 3. Run dev server
+```sh
+$ yarn dev
+```
+#### or run each command in a separate terminal tab
+
 ```sh
 $ yarn client
 $ yarn server
 $ yarn nodemon
-```
-#### or
-```sh
-$ yarn dev
 ```
 
 Open in browser http://localhost:3001
