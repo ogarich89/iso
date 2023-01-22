@@ -32,7 +32,7 @@ const register = (app) => {
     engine: {
       ejs,
     },
-    root: resolve(__dirname, '../public'),
+    root: resolve(__dirname, './templates'),
   });
 
   app.register(session, {

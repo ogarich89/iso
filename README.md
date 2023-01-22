@@ -53,7 +53,7 @@ $ touch config/environment/development.json
 ```json
 {
  "port": 3000,
- "browserSyncPort": 3003,
+ "browserSyncPort": 3001,
  "api": "https://reqres.in",
  "withStatic": true,
  "inspect": true,
@@ -96,10 +96,19 @@ or
 $ yarn dev
 ```
 
+Open in browser http://localhost:3001
+
+---
+
 _Run without watch files, HMR, BrowserSync, Gulp_
 ```sh
 $ yarn start
 ```
+
+_Open in browser_ http://localhost:3000
+
+---
+
 
 
 #### Building for source
