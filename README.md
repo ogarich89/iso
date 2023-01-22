@@ -41,7 +41,6 @@ ISO requires [Node.js](https://nodejs.org/) v16+ and [Redis](https://redis.io) (
 $ git clone https://github.com/ogarich89/iso.git <project name>
 $ cd <project name>
 $ yarn install
-$ yarn start
 ```
 
 ### Development
@@ -100,6 +99,12 @@ or
 ```sh
 $ yarn dev
 ```
+
+_Run without watch files, HMR, BrowserSync, Gulp_
+```sh
+$ yarn start
+```
+
 
 #### Building for source
 For production release:
