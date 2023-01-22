@@ -1,6 +1,7 @@
 {
   "port": 4000,
   "api": "https://reqres.in",
+  "withRedis": true,
   "sessionRedisDb": 2,
   "production": false,
   "withStatic": false,
@@ -8,5 +9,5 @@
     "key": "/path/to/key.pem",
     "cert": "/path/to/cert.pem"
   },
-  "logger": false
+  "logger": true
 }

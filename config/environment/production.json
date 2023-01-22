@@ -1,9 +1,11 @@
 {
   "port": 4000,
   "api": "https://reqres.in",
+  "withRedis": true,
   "sessionRedisDb": 1,
   "production": true,
   "withStatic": false,
+  "sentryDSN": "",
   "certificate": {
     "key": "/path/to/key.pem",
     "cert": "/path/to/cert.pem"
