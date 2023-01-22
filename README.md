@@ -78,7 +78,7 @@ _If you want to use [Prisma](https://www.prisma.io/) run the command_
 ```sh
 $ cp .env.example .env
 ```
-_and set DATABASE_URL environment variable_
+_and set `DATABASE_URL` environment variable_
 
 ```dotenv
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/iso?connect_timeout=1000
