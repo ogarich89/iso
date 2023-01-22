@@ -20,9 +20,10 @@ export interface Product {
 export type Products = Product[];
 
 export interface InitialAction<Data> {
-  (req?: Pick<FastifyRequest, 'url' | 'headers'>): Promise<
-    Array<[RecoilState<Data>, Data]>
-  >;
+  (req?: {
+    url: FastifyRequest['url'];
+    headers?: FastifyRequest['headers'];
+  }): Promise<Array<[RecoilState<Data>, Data]>>;
 }
 
 export interface Request extends FastifyRequest {

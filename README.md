@@ -23,6 +23,7 @@ ISO uses a number of open source projects to work properly:
 * [SWC](https://swc.rs/) - Rust-based platform for the Web
 * [ESLint](https://eslint.org/) - Statically analyzes your code to quickly find problems.
 * [Loadable-components](https://www.smooth-code.com/open-source/loadable-components/) - React code splitting library.
+* [Prisma](https://www.prisma.io/) - Next-generation Node.js and TypeScript ORM
 * Etc. (See package.json)
 
 And of course ISO itself is open source with a [public repository]
@@ -59,7 +60,8 @@ $ touch config/environment/development.json
  "withStatic": true,
  "withRedis": false,
  "inspect": true,
- "logger": true
+ "logger": true,
+ "sentryDSN": ""
 }
 ```
 
@@ -71,7 +73,20 @@ $ touch config/environment/development.json
 `withStatic` - Serve static files with NodeJS server \
 `withRedis` - Session with Redis store \
 `inspect` - Debugging Node.js with Chrome DevTools \
-`logger` - Fastify logger
+`logger` - Fastify logger \
+`sentryDSN` - Error monitoring with [Sentry](https://sentry.io)
+
+_If you want to use [Prisma](https://www.prisma.io/) run the command_
+
+```sh
+$ cp .env.example .env
+```
+_and set DATABASE_URL environment variable_
+
+```dotenv
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/iso?connect_timeout=1000
+```
+
 
 - Run each command in a separate terminal tab
 ```sh
