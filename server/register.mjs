@@ -18,7 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const initRedisStore = () => {
   const RedisStore = connect(session);
   const redisClient = new Redis({
-    db: sessionRedisDb,
+    db: sessionRedisDb || 1,
   });
   return new RedisStore({
     client: redisClient,
