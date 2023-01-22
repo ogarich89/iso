@@ -1,3 +1,5 @@
+import Sentry from '@sentry/node';
+import dotenv from 'dotenv';
 import Fastify from 'fastify';
 
 import fs from 'fs';
@@ -14,7 +16,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const statsFile = resolve(__dirname, '../dist/loadable-stats.json');
 
-const { port, certificate, logger } = config;
+const { port, certificate, logger, sentryDSN } = config;
+
+dotenv.config();
+
+if (sentryDSN) {
+  Sentry.init({
+    dsn: sentryDSN,
+    environment: process.env.NODE_ENV || 'development',
+    release: '2.0.0',
+  });
+}
 
 const app = new Fastify({
   ...(logger
@@ -36,6 +48,11 @@ const app = new Fastify({
         },
       }
     : {}),
+});
+
+app.setErrorHandler(async (error, request, reply) => {
+  Sentry.captureException(error);
+  reply.status(500).send({ error: 'Something went wrong' });
 });
 
 register(app);

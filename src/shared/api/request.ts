@@ -25,7 +25,10 @@ export const request = async <M extends Methods, D>(
   key: M,
   data: D,
   params?: Record<string, string>,
-  req?: Pick<FastifyRequest, 'url' | 'headers'>
+  req?: {
+    url: FastifyRequest['url'];
+    headers?: FastifyRequest['headers'];
+  }
 ) => {
   const { url = '', method } = methods[key] as AxiosRequestConfig;
   const { headers } = req || {};

@@ -8,3 +8,4 @@ config/environment/development.json
 coverage
 .cache
 .swc
+.env
