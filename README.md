@@ -75,7 +75,8 @@ $ touch config/environment/development.json
 `withRedis` - Session with Redis store \
 `inspect` - Debugging Node.js with Chrome DevTools \
 `logger` - Fastify logger \
-`sentryDSN` - Error monitoring with [Sentry](https://sentry.io)
+`sentryDSN` - Error monitoring with [Sentry](https://sentry.io) \
+`certificate?` - Optional object for run https server `{ "key": "/path/to/key.pem", "cert": "/path/to/cert.pem" }`
 
 _If you want to use [Prisma](https://www.prisma.io/) run the command_
 
