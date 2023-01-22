@@ -118,7 +118,7 @@ For production release:
 ```sh
 $ yarn production
 ```
-Depending on NODE_ENV (development | production | staging):
+Depending on NODE_ENV (production | staging):
 ```sh
 $ yarn build
 ```
