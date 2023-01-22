@@ -55,13 +55,9 @@ $ touch config/environment/development.json
  "port": 3000,
  "browserSyncPort": 3003,
  "api": "https://reqres.in",
- "sessionRedisDb": 2,
- "production": false,
  "withStatic": true,
- "withRedis": false,
  "inspect": true,
- "logger": true,
- "sentryDSN": ""
+ "logger": true
 }
 ```
 
