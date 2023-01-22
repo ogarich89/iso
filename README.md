@@ -24,6 +24,7 @@ ISO uses a number of open source projects to work properly:
 * [ESLint](https://eslint.org/) - Statically analyzes your code to quickly find problems.
 * [Loadable-components](https://www.smooth-code.com/open-source/loadable-components/) - React code splitting library.
 * [Prisma](https://www.prisma.io/) - Next-generation Node.js and TypeScript ORM
+* [react-i18next](https://react.i18next.com/) - Powerful internationalization framework for React / React Native which is based on i18next.
 * Etc. (See package.json)
 
 And of course ISO itself is open source with a [public repository]
