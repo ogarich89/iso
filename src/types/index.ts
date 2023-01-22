@@ -20,7 +20,7 @@ export interface Product {
 export type Products = Product[];
 
 export interface InitialAction<Data> {
-  (req?: Pick<FastifyRequest, 'url'>): Promise<
+  (req?: Pick<FastifyRequest, 'url' | 'headers'>): Promise<
     Array<[RecoilState<Data>, Data]>
   >;
 }

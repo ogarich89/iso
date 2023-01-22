@@ -1,5 +1,4 @@
 import LoadablePlugin from '@loadable/webpack-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
@@ -18,11 +17,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const { production, analyze, withStatic } = config;
 const isDevelopment = !production;
+const { default: ReactRefreshWebpackPlugin } = isDevelopment
+  ? await import('@pmmmwh/react-refresh-webpack-plugin')
+  : { default: null };
 
 export default merge(common(), {
   context: resolve(__dirname, '../../src/client'),
   entry: {
-    bundle: ['./index.tsx', 'webpack-hot-middleware/client'],
+    bundle: [
+      './index.tsx',
+      ...(isDevelopment ? ['webpack-hot-middleware/client'] : []),
+    ],
   },
   output: {
     path: resolve(__dirname, '../../dist'),
@@ -96,6 +101,6 @@ export default merge(common(), {
         : 'css/[name].[contenthash].css',
     }),
     new LoadablePlugin({ writeToDisk: true }),
-    new webpack.HotModuleReplacementPlugin(),
+    ...(isDevelopment ? [new webpack.HotModuleReplacementPlugin()] : []),
   ],
 });
