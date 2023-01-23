@@ -3,8 +3,9 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "dist",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "sourceMap": true,
+    "skipLibCheck": true,
     "strict": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -15,13 +16,10 @@
     "experimentalDecorators": true,
     "types": ["node", "jest"],
     "paths": {
-      "i18n": ["../i18n.mjs"],
-      "config": ["../config/config.cjs"]
+      "i18n": ["./i18n.mjs"],
+      "config": ["./config/config.cjs"]
     }
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
     "**/*.test.ts",
     "**/*.test.tsx"

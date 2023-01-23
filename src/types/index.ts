@@ -26,17 +26,17 @@ export interface InitialAction<Data> {
   }): Promise<Array<[RecoilState<Data>, Data]>>;
 }
 
-export interface Request extends FastifyRequest {
+export type Request = {
   session: {
     lng: Languages;
     get(key: string): string;
     set(key: string, value: string): void;
   };
-}
+} & FastifyRequest;
 
-export interface Reply extends FastifyReply {
+export type Reply = {
   view: (path: string, options: Record<string, unknown>) => Promise<string>;
-}
+} & FastifyReply;
 
 type Languages = 'en' | 'ru';
 

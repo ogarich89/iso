@@ -10,8 +10,8 @@ import { common } from './common.config.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default merge(common({ isServer: true }), {
-  context: resolve(__dirname, '../../src/server'),
-  entry: './request-handler.tsx',
+  context: resolve(__dirname, '../../src/root'),
+  entry: './server.tsx',
   target: 'node',
   node: {
     __dirname: false,

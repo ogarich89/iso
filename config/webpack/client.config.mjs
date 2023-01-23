@@ -22,10 +22,10 @@ const { default: ReactRefreshWebpackPlugin } = isDevelopment
   : { default: null };
 
 export default merge(common(), {
-  context: resolve(__dirname, '../../src/client'),
+  context: resolve(__dirname, '../../src/root'),
   entry: {
     bundle: [
-      './index.tsx',
+      './client.tsx',
       ...(isDevelopment ? ['webpack-hot-middleware/client'] : []),
     ],
   },

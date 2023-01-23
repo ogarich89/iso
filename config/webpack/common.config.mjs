@@ -15,12 +15,8 @@ const common = ({ isServer } = {}) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      images: resolve(__dirname, '../../src/shared/images'),
-      client: resolve(__dirname, '../../src/client'),
-      server: resolve(__dirname, '../../src/server'),
-      shared: resolve(__dirname, '../../src/shared'),
-      types: resolve(__dirname, '../../src/types/index.ts'),
       i18n: resolve(__dirname, '../../i18n.mjs'),
+      src: resolve(__dirname, '../../src'),
       config: resolve(__dirname, '../../config/config.cjs'),
     },
   },
@@ -91,9 +87,7 @@ const common = ({ isServer } = {}) => ({
             options: {
               sassOptions: {
                 outputStyle: 'compressed',
-                includePaths: [
-                  resolve(__dirname, '../../src/shared/helpers/styles'),
-                ],
+                includePaths: [resolve(__dirname, '../../src/helpers/styles')],
               },
             },
           },
