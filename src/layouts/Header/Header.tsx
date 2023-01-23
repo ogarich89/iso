@@ -1,9 +1,8 @@
 import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Link } from 'react-router-dom';
-import emitter from 'src/emitter';
-import { TOGGLE_MODAL } from 'src/emitter/constants';
-import { session } from 'src/session';
+import { TOGGLE_MODAL, emitter } from 'src/libs/emitter';
+import { session } from 'src/libs/session';
 
 import style from './Header.scss';
 

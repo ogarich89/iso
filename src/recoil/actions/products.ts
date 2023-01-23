@@ -1,4 +1,4 @@
-import { request } from 'src/api/request';
+import { request } from 'src/libs/api/request';
 import { productAtom, productsAtom } from 'src/recoil/atoms/products';
 
 import type { InitialAction, Product, Products } from 'src/types';

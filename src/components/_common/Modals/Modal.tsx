@@ -1,8 +1,7 @@
 import cx from 'classnames';
 import { About } from 'src/components/_common/Modals/About/About';
-import emitter from 'src/emitter';
-import { TOGGLE_MODAL } from 'src/emitter/constants';
 import CloseIcon from 'src/images/icons/close.svg';
+import { TOGGLE_MODAL, emitter } from 'src/libs/emitter';
 
 import style from './Modal.scss';
 

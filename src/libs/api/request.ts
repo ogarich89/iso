@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { config } from 'config';
-import { methods } from 'src/api/methods';
+import { methods } from 'src/libs/api/methods';
 
 import type { AxiosRequestConfig } from 'axios';
 import type { FastifyRequest } from 'fastify';

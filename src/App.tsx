@@ -1,10 +1,9 @@
 import loadable from '@loadable/component';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import emitter from 'src/emitter';
-import { TOGGLE_MODAL } from 'src/emitter/constants';
 import { setOverflow } from 'src/helpers';
 import { Header } from 'src/layouts/Header/Header';
+import { emitter, TOGGLE_MODAL } from 'src/libs/emitter';
 import routes from 'src/routes';
 
 import './App.scss';
