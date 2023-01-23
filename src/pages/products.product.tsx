@@ -1,34 +1,17 @@
-import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useParams } from 'react-router-dom';
 import { Loading } from 'src/components/_common/Loading/Loading';
 import { PageNotFound } from 'src/components/_common/PageNotFound/PageNotFound';
 import { ProductComponent } from 'src/components/product/Product';
+import { useInitialState } from 'src/hooks/useInitialState';
 import { productSelector } from 'src/recoil/selectors/products';
 
-import type { FunctionComponent } from 'react';
-import type { InitialAction, Product } from 'src/types';
+import type { Product, PageComponent } from 'src/types';
 
-interface Props {
-  initialAction: InitialAction<Product>;
-}
-
-const productsProduct: FunctionComponent<Props> = ({ initialAction }) => {
-  const { pathname } = useLocation();
+const productsProduct: PageComponent<Product | null> = ({ initialAction }) => {
   const { id } = useParams() as { id: string };
-  const [product, setProduct] = useRecoilState(productSelector(id));
-  const resetProduct = useResetRecoilState(productSelector(id));
-  useEffect(() => {
-    if (!product) {
-      (async () => {
-        const [[, data]] = await initialAction({ url: pathname });
-        setProduct(data);
-      })();
-    }
-    return () => {
-      resetProduct();
-    };
-  }, [pathname]);
+
+  const product = useInitialState(initialAction, productSelector(id), true);
+
   return product === null ? (
     <PageNotFound />
   ) : product ? (

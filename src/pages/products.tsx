@@ -1,27 +1,13 @@
-import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
 import { Loading } from 'src/components/_common/Loading/Loading';
 import { PageNotFound } from 'src/components/_common/PageNotFound/PageNotFound';
 import { ProductsComponent } from 'src/components/products/Products';
+import { useInitialState } from 'src/hooks/useInitialState';
 import { productsSelector } from 'src/recoil/selectors/products';
 
-import type { FunctionComponent } from 'react';
-import type { InitialAction, Products } from 'src/types';
+import type { Products, PageComponent } from 'src/types';
 
-interface Props {
-  initialAction: InitialAction<Products>;
-}
-
-const products: FunctionComponent<Props> = ({ initialAction }) => {
-  const [products, setProducts] = useRecoilState(productsSelector);
-  useEffect(() => {
-    if (!products?.length) {
-      (async () => {
-        const [[, data]] = await initialAction();
-        setProducts(data);
-      })();
-    }
-  }, []);
+const products: PageComponent<Products | null> = ({ initialAction }) => {
+  const products = useInitialState(initialAction, productsSelector);
   return products === null ? (
     <PageNotFound />
   ) : products ? (

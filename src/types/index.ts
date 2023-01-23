@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import type { FunctionComponent } from 'react';
 import type { RecoilState } from 'recoil';
 
 declare global {
@@ -44,3 +45,7 @@ export interface Schema {
   product: Product;
   products: Products;
 }
+
+export type PageComponent<Data> = FunctionComponent<{
+  initialAction: InitialAction<Data>;
+}>;
