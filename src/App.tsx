@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import emitter from 'src/emitter';
 import { TOGGLE_MODAL } from 'src/emitter/constants';
-import { setOverflow } from 'src/helpers/set-overflow';
+import { setOverflow } from 'src/helpers';
 import { Header } from 'src/layouts/Header/Header';
 import routes from 'src/routes';
 
