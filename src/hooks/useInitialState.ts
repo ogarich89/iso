@@ -3,11 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import type { RecoilState } from 'recoil';
-import type { InitialAction } from 'src/types';
+import type { InitialAction, State } from 'src/types';
 
 export const useInitialState = <Data>(
-  initialAction: InitialAction<Data>,
-  state: RecoilState<Data>,
+  initialAction: InitialAction<[State<Data>]>,
+  state: RecoilState<Data | null>,
   withReset?: boolean
 ) => {
   const { pathname } = useLocation();

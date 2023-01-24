@@ -4,9 +4,9 @@ import { ProductsComponent } from 'src/components/products/Products';
 import { useInitialState } from 'src/hooks/useInitialState';
 import { productsSelector } from 'src/recoil/selectors/products';
 
-import type { Products, PageComponent } from 'src/types';
+import type { Products, PageComponent, State } from 'src/types';
 
-const products: PageComponent<Products | null> = ({ initialAction }) => {
+const products: PageComponent<[State<Products>]> = ({ initialAction }) => {
   const products = useInitialState(initialAction, productsSelector);
   return products === null ? (
     <PageNotFound />

@@ -24,7 +24,7 @@ export interface InitialAction<Data> {
   (req?: {
     url: FastifyRequest['url'];
     headers?: FastifyRequest['headers'];
-  }): Promise<Array<[RecoilState<Data>, Data]>>;
+  }): Promise<Data>;
 }
 
 export type Request = {
@@ -49,3 +49,5 @@ export interface Schema {
 export type PageComponent<Data> = FunctionComponent<{
   initialAction: InitialAction<Data>;
 }>;
+
+export type State<Data> = [RecoilState<Data | null>, Data | null];

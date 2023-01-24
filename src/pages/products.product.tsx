@@ -5,9 +5,11 @@ import { ProductComponent } from 'src/components/product/Product';
 import { useInitialState } from 'src/hooks/useInitialState';
 import { productSelector } from 'src/recoil/selectors/products';
 
-import type { Product, PageComponent } from 'src/types';
+import type { Product, PageComponent, State } from 'src/types';
 
-const productsProduct: PageComponent<Product | null> = ({ initialAction }) => {
+const productsProduct: PageComponent<[State<Product>]> = ({
+  initialAction,
+}) => {
   const { id } = useParams() as { id: string };
 
   const product = useInitialState(initialAction, productSelector(id), true);
