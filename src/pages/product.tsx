@@ -7,9 +7,7 @@ import { productSelector } from 'src/recoil/selectors/products';
 
 import type { Product, PageComponent, State } from 'src/types';
 
-const productsProduct: PageComponent<[State<Product>]> = ({
-  initialAction,
-}) => {
+const product: PageComponent<[State<Product>]> = ({ initialAction }) => {
   const { id } = useParams() as { id: string };
 
   const product = useInitialState(initialAction, productSelector(id), true);
@@ -23,4 +21,4 @@ const productsProduct: PageComponent<[State<Product>]> = ({
   );
 };
 
-export default productsProduct;
+export default product;
