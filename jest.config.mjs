@@ -24,8 +24,8 @@ export default {
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/__mocks__/file.js',
+      'jest-transform-stub',
     '\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
-  moduleDirectories: ['node_modules', 'src', 'public/images'],
+  moduleDirectories: ['node_modules', 'src'],
 };

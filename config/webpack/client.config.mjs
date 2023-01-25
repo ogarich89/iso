@@ -1,6 +1,5 @@
 import LoadablePlugin from '@loadable/webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import StyleLintPlugin from 'stylelint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -42,6 +41,7 @@ export default merge(common(), {
     clean: true,
   },
   optimization: {
+    ...(isDevelopment ? { runtimeChunk: 'single' } : {}),
     minimize: !isDevelopment,
     minimizer: [
       new TerserPlugin({
@@ -55,7 +55,6 @@ export default merge(common(), {
         extractComments: false,
       }),
     ],
-    ...(isDevelopment ? { runtimeChunk: 'single' } : {}),
     splitChunks: !isDevelopment
       ? {
           cacheGroups: {
@@ -78,7 +77,6 @@ export default merge(common(), {
       : false,
   },
   plugins: [
-    ...(isDevelopment ? [new ReactRefreshWebpackPlugin()] : []),
     ...(analyze
       ? [
           new BundleAnalyzerPlugin({
@@ -87,11 +85,6 @@ export default merge(common(), {
           }),
         ]
       : []),
-    new StyleLintPlugin({
-      customSyntax: 'postcss-scss',
-      context: resolve(__dirname, '../../src'),
-      failOnError: !isDevelopment,
-    }),
     new MiniCssExtractPlugin({
       filename: isDevelopment
         ? 'css/[name].css'
@@ -101,6 +94,11 @@ export default merge(common(), {
         : 'css/[name].[contenthash].css',
     }),
     new LoadablePlugin({ writeToDisk: true }),
-    ...(isDevelopment ? [new webpack.HotModuleReplacementPlugin()] : []),
+    ...(isDevelopment
+      ? [
+          new ReactRefreshWebpackPlugin(),
+          new webpack.HotModuleReplacementPlugin(),
+        ]
+      : []),
   ],
 });

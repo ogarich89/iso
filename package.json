@@ -18,7 +18,9 @@
     "production": "NODE_ENV=production webpack $npm_package_config_client && NODE_ENV=production webpack $npm_package_config_server",
     "start": "yarn build && node $npm_package_main",
     "test": "jest --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx,.cjs,.mjs .",
+    "stylelint": "stylelint \"**/*.{css,scss,sass}\" --customSyntax=postcss-scss"
   },
   "browserslist": [
     "last 2 years",
@@ -27,7 +29,9 @@
   ],
   "pre-commit": [
     "test",
-    "typecheck"
+    "typecheck",
+    "eslint",
+    "stylelint"
   ],
   "author": "ogarich89 <ogarich89@icloud.com>",
   "license": "MIT",
@@ -72,7 +76,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.11.1",
-    "eslint-webpack-plugin": "^3.1.1",
     "fastify": "^4.12.0",
     "fbemitter": "^3.0.0",
     "file-loader": "^6.2.0",
@@ -82,6 +85,7 @@
     "ioredis": "^5.2.4",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
+    "jest-transform-stub": "^2.0.0",
     "mini-css-extract-plugin": "^2.5.3",
     "pino-pretty": "^9.1.1",
     "postcss": "^8.0.5",
@@ -104,7 +108,6 @@
     "sass-loader": "^13.2.0",
     "serialize-javascript": "^6.0.0",
     "stylelint": "^14.3.0",
-    "stylelint-webpack-plugin": "^3.1.1",
     "svg-react-loader": "^0.4.6",
     "swc-loader": "^0.2.3",
     "terser-webpack-plugin": "^5.3.6",

@@ -9,6 +9,7 @@ declare module 'config' {
     withRedis?: boolean;
     inspect?: boolean;
     logger?: boolean;
+    analyze?: boolean;
     sentryDSN?: string;
     certificate?: {
       key: string;

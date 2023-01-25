@@ -70,6 +70,7 @@ $ touch config/environment/development.json
 `withRedis` - Session with Redis store \
 `inspect` - Debugging Node.js with Chrome DevTools \
 `logger` - Fastify logger \
+`analyze` - Webpack Bundle Analyzer \
 `sentryDSN` - Error monitoring with [Sentry](https://sentry.io) \
 `certificate` - Optional object for run https server `{ "key": "/path/to/key.pem", "cert": "/path/to/cert.pem" }`
 

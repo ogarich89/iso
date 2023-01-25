@@ -58,12 +58,7 @@ app.setErrorHandler(async (error, request, reply) => {
 register(app);
 
 routes.forEach(({ url, method, handler, schema }) => {
-  app.route({
-    method,
-    url,
-    handler,
-    schema,
-  });
+  app.route({ method, url, handler, schema });
 });
 
 app.get('*', {}, (request, reply) =>

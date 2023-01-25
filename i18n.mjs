@@ -9,7 +9,7 @@ export default (isServer = false) => ({
   },
   backend: {
     loadPath: `${
-      isServer ? `http://0.0.0.0:${port}` : ''
+      isServer ? `http://localhost:${port}` : ''
     }/public/locales/{{lng}}/{{ns}}.json`,
   },
   debug: false,

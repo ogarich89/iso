@@ -11,7 +11,7 @@ import webpackServerConfig from './config/webpack/server.config.mjs';
 const clientCompiler = webpack(webpackClientConfig);
 const serverCompiler = webpack(webpackServerConfig);
 
-const { inspect = false, port = 5000, browserSyncPort = 3003 } = config;
+const { inspect, port, browserSyncPort } = config;
 
 export const nodemon = async () => {
   const stream = gulpNodemon({

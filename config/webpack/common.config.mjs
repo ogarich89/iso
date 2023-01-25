@@ -1,4 +1,3 @@
-import ESLintPlugin from 'eslint-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from 'webpack';
 
@@ -128,7 +127,6 @@ const common = ({ isServer } = {}) => ({
     new webpack.LoaderOptionsPlugin({
       options: { failOnError: !isDevelopment },
     }),
-    new ESLintPlugin(),
   ],
 });
 
