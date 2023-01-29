@@ -131,6 +131,49 @@ $ node server/index.mjs
 ```
 
 
+### F.A.Q.
 
+#### How to add page?
+
+1. Create file `$FILENAME.ext` in `src/pages`
+2. Connect the page in `src/routes.ts`
+```ts
+const routes = [
+  ...
+  page($ROUTE, $FILENAME),
+  ...
+];
+```
+
+### How to create initial action?
+
+1. Create file `$FILENAME.ext` in `src/recoil/actions`
+```ts
+export const $INITIAL_ACTION: InitialAction<[State<Product>, ...]> = async (req) => {
+  const { data } = await request($KEY, $DATA, $PARAMS, req).catch(
+    (error) => {
+      console.error(error);
+      return { data: null };
+    }
+  );
+  ...
+  return [[atom, data], ...];
+};
+```
+2. Add to page in `src/pages`
+```ts
+const routes = [
+  ...
+  page($ROUTE, $FILENAME, $INITIAL_ACTION),
+  ...
+];
+```
+3. Configure the initial action on the client side
+
+You can use hook `useInitialState` if initialAction return one state in array
+```tsx
+const state = useInitialState(initialAction, selector(id), true);
+```
+or arrange the initialization of the state at your discretion
 
 
