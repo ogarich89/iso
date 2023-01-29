@@ -149,7 +149,7 @@ const routes = [
 
 1. Create file `$FILENAME.ext` in `src/recoil/actions`
 ```ts
-export const $INITIAL_ACTION: InitialAction<[State<Product>, ...]> = async (req) => {
+export const $INITIAL_ACTION: InitialAction<[State<Data>, ...]> = async (req) => {
   const { data } = await request($KEY, $DATA, $PARAMS, req).catch(
     (error) => {
       console.error(error);
@@ -172,7 +172,7 @@ const routes = [
 
 You can use hook `useInitialState` if initialAction return one state in array
 ```tsx
-const state = useInitialState(initialAction, selector(id), true);
+const state = useInitialState(initialAction, recoilSelector(), true);
 ```
 or arrange the initialization of the state at your discretion
 
