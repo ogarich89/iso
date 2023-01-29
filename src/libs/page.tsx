@@ -9,12 +9,10 @@ export function page(
   path: string,
   name: string,
   initialAction?: InitialAction<Array<State<any>>>,
-  exact = true,
   delay = 300
 ) {
   return {
     path,
-    exact,
     component: loadable(() => import(`../pages/${name}`), {
       fallback: <Loading timeout={delay} />,
     }),

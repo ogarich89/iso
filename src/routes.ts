@@ -5,7 +5,7 @@ const routes = [
   page('/', 'home'),
   page('/products', 'products', getProducts),
   page('/products/:id', 'product', getProduct),
-  page('*', 'page-not-found', undefined, false),
+  page('*', 'page-not-found'),
 ];
 
 export default routes;
