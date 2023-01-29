@@ -27,5 +27,4 @@ export default {
       'jest-transform-stub',
     '\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
-  moduleDirectories: ['node_modules', 'src'],
 };
