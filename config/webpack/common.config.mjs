@@ -18,6 +18,7 @@ const common = ({ isServer } = {}) => ({
       src: resolve(__dirname, '../../src'),
       config: resolve(__dirname, '../../config/config.cjs'),
     },
+    ...(!isServer ? { fallback: { path: 'path-browserify' } } : {}),
   },
   devtool: isDevelopment ? 'cheap-module-source-map' : false,
   stats: {
