@@ -135,36 +135,36 @@ $ node server/index.mjs
 
 #### How to add page?
 
-1. Create file `$FILENAME.ext` in `src/pages`
+1. Create file `example.tsx` in `src/pages`
 2. Connect the page in `src/routes.ts`
 ```ts
 const routes = [
   ...
-  page($ROUTE, $FILENAME),
+  page('/example', 'example'), 
   ...
 ];
 ```
 
 ### How to create initial action?
 
-1. Create file `$FILENAME.ext` in `src/recoil/actions`
+1. Create file `example.ts` in `src/recoil/actions`
 ```ts
-export const $INITIAL_ACTION: InitialAction<[State<Data>, ...]> = async (req) => {
-  const { data } = await request($KEY, $DATA, $PARAMS, req).catch(
+export const exampleInitialAction: InitialAction<[State<Example>, ...]> = async (req) => {
+  const { data } = await request('example', $DATA, $PARAMS, req).catch(
     (error) => {
       console.error(error);
       return { data: null };
     }
   );
   ...
-  return [[atom, data], ...];
+  return [[atomExample, data], ...];
 };
 ```
 2. Add to page in `src/pages`
 ```ts
 const routes = [
   ...
-  page($ROUTE, $FILENAME, $INITIAL_ACTION),
+  page('/example', 'example', exampleInitialAction),
   ...
 ];
 ```
@@ -172,7 +172,7 @@ const routes = [
 
 You can use hook `useInitialState` if initialAction return one state in array
 ```tsx
-const state = useInitialState(initialAction, recoilSelector(), true);
+const state = useInitialState(initialAction, exampleSelector(), true);
 ```
 or arrange the initialization of the state at your discretion
 
