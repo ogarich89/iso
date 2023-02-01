@@ -62,10 +62,10 @@ export const App = () => {
         <Header />
         <Routes>
           {routes.map(
-            ({ path, exact, component: Component, initialAction }, i) => (
+            ({ path, component: Component, initialAction }, index) => (
               <Route
-                key={i}
-                {...{ path, exact }}
+                key={index}
+                path={path}
                 element={<Component {...{ initialAction }} />}
               />
             )
