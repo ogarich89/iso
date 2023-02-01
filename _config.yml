@@ -1,8 +1,1 @@
 theme: minima
-title: Iso
-description: Starter pack for creating isomorphic single-page application with using SSR technology on NodeJS.
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-github_username: ogarich89
-telegram_username: ogarich89
