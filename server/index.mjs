@@ -51,7 +51,10 @@ const app = new Fastify({
 });
 
 app.setErrorHandler(async (error, request, reply) => {
-  Sentry.captureException(error);
+  if (sentryDSN) {
+    Sentry.captureException(error);
+  }
+
   reply.status(500).send({ error: 'Something went wrong' });
 });
 
