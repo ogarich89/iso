@@ -9,8 +9,9 @@ import { StaticRouter } from 'react-router-dom/server';
 import { RecoilRoot } from 'recoil';
 import serialize from 'serialize-javascript';
 import { App } from 'src/App';
+import { noopInitialAction } from 'src/helpers';
 import { initializeState } from 'src/recoil/initialize';
-import appRoutes from 'src/routes';
+import routes from 'src/routes';
 
 import type { InitOptions } from 'i18next';
 import type { Request, Reply } from 'src/types';
@@ -35,8 +36,32 @@ export const requestHandler: RequestHandler = async (
 
   const [path] = request.url.split('?');
 
-  const route = appRoutes.find((route) => matchPath(route, path));
-  const state = route ? await route.initialAction(request) : [];
+  const initialActions = routes.reduce(
+    (acc, route) => {
+      if (route.path === '*') {
+        return acc;
+      }
+      if (matchPath(route, path)) {
+        return [route.initialAction(request)];
+      }
+      if (route.children) {
+        const childRoute = route.children.find((childRoute) =>
+          matchPath(childRoute, path)
+        );
+        if (childRoute) {
+          return [
+            route.initialAction(request),
+            childRoute.initialAction(request),
+          ];
+        }
+      }
+      return acc;
+    },
+    [noopInitialAction()]
+  );
+
+  const [parentState, childState = []] = await Promise.all(initialActions);
+  const state = [...parentState, ...childState];
 
   const lng = request.session.get('lng') || 'en';
   await i18next.init({ ...options(true), lng } as InitOptions);

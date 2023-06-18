@@ -62,12 +62,32 @@ export const App = () => {
         <Header />
         <Routes>
           {routes.map(
-            ({ path, component: Component, initialAction }, index) => (
+            (
+              { path, component: Component, initialAction, children },
+              index
+            ) => (
               <Route
                 key={index}
                 path={path}
                 element={<Component {...{ initialAction }} />}
-              />
+              >
+                {children
+                  ? children.map(
+                      (
+                        { path, component: Component, initialAction },
+                        index
+                      ) => {
+                        return (
+                          <Route
+                            key={index}
+                            path={path}
+                            element={<Component {...{ initialAction }} />}
+                          />
+                        );
+                      }
+                    )
+                  : null}
+              </Route>
             )
           )}
         </Routes>

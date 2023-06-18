@@ -2,6 +2,8 @@ import qs from 'qs';
 
 import path from 'path';
 
+import type { InitialAction, State } from 'src/types';
+
 export const isExternal = (url: string): boolean => {
   return /^(http:\/\/|https:\/\/|\/\/)/.test(url);
 };
@@ -86,3 +88,7 @@ export const pathResolver = (
 
   return `${hostname}${pathname}${search}`;
 };
+
+export const noopInitialAction: InitialAction<
+  Array<State<any>>
+> = async () => [];
