@@ -92,26 +92,26 @@ export const pathResolver = (
 };
 
 export const expandNestedRoutes = (
-  children: PageRoute[] | undefined,
+  routes: PageRoute[] | undefined,
   initialActions: InitialAction<Array<State<any>>>[]
 ): ExpandRoute[] =>
-  children?.reduce<ExpandRoute[]>(
-    (acc, child) => [
+  routes?.reduce<ExpandRoute[]>(
+    (acc, route) => [
       ...acc,
       {
-        path: child.path,
-        initialActions: [...initialActions, child.initialAction],
+        path: route.path,
+        initialActions: [...initialActions, route.initialAction],
       },
-      ...expandNestedRoutes(child.children, [
+      ...expandNestedRoutes(route.children, [
         ...initialActions,
-        child.initialAction,
+        route.initialAction,
       ]),
     ],
     []
   ) || [];
 
-export const renderNestedRoutes = (pages?: PageRoute[]) =>
-  pages?.map(
+export const renderNestedRoutes = (routes?: PageRoute[]) =>
+  routes?.map(
     ({ path, component: Component, initialAction, children }, index) => {
       return (
         <Route

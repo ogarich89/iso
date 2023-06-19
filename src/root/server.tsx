@@ -53,9 +53,10 @@ export const requestHandler: RequestHandler = async (
     ? route.initialActions.map((initialAction) => initialAction(request))
     : [];
 
-  const state = (await Promise.all(promises)).reduce((acc, state) => {
-    return [...acc, ...state];
-  }, []);
+  const state = (await Promise.all(promises)).reduce(
+    (acc, state) => [...acc, ...state],
+    []
+  );
 
   const lng = request.session.get('lng') || 'en';
   await i18next.init({ ...options(true), lng } as InitOptions);
