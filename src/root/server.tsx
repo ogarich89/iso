@@ -9,12 +9,12 @@ import { StaticRouter } from 'react-router-dom/server';
 import { RecoilRoot } from 'recoil';
 import serialize from 'serialize-javascript';
 import { App } from 'src/App';
-import { noopInitialAction } from 'src/helpers';
+import { expandNestedRoutes } from 'src/helpers';
 import { initializeState } from 'src/recoil/initialize';
 import routes from 'src/routes';
 
 import type { InitOptions } from 'i18next';
-import type { Request, Reply } from 'src/types';
+import type { Request, Reply, ExpandRoute } from 'src/types';
 
 i18next.use(Backend);
 i18next.use(initReactI18next);
@@ -36,32 +36,26 @@ export const requestHandler: RequestHandler = async (
 
   const [path] = request.url.split('?');
 
-  const initialActions = routes.reduce(
-    (acc, route) => {
-      if (route.path === '*') {
-        return acc;
-      }
-      if (matchPath(route, path)) {
-        return [route.initialAction(request)];
-      }
-      if (route.children) {
-        const childRoute = route.children.find((childRoute) =>
-          matchPath(childRoute, path)
-        );
-        if (childRoute) {
-          return [
-            route.initialAction(request),
-            childRoute.initialAction(request),
-          ];
-        }
-      }
-      return acc;
-    },
-    [noopInitialAction()]
-  );
+  const appRoutes = routes.reduce<ExpandRoute[]>((acc, route) => {
+    return [
+      ...acc,
+      {
+        path: route.path,
+        initialActions: [route.initialAction],
+      },
+      ...expandNestedRoutes(route.children, [route.initialAction]),
+    ];
+  }, []);
 
-  const [parentState, childState = []] = await Promise.all(initialActions);
-  const state = [...parentState, ...childState];
+  const route = appRoutes.find((route) => matchPath(route, path));
+
+  const promises = route
+    ? route.initialActions.map((initialAction) => initialAction(request))
+    : [];
+
+  const state = (await Promise.all(promises)).reduce((acc, state) => {
+    return [...acc, ...state];
+  }, []);
 
   const lng = request.session.get('lng') || 'en';
   await i18next.init({ ...options(true), lng } as InitOptions);

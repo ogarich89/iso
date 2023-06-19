@@ -1,3 +1,4 @@
+import type { LoadableClassComponent } from '@loadable/component';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { FunctionComponent } from 'react';
 import type { RecoilState } from 'recoil';
@@ -51,3 +52,15 @@ export type PageComponent<Data> = FunctionComponent<{
 }>;
 
 export type State<Data> = [RecoilState<Data | null>, Data | null];
+
+export interface ExpandRoute {
+  path: string;
+  initialActions: InitialAction<Array<State<any>>>[];
+}
+
+export interface PageRoute {
+  initialAction: InitialAction<State<any>[]>;
+  path: string;
+  component: LoadableClassComponent<any>;
+  children?: PageRoute[];
+}

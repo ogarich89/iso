@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { setOverflow } from 'src/helpers';
+import { setOverflow, renderNestedRoutes } from 'src/helpers';
 import { Header } from 'src/layouts/Header/Header';
 import { emitter, TOGGLE_MODAL } from 'src/libs/emitter';
 import routes from 'src/routes';
@@ -71,22 +71,7 @@ export const App = () => {
                 path={path}
                 element={<Component {...{ initialAction }} />}
               >
-                {children
-                  ? children.map(
-                      (
-                        { path, component: Component, initialAction },
-                        index
-                      ) => {
-                        return (
-                          <Route
-                            key={index}
-                            path={path}
-                            element={<Component {...{ initialAction }} />}
-                          />
-                        );
-                      }
-                    )
-                  : null}
+                {renderNestedRoutes(children)}
               </Route>
             )
           )}

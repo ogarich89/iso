@@ -1,8 +1,9 @@
 import qs from 'qs';
+import { Route } from 'react-router-dom';
 
 import path from 'path';
 
-import type { InitialAction, State } from 'src/types';
+import type { InitialAction, State, ExpandRoute, PageRoute } from 'src/types';
 
 export const isExternal = (url: string): boolean => {
   return /^(http:\/\/|https:\/\/|\/\/)/.test(url);
@@ -89,6 +90,36 @@ export const pathResolver = (
   return `${hostname}${pathname}${search}`;
 };
 
-export const noopInitialAction: InitialAction<
-  Array<State<any>>
-> = async () => [];
+export const expandNestedRoutes = (
+  children: PageRoute[] | undefined,
+  initialActions: InitialAction<Array<State<any>>>[]
+): ExpandRoute[] =>
+  children?.reduce<ExpandRoute[]>(
+    (acc, child) => [
+      ...acc,
+      {
+        path: child.path,
+        initialActions: [...initialActions, child.initialAction],
+      },
+      ...expandNestedRoutes(child.children, [
+        ...initialActions,
+        child.initialAction,
+      ]),
+    ],
+    []
+  ) || [];
+
+export const renderNestedRoutes = (pages?: PageRoute[]) =>
+  pages?.map(
+    ({ path, component: Component, initialAction, children }, index) => {
+      return (
+        <Route
+          key={index}
+          path={path}
+          element={<Component {...{ initialAction }} />}
+        >
+          {renderNestedRoutes(children)}
+        </Route>
+      );
+    }
+  );
