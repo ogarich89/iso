@@ -67,7 +67,8 @@ export const pathResolver = (
 
   const { pathname, query } = Object.entries(params).reduce(
     (acc, [key, value]) =>
-      acc.pathname.includes(`:${key}`) && typeof value === 'string'
+      acc.pathname.includes(`:${key}`) &&
+      (typeof value === 'string' || typeof value === 'number')
         ? {
             ...acc,
             pathname: acc.pathname.replace(`:${key}`, String(value)),
