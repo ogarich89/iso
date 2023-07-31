@@ -135,12 +135,18 @@ $ node server/index.mjs
 
 #### How to add page?
 
-1. Create file `example.tsx` in `src/pages`
+1. Create file `example.tsx` in `src/components/pages`
 2. Connect the page in `src/routes.ts`
 ```ts
 const routes = [
   ...
-  page({ path: '/example', name: 'example' }),
+  route({ 
+    path: '/',
+    layout: 'main',
+    children: [
+      { path: '/example', page: 'example' },
+    ],
+  }),
   ...
 ];
 ```
@@ -148,20 +154,26 @@ const routes = [
 #### How to add nested page?
 
 1. Add [Outlet](https://reactrouter.com/en/main/components/outlet) component to `example` page
-2. Create file `nested.tsx` in `src/pages`
+2. Create file `nested.tsx` in `src/components/pages`
 2. Connect the page in `src/routes.ts`
 ```ts
 const routes = [
   ...
-  page({ 
-    path: '/example', 
-    name: 'example', 
+  route({ 
+    path: '/',
+    layout: 'main',
     children: [
-      {
-        path: '/example/nested',
-        name: 'nested'
-      }
-    ] 
+      { 
+        path: '/example', 
+        page: 'example', 
+        children: [
+          {
+            path: '/example/nested',
+            page: 'nested'
+          }
+        ] 
+      },
+    ],
   }),
   ...
 ];
@@ -182,11 +194,17 @@ export const exampleInitialAction: InitialAction<[State<Example>, ...]> = async 
   return [[atomExample, data], ...];
 };
 ```
-2. Add to page in `src/pages`
+2. Add to page in `src/components/pages`
 ```ts
 const routes = [
   ...
-  page({ path: '/example', name: 'example', initialAction: exampleInitialAction }),
+  route({ 
+    path: '/',
+    layout: 'main',
+    children: [
+      { path: '/example', page: 'example', initialAction: exampleInitialAction },
+    ],
+  }),
   ...
 ];
 ```
