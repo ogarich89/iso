@@ -1,11 +1,17 @@
-import { page } from 'src/libs/page';
+import { route } from 'src/libs/route';
 import { getProduct, getProducts } from 'src/recoil/actions/products';
 
 const routes = [
-  page({ path: '/', name: 'home' }),
-  page({ path: '/products', name: 'products', initialAction: getProducts }),
-  page({ path: '/products/:id', name: 'product', initialAction: getProduct }),
-  page({ path: '*', name: 'page-not-found' }),
+  route({
+    path: '/',
+    layout: 'main',
+    children: [
+      { path: '/', page: 'home' },
+      { path: '/products', page: 'products', initialAction: getProducts },
+      { path: '/products/:id', page: 'product', initialAction: getProduct },
+      { path: '*', page: '404' },
+    ],
+  }),
 ];
 
 export default routes;

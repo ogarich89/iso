@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { About } from 'src/components/_common/Modals/About/About';
+import { About } from 'src/components/molecules/Modals/About/About';
 import CloseIcon from 'src/images/icons/close.svg';
 import { TOGGLE_MODAL, emitter } from 'src/libs/emitter';
 

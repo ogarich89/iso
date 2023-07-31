@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import { Loading } from 'src/components/_common/Loading/Loading';
+import { Loading } from 'src/components/molecules/Loading/Loading';
 
 import type { InitialAction, State, PageRoute } from 'src/types';
 
@@ -9,7 +9,15 @@ export const noop: InitialAction<Array<State<any>>> = async () => [];
 
 export interface Page {
   path: string;
-  name: string;
+  page: string;
+  initialAction?: InitialAction<Array<State<any>>>;
+  children?: Page[];
+  delay?: number;
+}
+
+export interface Layout {
+  path: string;
+  layout: string;
   initialAction?: InitialAction<Array<State<any>>>;
   children?: Page[];
   delay?: number;
@@ -19,9 +27,9 @@ const getNestedRoutes = (children?: Page[]): PageRoute[] | object => {
   return children
     ? {
         children: children.map(
-          ({ path, name, delay, children, initialAction }) => ({
+          ({ path, page, delay, children, initialAction }) => ({
             path,
-            component: loadable(() => import(`../pages/${name}`), {
+            component: loadable(() => import(`src/components/pages/${page}`), {
               fallback: <Loading timeout={delay || DELAY} />,
             }),
             initialAction: initialAction || noop,
@@ -32,16 +40,16 @@ const getNestedRoutes = (children?: Page[]): PageRoute[] | object => {
     : {};
 };
 
-export function page({
+export function route({
   path,
   delay = DELAY,
   children,
   initialAction,
-  name,
-}: Page): PageRoute {
+  layout,
+}: Layout): PageRoute {
   return {
     path,
-    component: loadable(() => import(`../pages/${name}`), {
+    component: loadable(() => import(`src/components/layouts/${layout}`), {
       fallback: <Loading timeout={delay} />,
     }),
     initialAction: initialAction || noop,

@@ -3,7 +3,6 @@
   "api": "https://reqres.in",
   "withRedis": true,
   "sessionRedisDb": 1,
-  "production": true,
   "withStatic": false,
   "sentryDSN": "",
   "certificate": {

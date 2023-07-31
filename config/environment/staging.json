@@ -3,7 +3,6 @@
   "api": "https://reqres.in",
   "withRedis": true,
   "sessionRedisDb": 2,
-  "production": false,
   "withStatic": false,
   "certificate": {
     "key": "/path/to/key.pem",

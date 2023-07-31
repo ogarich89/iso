@@ -1,4 +1,4 @@
-import { PageNotFound } from 'src/components/_common/PageNotFound/PageNotFound';
+import { PageNotFound } from 'src/components/molecules/PageNotFound/PageNotFound';
 
 import type { FunctionComponent } from 'react';
 

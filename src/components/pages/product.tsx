@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { Loading } from 'src/components/_common/Loading/Loading';
-import { PageNotFound } from 'src/components/_common/PageNotFound/PageNotFound';
-import { ProductComponent } from 'src/components/product/Product';
+import { Loading } from 'src/components/molecules/Loading/Loading';
+import { PageNotFound } from 'src/components/molecules/PageNotFound/PageNotFound';
+import { ProductComponent } from 'src/components/organisms/Product/Product';
 import { useInitialState } from 'src/hooks/useInitialState';
 import { productSelector } from 'src/recoil/selectors/products';
 

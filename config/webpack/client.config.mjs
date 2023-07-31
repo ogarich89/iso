@@ -14,8 +14,8 @@ import { common } from './common.config.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const { production, analyze, withStatic } = config;
-const isDevelopment = !production;
+const { analyze, withStatic } = config;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 const { default: ReactRefreshWebpackPlugin } = isDevelopment
   ? await import('@pmmmwh/react-refresh-webpack-plugin')
   : { default: null };

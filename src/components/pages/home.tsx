@@ -1,4 +1,4 @@
-import { Welcome } from 'src/components/home/Welcome/Welcome';
+import { Welcome } from 'src/components/molecules/Welcome/Welcome';
 
 import type { FunctionComponent } from 'react';
 

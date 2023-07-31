@@ -1,6 +1,6 @@
-import { Loading } from 'src/components/_common/Loading/Loading';
-import { PageNotFound } from 'src/components/_common/PageNotFound/PageNotFound';
-import { ProductsComponent } from 'src/components/products/Products';
+import { Loading } from 'src/components/molecules/Loading/Loading';
+import { PageNotFound } from 'src/components/molecules/PageNotFound/PageNotFound';
+import { ProductsComponent } from 'src/components/organisms/Products/Products';
 import { useInitialState } from 'src/hooks/useInitialState';
 import { productsSelector } from 'src/recoil/selectors/products';
 

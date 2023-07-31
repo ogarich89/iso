@@ -65,7 +65,6 @@ $ touch config/environment/development.json
 `browserSyncPort` - Development proxy server port with browserSync and HMR \
 `api` - Backend API hostname \
 `sessionRedisDb` - Redis database index \
-`production` - Webpack production mode \
 `withStatic` - Serve static files with NodeJS server \
 `withRedis` - Session with Redis store \
 `inspect` - Debugging Node.js with Chrome DevTools \
@@ -119,7 +118,8 @@ For production release:
 ```sh
 $ yarn production
 ```
-Depending on NODE_ENV (production | staging):
+[Build mode](https://webpack.js.org/configuration/mode/) (development | production) depending on `NODE_ENV` \
+Reading file `config/environment/(staging | production).json` depending on `ENVIRONMENT`
 ```sh
 $ yarn build
 ```

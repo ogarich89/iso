@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { Card } from 'src/components/_common/Card/Card';
+import { Card } from 'src/components/molecules/Card/Card';
 
 import style from './Product.scss';
 

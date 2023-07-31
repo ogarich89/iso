@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Card } from 'src/components/_common/Card/Card';
+import { Card } from 'src/components/molecules/Card/Card';
 
 import style from './Products.scss';
 

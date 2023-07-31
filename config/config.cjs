@@ -1,9 +1,14 @@
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const environment = isDevelopment
+  ? 'development'
+  : process.env.ENVIRONMENT || 'production';
+
 try {
-  const config = require(`./environment/${NODE_ENV}.json`);
+  const config = require(`./environment/${environment}.json`);
   module.exports = { config };
 } catch (_) {
-  const message = `Configure file (/config/environment/${NODE_ENV}.json) not found. Read the instruction (README.md)`;
+  // eslint-disable-next-line max-len
+  const message = `Configure file (/config/environment/${environment}.json) not found. Read the instruction (README.md)`;
   console.warn(`MODULE_NOT_FOUND: \x1b[41m ${message} \x1b[0m`);
   console.warn(`\x1b[43m Warning! the default configuration is used! \x1b[0m`);
   const config = {
