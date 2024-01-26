@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import path from 'path';
 
-import type { InitialAction, State, ExpandRoute, PageRoute } from 'src/types';
+import type { InitialAction, ExpandRoute, PageRoute } from 'src/types';
 
 export const isExternal = (url: string): boolean => {
   return /^(http:\/\/|https:\/\/|\/\/)/.test(url);
@@ -93,7 +93,7 @@ export const pathResolver = (
 
 export const expandNestedRoutes = (
   routes: PageRoute[] | undefined,
-  initialActions: InitialAction<Array<State<any>>>[]
+  initialActions: InitialAction[]
 ): ExpandRoute[] =>
   routes?.reduce<ExpandRoute[]>(
     (acc, route) => [

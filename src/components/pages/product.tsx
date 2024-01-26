@@ -1,16 +1,17 @@
-import { useParams } from 'react-router-dom';
 import { Loading } from 'src/components/molecules/Loading/Loading';
 import { PageNotFound } from 'src/components/molecules/PageNotFound/PageNotFound';
 import { ProductComponent } from 'src/components/organisms/Product/Product';
 import { useInitialState } from 'src/hooks/useInitialState';
-import { productSelector } from 'src/recoil/selectors/products';
+import { receiveProduct } from 'src/store/actions/products';
 
-import type { Product, PageComponent, State } from 'src/types';
+import type { PageComponent, Store } from 'src/types';
 
-const product: PageComponent<[State<Product>]> = ({ initialAction }) => {
-  const { id } = useParams() as { id: string };
-
-  const product = useInitialState(initialAction, productSelector(id), true);
+const product: PageComponent = ({ initialAction }) => {
+  const product = useInitialState(
+    initialAction,
+    ({ products }: Store) => products.product,
+    receiveProduct
+  );
 
   return product === null ? (
     <PageNotFound />

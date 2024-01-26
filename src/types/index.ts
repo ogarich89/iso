@@ -1,7 +1,6 @@
 import type { LoadableClassComponent } from '@loadable/component';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { FunctionComponent } from 'react';
-import type { RecoilState } from 'recoil';
 
 declare global {
   interface Window {
@@ -21,11 +20,11 @@ export interface Product {
 
 export type Products = Product[];
 
-export interface InitialAction<Data> {
+export interface InitialAction {
   (req?: {
     url: FastifyRequest['url'];
     headers?: FastifyRequest['headers'];
-  }): Promise<Data>;
+  }): any;
 }
 
 export type Request = {
@@ -47,19 +46,24 @@ export interface Schema {
   products: Products;
 }
 
-export type PageComponent<Data> = FunctionComponent<{
-  initialAction: InitialAction<Data>;
+export type PageComponent = FunctionComponent<{
+  initialAction: InitialAction;
 }>;
 
-export type State<Data> = [RecoilState<Data | null>, Data | null];
+export interface Store {
+  products: {
+    product: Product;
+    products: Products;
+  };
+}
 
 export interface ExpandRoute {
   path: string;
-  initialActions: InitialAction<Array<State<any>>>[];
+  initialActions: InitialAction[];
 }
 
 export interface PageRoute {
-  initialAction: InitialAction<State<any>[]>;
+  initialAction: InitialAction;
   path: string;
   component: LoadableClassComponent<any>;
   children?: PageRoute[];

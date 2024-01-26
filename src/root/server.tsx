@@ -4,14 +4,14 @@ import i18next from 'i18next';
 import Backend from 'i18next-http-backend';
 import { renderToString } from 'react-dom/server';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { Provider } from 'react-redux';
 import { matchPath } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
-import { RecoilRoot } from 'recoil';
 import serialize from 'serialize-javascript';
 import { App } from 'src/App';
 import { expandNestedRoutes } from 'src/helpers';
-import { initializeState } from 'src/recoil/initialize';
 import routes from 'src/routes';
+import { initializeState } from 'src/store/initialize';
 
 import type { InitOptions } from 'i18next';
 import type { Request, Reply, ExpandRoute } from 'src/types';
@@ -32,30 +32,32 @@ export const requestHandler: RequestHandler = async (
   reply,
   { statsFile }
 ) => {
+  const store = initializeState();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
 
   const [path] = request.url.split('?');
 
-  const appRoutes = routes.reduce<ExpandRoute[]>((acc, route) => {
-    return [
-      ...acc,
-      {
-        path: route.path,
-        initialActions: [route.initialAction],
-      },
-      ...expandNestedRoutes(route.children, [route.initialAction]),
-    ];
-  }, []);
+  const appRoutes = routes
+    .reduce<ExpandRoute[]>((acc, route) => {
+      return [
+        ...acc,
+        {
+          path: route.path,
+          initialActions: [route.initialAction],
+        },
+        ...expandNestedRoutes(route.children, [route.initialAction]),
+      ];
+    }, [])
+    .filter(({ path }) => path !== '*');
 
   const route = appRoutes.find((route) => matchPath(route, path));
 
-  const promises = route
-    ? route.initialActions.map((initialAction) => initialAction(request))
-    : [];
-
-  const state = (await Promise.all(promises)).reduce(
-    (acc, state) => [...acc, ...state],
-    []
+  await Promise.all(
+    route
+      ? route.initialActions.map((initialAction) =>
+          store.dispatch(initialAction(request))
+        )
+      : []
   );
 
   const lng = request.session.get('lng') || 'en';
@@ -63,13 +65,13 @@ export const requestHandler: RequestHandler = async (
 
   const html = renderToString(
     <ChunkExtractorManager extractor={extractor}>
-      <RecoilRoot initializeState={initializeState(state)}>
+      <Provider store={store}>
         <StaticRouter location={request.url}>
           <I18nextProvider i18n={i18next}>
             <App />
           </I18nextProvider>
         </StaticRouter>
-      </RecoilRoot>
+      </Provider>
     </ChunkExtractorManager>
   );
   const scriptTags = extractor.getScriptTags();
@@ -78,7 +80,7 @@ export const requestHandler: RequestHandler = async (
   return await reply.view('index', {
     html,
     envType: process.env.NODE_ENV || 'development',
-    initialData: serialize(state),
+    initialData: serialize(store.getState()),
     scriptTags,
     styleTags,
     version: !isDevelopment ? `?version=${timestamp}` : '',
