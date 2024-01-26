@@ -36,10 +36,10 @@
   "author": "ogarich89 <ogarich89@icloud.com>",
   "license": "MIT",
   "dependencies": {
-    "@fastify/cookie": "^8.3.0",
+    "@fastify/cookie": "^9.3.1",
     "@fastify/session": "^10.1.0",
     "@fastify/static": "^6.6.0",
-    "@fastify/view": "^7.3.0",
+    "@fastify/view": "^8.2.0",
     "@loadable/component": "^5.2.2",
     "@loadable/server": "^5.2.2",
     "@loadable/webpack-plugin": "^5.2.2",
