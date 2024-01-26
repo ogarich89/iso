@@ -1,9 +1,9 @@
 import { route } from 'src/libs/route';
-import { getProduct, getProducts } from 'src/recoil/actions/products';
+import { getProduct, getProducts } from 'src/store/actions/products';
 
 const routes = [
   route({
-    path: '/',
+    path: '',
     layout: 'main',
     children: [
       { path: '/', page: 'home' },

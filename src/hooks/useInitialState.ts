@@ -1,27 +1,26 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import type { RecoilState } from 'recoil';
-import type { InitialAction, State } from 'src/types';
+import type { UnknownAction } from '@reduxjs/toolkit';
+import type { InitialAction, Store } from 'src/types';
 
 export const useInitialState = <Data>(
-  initialAction: InitialAction<[State<Data>]>,
-  state: RecoilState<Data | null>,
-  withReset?: boolean
+  initialAction: InitialAction,
+  selector: (store: Store) => Data,
+  resetAction?: () => UnknownAction
 ) => {
   const { pathname } = useLocation();
-  const [data, setData] = useRecoilState(state);
-  const resetData = useResetRecoilState(state);
+  const dispatch = useDispatch();
+
+  const data = useSelector(selector);
+
   useEffect(() => {
     if (!data) {
-      (async () => {
-        const [[, init]] = await initialAction({ url: pathname });
-        setData(init);
-      })();
+      dispatch(initialAction({ url: pathname }));
     }
     return () => {
-      withReset ? resetData() : undefined;
+      resetAction ? dispatch(resetAction()) : undefined;
     };
   }, [pathname]);
 

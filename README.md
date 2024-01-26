@@ -6,7 +6,7 @@ Iso is starter-pack for creating isomorphic single-page application with using S
 Powered by [ogarich89](https://github.com/ogarich89)
 
 > #### Warning
-> For a comfortable development you will need the knowledge of React, Recoil and Fastify.
+> For a comfortable development you will need the knowledge of React, Redux and Fastify.
 
 ### Tech
 
@@ -16,7 +16,7 @@ ISO uses a number of open source projects to work properly:
 * [Typescript](https://www.typescriptlang.org/) - JavaScript with syntax for types.
 * [Fastify](https://www.fastify.io/) - Fast and low overhead web framework, for Node.js
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
-* [Recoil](https://recoiljs.org/) - State management library for React
+* [Redux](https://redux.js.org/) - A Predictable State Container for JS Apps
 * [Webpack](https://webpack.js.org/) - Module bundler
 * [HMR](https://webpack.js.org/concepts/hot-module-replacement/) - Hot Module Replacement
 * [Browsersync](https://browsersync.io/) - Time-saving synchronised browser testing
@@ -181,17 +181,18 @@ const routes = [
 
 ### How to create initial action?
 
-1. Create file `example.ts` in `src/recoil/actions`
+1. Create file `example.ts` in `src/store/actions`
 ```ts
-export const exampleInitialAction: InitialAction<[State<Example>, ...]> = async (req) => {
-  const { data } = await request('example', $DATA, $PARAMS, req).catch(
-    (error) => {
-      console.error(error);
-      return { data: null };
-    }
-  );
-  ...
-  return [[atomExample, data], ...];
+export const exampleInitialAction: InitialAction = (req) => {
+ return async (dispatch: Dispatch<UnknownAction>) => {
+   const { data } = await request('example', $DATA, $PARAMS, req).catch(
+     (error) => {
+       console.error(error);
+       return { data: null };
+     }
+   );
+  dispatch(exampleAction(data));
+ }
 };
 ```
 2. Add to page in `src/components/pages`
@@ -212,7 +213,7 @@ const routes = [
 
 You can use hook `useInitialState` if initialAction return one state in array
 ```tsx
-const state = useInitialState(initialAction, exampleSelector(), true);
+const state = useInitialState(initialAction, exampleSelector, exampleResetAction);
 ```
 or arrange the initialization of the state at your discretion
 

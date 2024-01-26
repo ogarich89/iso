@@ -1,16 +1,16 @@
 import loadable from '@loadable/component';
 import { Loading } from 'src/components/molecules/Loading/Loading';
 
-import type { InitialAction, State, PageRoute } from 'src/types';
+import type { InitialAction, PageRoute } from 'src/types';
 
 const DELAY = 300;
 
-export const noop: InitialAction<Array<State<any>>> = async () => [];
+export const noop: InitialAction = () => async () => undefined;
 
 export interface Page {
   path: string;
   page: string;
-  initialAction?: InitialAction<Array<State<any>>>;
+  initialAction?: InitialAction;
   children?: Page[];
   delay?: number;
 }
@@ -18,7 +18,7 @@ export interface Page {
 export interface Layout {
   path: string;
   layout: string;
-  initialAction?: InitialAction<Array<State<any>>>;
+  initialAction?: InitialAction;
   children?: Page[];
   delay?: number;
 }
