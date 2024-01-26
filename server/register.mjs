@@ -2,7 +2,7 @@ import cookie from '@fastify/cookie';
 import session from '@fastify/session';
 import serve from '@fastify/static';
 import view from '@fastify/view';
-import connect from 'connect-redis';
+import RedisStore from 'connect-redis';
 import ejs from 'ejs';
 import Redis from 'ioredis';
 
@@ -16,7 +16,6 @@ const { withStatic = true, sessionRedisDb, withRedis } = config;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const initRedisStore = () => {
-  const RedisStore = connect(session);
   const redisClient = new Redis({
     db: sessionRedisDb || 1,
   });
