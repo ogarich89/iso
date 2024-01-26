@@ -31,7 +31,7 @@ export const server = () => {
       stats.toString({
         modules: false,
         colors: true,
-      })
+      }),
     );
   });
   return new Promise((resolve) => {

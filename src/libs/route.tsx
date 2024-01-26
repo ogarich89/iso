@@ -34,7 +34,7 @@ const getNestedRoutes = (children?: Page[]): PageRoute[] | object => {
             }),
             initialAction: initialAction || noop,
             ...getNestedRoutes(children),
-          })
+          }),
         ),
       }
     : {};

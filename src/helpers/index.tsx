@@ -62,7 +62,7 @@ export const pathResolver = (
 
       return { ...acc, paths: [...acc.paths, option] };
     },
-    { params: {}, paths: ['/'], hostname: '' } as Options
+    { params: {}, paths: ['/'], hostname: '' } as Options,
   );
 
   const { pathname, query } = Object.entries(params).reduce(
@@ -80,7 +80,7 @@ export const pathResolver = (
               [key]: value,
             },
           },
-    { pathname: path.join(...paths).replace(/\/$/, ''), query: {} }
+    { pathname: path.join(...paths).replace(/\/$/, ''), query: {} },
   );
 
   const search = qs.stringify(query, {
@@ -93,7 +93,7 @@ export const pathResolver = (
 
 export const expandNestedRoutes = (
   routes: PageRoute[] | undefined,
-  initialActions: InitialAction[]
+  initialActions: InitialAction[],
 ): ExpandRoute[] =>
   routes?.reduce<ExpandRoute[]>(
     (acc, route) => [
@@ -107,7 +107,7 @@ export const expandNestedRoutes = (
         route.initialAction,
       ]),
     ],
-    []
+    [],
   ) || [];
 
 export const renderNestedRoutes = (routes?: PageRoute[]) =>
@@ -122,5 +122,5 @@ export const renderNestedRoutes = (routes?: PageRoute[]) =>
           {renderNestedRoutes(children)}
         </Route>
       );
-    }
+    },
   );

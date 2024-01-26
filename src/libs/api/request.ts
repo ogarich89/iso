@@ -16,7 +16,7 @@ const pathResolver = (url: string, data?: Record<string, string>) => {
   }
   return Object.entries(data).reduce(
     (accum, [key, value]) => accum.replace(`:${key}`, value),
-    url
+    url,
   );
 };
 
@@ -27,7 +27,7 @@ export const request = async <M extends Methods, D>(
   req?: {
     url: FastifyRequest['url'];
     headers?: FastifyRequest['headers'];
-  }
+  },
 ) => {
   const { url = '', method } = methods[key] as AxiosRequestConfig;
   const { headers } = req || {};
@@ -37,7 +37,7 @@ export const request = async <M extends Methods, D>(
       method,
       ...(method === 'GET' ? { params: data } : { data }),
       ...(headers ? { headers: { cookie: headers.cookie } } : {}),
-    }
+    },
   );
   return response;
 };

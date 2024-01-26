@@ -56,7 +56,7 @@
         "warnOnUnassignedImports": true
       }
     ],
-    "@typescript-eslint/no-duplicate-imports": ["error"],
+    "import/no-duplicates": ["error"],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/class-name-casing": "off",

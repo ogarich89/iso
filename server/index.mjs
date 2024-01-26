@@ -65,7 +65,7 @@ routes.forEach(({ url, method, handler, schema }) => {
 });
 
 app.get('*', {}, (request, reply) =>
-  requestHandler(request, reply, { statsFile })
+  requestHandler(request, reply, { statsFile }),
 );
 
 app.listen({ port });

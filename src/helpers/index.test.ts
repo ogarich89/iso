@@ -13,7 +13,7 @@ describe('pathResolver', () => {
 
   it('should return correct URL address', () => {
     expect(pathResolver('https://iso.js', '/users/', '/1', 'edit/')).toBe(
-      'https://iso.js/users/1/edit'
+      'https://iso.js/users/1/edit',
     );
   });
 
@@ -21,7 +21,7 @@ describe('pathResolver', () => {
     expect(
       pathResolver('https://iso.js', '/users/', '/1', 'edit/', {
         lang: 'ru',
-      })
+      }),
     ).toBe('https://iso.js/users/1/edit?lang=ru');
   });
 
@@ -37,8 +37,8 @@ describe('pathResolver', () => {
         '///edit/',
         {
           theme: 'dark',
-        }
-      )
+        },
+      ),
     ).toBe('https://iso.js/users/1/edit?lang=ru&theme=dark');
   });
 
@@ -46,7 +46,7 @@ describe('pathResolver', () => {
     expect(
       pathResolver('https://iso.js', 'users', '1', 'edit', '../../', {
         id: '1',
-      })
+      }),
     ).toBe('https://iso.js/users?id=1');
   });
 
@@ -55,7 +55,7 @@ describe('pathResolver', () => {
       pathResolver('/api/users/:id/edit', {
         id: '65345',
         lang: 'en',
-      })
+      }),
     ).toBe('/api/users/65345/edit?lang=en');
   });
 
@@ -65,7 +65,7 @@ describe('pathResolver', () => {
         id: '5',
         product_id: '65345',
         lang: 'en',
-      })
+      }),
     ).toBe('https://iso.js/users/5/products/65345?lang=en');
   });
 });

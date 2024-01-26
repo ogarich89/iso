@@ -8,7 +8,7 @@ import type { PageComponent, Store } from 'src/types';
 const products: PageComponent = ({ initialAction }) => {
   const products = useInitialState(
     initialAction,
-    ({ products }: Store) => products.products
+    ({ products }: Store) => products.products,
   );
   return products === null ? (
     <PageNotFound />

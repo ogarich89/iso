@@ -23,14 +23,14 @@ interface RequestHandler {
   (
     request: Request,
     reply: Reply,
-    options: { statsFile: string }
+    options: { statsFile: string },
   ): Promise<string>;
 }
 
 export const requestHandler: RequestHandler = async (
   request,
   reply,
-  { statsFile }
+  { statsFile },
 ) => {
   const store = initializeState();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['bundle'] });
@@ -55,9 +55,9 @@ export const requestHandler: RequestHandler = async (
   await Promise.all(
     route
       ? route.initialActions.map((initialAction) =>
-          store.dispatch(initialAction(request))
+          store.dispatch(initialAction(request)),
         )
-      : []
+      : [],
   );
 
   const lng = request.session.get('lng') || 'en';
@@ -72,7 +72,7 @@ export const requestHandler: RequestHandler = async (
           </I18nextProvider>
         </StaticRouter>
       </Provider>
-    </ChunkExtractorManager>
+    </ChunkExtractorManager>,
   );
   const scriptTags = extractor.getScriptTags();
   const styleTags = extractor.getStyleTags();

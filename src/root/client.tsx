@@ -28,6 +28,6 @@ loadableReady(() => {
           initialI18nStore={window.initialI18nStore}
         />
       </BrowserRouter>
-    </Provider>
+    </Provider>,
   );
 });

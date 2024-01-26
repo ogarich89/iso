@@ -18,7 +18,7 @@ export const App: FunctionComponent = () => {
           >
             {renderNestedRoutes(children)}
           </Route>
-        )
+        ),
       )}
     </Routes>
   );

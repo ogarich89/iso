@@ -118,7 +118,7 @@ const common = ({ isServer } = {}) => ({
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'development'
+        process.env.NODE_ENV || 'development',
       ),
       isDevelopment,
       timestamp: JSON.stringify(+new Date()),

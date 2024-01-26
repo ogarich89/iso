@@ -11,7 +11,7 @@ interface Props {
 export const Loading: FunctionComponent<Props> = ({ timeout }) => {
   const [isActive, setIsActive] = useState(false);
   const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(
-    null
+    null,
   );
   useEffect(() => {
     if (timeout) {

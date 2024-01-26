@@ -10,7 +10,7 @@ const product: PageComponent = ({ initialAction }) => {
   const product = useInitialState(
     initialAction,
     ({ products }: Store) => products.product,
-    receiveProduct
+    receiveProduct,
   );
 
   return product === null ? (

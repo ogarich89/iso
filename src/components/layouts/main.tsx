@@ -12,7 +12,7 @@ const Modal = loadable(
     import(
       /* webpackChunkName: "modals" */ 'src/components/molecules/Modals/Modal'
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface ModalSettings {

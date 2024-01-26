@@ -8,7 +8,7 @@ import type { InitialAction, Store } from 'src/types';
 export const useInitialState = <Data>(
   initialAction: InitialAction,
   selector: (store: Store) => Data,
-  resetAction?: () => UnknownAction
+  resetAction?: () => UnknownAction,
 ) => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
