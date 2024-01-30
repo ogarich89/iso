@@ -183,17 +183,16 @@ const routes = [
 
 1. Create file `example.ts` in `src/store/actions`
 ```ts
-export const exampleInitialAction: InitialAction = (req) => {
- return async (dispatch: Dispatch<UnknownAction>) => {
-   const { data } = await request('example', $DATA, $PARAMS, req).catch(
-     (error) => {
-       console.error(error);
-       return { data: null };
-     }
-   );
-  dispatch(exampleAction(data));
- }
-};
+export const exampleInitialAction = createAsyncThunk(
+    'exampleInitialAction',
+    async (req: { url: string }) => {
+      const { data } = await request('example', $DATA, $PARAMS, req).catch((error) => {
+        console.error(error);
+        return { data: null };
+      });
+      return data;
+    },
+);
 ```
 2. Add to page in `src/components/pages`
 ```ts
