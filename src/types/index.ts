@@ -1,7 +1,7 @@
 import type { LoadableClassComponent } from '@loadable/component';
+import type { AsyncThunk } from '@reduxjs/toolkit';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { FunctionComponent } from 'react';
-import type { Dispatch } from 'src/store';
 
 declare global {
   interface Window {
@@ -21,12 +21,7 @@ export interface Product {
 
 export type Products = Product[];
 
-export interface InitialAction {
-  (req?: {
-    url: FastifyRequest['url'];
-    headers?: FastifyRequest['headers'];
-  }): (dispatch: Dispatch) => Promise<void>;
-}
+export type InitialAction = AsyncThunk<any, any, any>;
 
 export type Request = {
   session: {

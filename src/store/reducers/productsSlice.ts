@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchProduct, fetchProducts } from 'src/store/actions/products';
 
-import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Product, Products } from 'src/types';
 
 const initialState: {
@@ -12,15 +12,18 @@ export const productsSlice = createSlice({
   name: 'productsSlice',
   initialState,
   reducers: {
-    receiveProduct(state, action: PayloadAction<Product>) {
-      state.product = action.payload;
-    },
-    receiveProducts(state, action: PayloadAction<Products>) {
-      state.products = action.payload;
-    },
     resetProduct(state) {
       state.product = undefined;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+      })
+      .addCase(fetchProduct.fulfilled, (state, action) => {
+        state.product = action.payload;
+      });
   },
 });
 

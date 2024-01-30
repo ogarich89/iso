@@ -1,11 +1,12 @@
 import loadable from '@loadable/component';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Loading } from 'src/components/molecules/Loading/Loading';
 
 import type { InitialAction, PageRoute } from 'src/types';
 
 const DELAY = 300;
 
-export const noop: InitialAction = () => async () => undefined;
+export const noop = createAsyncThunk('noop', () => {});
 
 export interface Page {
   path: string;
