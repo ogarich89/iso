@@ -1,6 +1,7 @@
 import type { LoadableClassComponent } from '@loadable/component';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { FunctionComponent } from 'react';
+import type { Dispatch } from 'src/store';
 
 declare global {
   interface Window {
@@ -24,7 +25,7 @@ export interface InitialAction {
   (req?: {
     url: FastifyRequest['url'];
     headers?: FastifyRequest['headers'];
-  }): any;
+  }): (dispatch: Dispatch) => Promise<void>;
 }
 
 export type Request = {
@@ -49,13 +50,6 @@ export interface Schema {
 export type PageComponent = FunctionComponent<{
   initialAction: InitialAction;
 }>;
-
-export interface Store {
-  products: {
-    product: Product;
-    products: Products;
-  };
-}
 
 export interface ExpandRoute {
   path: string;

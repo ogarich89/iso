@@ -7,7 +7,7 @@ import { withSSR, initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from 'src/App';
-import { initializeState } from 'src/store/initialize';
+import { initializeState } from 'src/store';
 
 import type { InitOptions } from 'i18next';
 

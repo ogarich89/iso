@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'src/hooks/redux';
 
-import type { UnknownAction } from '@reduxjs/toolkit';
-import type { InitialAction, Store } from 'src/types';
+import type { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
+import type { State } from 'src/store';
+import type { InitialAction } from 'src/types';
 
 export const useInitialState = <Data>(
   initialAction: InitialAction,
-  selector: (store: Store) => Data,
-  resetAction?: () => UnknownAction,
+  selector: (state: State) => Data,
+  resetAction?: ActionCreatorWithoutPayload,
 ) => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();

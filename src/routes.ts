@@ -1,5 +1,5 @@
 import { route } from 'src/libs/route';
-import { getProduct, getProducts } from 'src/store/actions/products';
+import { fetchProduct, fetchProducts } from 'src/store/actions/products';
 
 const routes = [
   route({
@@ -7,8 +7,8 @@ const routes = [
     layout: 'main',
     children: [
       { path: '/', page: 'home' },
-      { path: '/products', page: 'products', initialAction: getProducts },
-      { path: '/products/:id', page: 'product', initialAction: getProduct },
+      { path: '/products', page: 'products', initialAction: fetchProducts },
+      { path: '/products/:id', page: 'product', initialAction: fetchProduct },
       { path: '*', page: '404' },
     ],
   }),

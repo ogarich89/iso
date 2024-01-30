@@ -1,26 +1,14 @@
 import { request } from 'src/libs/api/request';
-import {
-  RECEIVE_PRODUCT,
-  RECEIVE_PRODUCTS,
-} from 'src/store/constants/products';
+import { productsSlice } from 'src/store/reducers/productsSlice';
 
-import type { UnknownAction } from '@reduxjs/toolkit';
-import type { Dispatch } from 'react';
-import type { InitialAction, Product, Products } from 'src/types';
+import type { InitialAction } from 'src/types';
 
-export const receiveProduct = (product?: Product) => ({
-  type: RECEIVE_PRODUCT,
-  payload: product,
-});
-const receiveProducts = (products: Products) => ({
-  type: RECEIVE_PRODUCTS,
-  payload: products,
-});
+const { receiveProduct, receiveProducts } = productsSlice.actions;
 
-export const getProduct: InitialAction = (req) => {
+export const fetchProduct: InitialAction = (req) => {
   const { url = '' } = req || {};
   const [, , id] = url.split('/');
-  return async (dispatch: Dispatch<UnknownAction>) => {
+  return async (dispatch) => {
     try {
       const { data: product } = await request('product', { id });
       dispatch(receiveProduct(product));
@@ -30,8 +18,8 @@ export const getProduct: InitialAction = (req) => {
   };
 };
 
-export const getProducts: InitialAction = () => {
-  return async (dispatch: Dispatch<UnknownAction>) => {
+export const fetchProducts: InitialAction = () => {
+  return async (dispatch) => {
     try {
       const { data: products } = await request('products', {});
       dispatch(receiveProducts(products));

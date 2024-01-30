@@ -2,15 +2,17 @@ import { Loading } from 'src/components/molecules/Loading/Loading';
 import { PageNotFound } from 'src/components/molecules/PageNotFound/PageNotFound';
 import { ProductComponent } from 'src/components/organisms/Product/Product';
 import { useInitialState } from 'src/hooks/useInitialState';
-import { receiveProduct } from 'src/store/actions/products';
+import { productsSlice } from 'src/store/reducers/productsSlice';
 
-import type { PageComponent, Store } from 'src/types';
+const { resetProduct } = productsSlice.actions;
+
+import type { PageComponent } from 'src/types';
 
 const product: PageComponent = ({ initialAction }) => {
   const product = useInitialState(
     initialAction,
-    ({ products }: Store) => products.product,
-    receiveProduct,
+    ({ productsReducer }) => productsReducer.product,
+    resetProduct,
   );
 
   return product === null ? (

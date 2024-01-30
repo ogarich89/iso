@@ -11,7 +11,7 @@ import serialize from 'serialize-javascript';
 import { App } from 'src/App';
 import { expandNestedRoutes } from 'src/helpers';
 import routes from 'src/routes';
-import { initializeState } from 'src/store/initialize';
+import { initializeState } from 'src/store';
 
 import type { InitOptions } from 'i18next';
 import type { Request, Reply, ExpandRoute } from 'src/types';
