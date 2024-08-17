@@ -1,4 +1,4 @@
-import Sentry from '@sentry/node';
+import * as Sentry from '@sentry/node';
 import dotenv from 'dotenv';
 import Fastify from 'fastify';
 

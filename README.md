@@ -34,7 +34,7 @@ And of course ISO itself is open source with a [public repository]
 
 ### Install
 
-ISO requires [Node.js](https://nodejs.org/) v16+ and [Redis](https://redis.io) (optional) to run.
+ISO requires [Node.js](https://nodejs.org/) v20+ and [Redis](https://redis.io) (optional) to run.
 
 
 ```sh

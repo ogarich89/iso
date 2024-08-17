@@ -64,6 +64,7 @@ const common = ({ isServer } = {}) => ({
             options: {
               sourceMap: isDevelopment,
               modules: {
+                namedExport: false,
                 auto: (resourcePath) => !resourcePath.endsWith('.css'),
                 localIdentName: isDevelopment
                   ? '[local]_[hash:base64:5]'
@@ -83,9 +84,10 @@ const common = ({ isServer } = {}) => ({
           {
             loader: 'sass-loader',
             options: {
+              api: 'modern-compiler',
               sassOptions: {
                 outputStyle: 'compressed',
-                includePaths: [resolve(__dirname, '../../src/helpers/styles')],
+                loadPaths: [resolve(__dirname, '../../src/helpers/styles')],
               },
             },
           },
