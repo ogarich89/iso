@@ -21,7 +21,9 @@ export const useInitialState = <Data>(
       dispatch(initialAction({ url: pathname }));
     }
     return () => {
-      resetAction ? dispatch(resetAction()) : undefined;
+      if (resetAction) {
+        dispatch(resetAction());
+      }
     };
   }, [pathname]);
 

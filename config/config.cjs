@@ -4,6 +4,7 @@ const environment = isDevelopment
   : process.env.ENVIRONMENT || 'production';
 
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const config = require(`./environment/${environment}.json`);
   module.exports = { config };
 } catch (_) {
