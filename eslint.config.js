@@ -7,14 +7,7 @@ import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
 export default [
-  prettierRecommended,
-  ...tsEslint.config(
-    eslint.configs.recommended,
-    ...tsEslint.configs.recommended,
-  ),
   {
-    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
-    ignores: ['./dist/**', './coverage/**', './public/**'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -40,6 +33,14 @@ export default [
       prettier: eslintPluginPrettier,
       '@typescript-eslint': tsEslint.plugin,
     },
+  },
+  prettierRecommended,
+  ...tsEslint.config(
+    eslint.configs.recommended,
+    ...tsEslint.configs.recommended,
+  ),
+  {
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     rules: {
       'prettier/prettier': ['error', { singleQuote: true }],
       'import/order': [
@@ -129,5 +130,8 @@ export default [
       ],
       'max-len': ['error', { code: 120, ignorePattern: '^import .*' }],
     },
+  },
+  {
+    ignores: ['dist/**', 'coverage/**', 'public/**'],
   },
 ];
