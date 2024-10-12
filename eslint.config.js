@@ -1,5 +1,5 @@
 import eslint from '@eslint/js';
-import importX from 'eslint-plugin-import-x';
+import importPlugin from 'eslint-plugin-import';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import react from 'eslint-plugin-react';
@@ -29,7 +29,7 @@ export default [
     },
     plugins: {
       react,
-      import: importX,
+      import: importPlugin,
       prettier: eslintPluginPrettier,
       '@typescript-eslint': tsEslint.plugin,
     },
