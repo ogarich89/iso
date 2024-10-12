@@ -7,7 +7,11 @@ export default [
     handler: language,
     schema: {
       body: {
-        lng: { type: 'string' },
+        type: 'object',
+        properties: {
+          lng: { type: 'string' },
+        },
+        required: ['lng'],
       },
       response: {
         200: {
