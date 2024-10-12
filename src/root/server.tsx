@@ -76,12 +76,14 @@ export const requestHandler: RequestHandler = async (
   );
   const scriptTags = extractor.getScriptTags();
   const styleTags = extractor.getStyleTags();
+  const linkTags = extractor.getLinkTags();
 
   return await reply.view('index', {
     html,
     envType: process.env.NODE_ENV || 'development',
     initialData: serialize(store.getState()),
     scriptTags,
+    linkTags,
     styleTags,
     version: !isDevelopment ? `?version=${timestamp}` : '',
     initialLanguage: serialize(i18next.language),
