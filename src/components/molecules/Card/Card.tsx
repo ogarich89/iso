@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'src/components/molecules/Link/Link';
 
 import style from './Card.scss';
 

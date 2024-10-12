@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'src/components/molecules/Link/Link';
 import { TOGGLE_MODAL, emitter } from 'src/libs/emitter';
 import { session } from 'src/libs/session';
 
@@ -37,14 +37,14 @@ export const Header: FunctionComponent = () => {
         <nav>
           <ul>
             <li>
-              <NavLink
+              <Link
                 to="/products"
                 className={({ isActive }) =>
                   isActive ? style.active : undefined
                 }
               >
                 {t('products')}
-              </NavLink>
+              </Link>
             </li>
             <li>
               <span
