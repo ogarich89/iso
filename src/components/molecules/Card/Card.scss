@@ -53,7 +53,7 @@
       font-size: vw(24px, $desktop);
       text-decoration: none;
       text-transform: uppercase;
-      color: $text;
+      color: $gray;
       margin-bottom: 0;
       font-weight: normal;
       font-family: RobotoSlab, sans-serif;
@@ -96,7 +96,7 @@
       }
       span {
         font-size: vw(18px, $desktop);
-        color: $text;
+        color: $gray;
         @include respond-to(laptop) {
           font-size: vw(18px, $laptop);
         }

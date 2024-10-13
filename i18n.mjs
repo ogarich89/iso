@@ -2,8 +2,11 @@ import { config } from 'config';
 
 const { port } = config;
 
+export const LANGUAGES = ['en', 'ru'];
+
 export default (isServer = false) => ({
-  fallbackLng: false,
+  fallbackLng: 'en',
+  supportedLngs: LANGUAGES,
   interpolation: {
     escapeValue: false,
   },

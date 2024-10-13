@@ -1,0 +1,32 @@
+@import "variables";
+@import "mixins";
+
+.logo {
+  a {
+    font-size: vw(35px, $desktop);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $white;
+    @include respond-to(laptop) {
+      font-size: vw(35px, $laptop);
+    }
+    @include respond-to(tablet) {
+      font-size: vw(35px, $tablet);
+    }
+    @include respond-to(mobile) {
+      font-size: vw(35px, $mobile);
+    }
+    small {
+      font-size: vw(16px, $desktop);
+      @include respond-to(laptop) {
+        font-size: vw(16px, $laptop);
+      }
+      @include respond-to(tablet) {
+        font-size: vw(16px, $tablet);
+      }
+      @include respond-to(mobile) {
+        font-size: vw(16px, $mobile);
+      }
+    }
+  }
+}

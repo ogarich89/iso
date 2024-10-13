@@ -18,7 +18,7 @@
     }
   }
   .link {
-    color: $text;
+    color: $gray;
     margin-top: vw(10px, $desktop);
     font-size: vw(20px, $desktop);
     text-decoration: none;
@@ -35,7 +35,7 @@
       font-size: vw(20px, $mobile);
     }
     &:hover {
-      color: $blue;
+      color: $teal;
     }
   }
 }

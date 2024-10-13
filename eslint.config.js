@@ -89,6 +89,12 @@ export default [
         },
       ],
       'import/no-duplicates': ['error'],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['../*'],
+        },
+      ],
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/class-name-casing': 'off',
@@ -129,6 +135,12 @@ export default [
         },
       ],
       'max-len': ['error', { code: 120, ignorePattern: '^import .*' }],
+    },
+  },
+  {
+    files: ['config/**', 'server/**'],
+    rules: {
+      'no-restricted-imports': 'off',
     },
   },
   {

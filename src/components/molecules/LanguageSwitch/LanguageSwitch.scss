@@ -1,0 +1,56 @@
+@import "variables";
+@import "mixins";
+
+.container {
+  position: relative;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: vw(20px, $desktop);
+    margin-right: vw(5px, $desktop);
+    @include respond-to(laptop) {
+      width: vw(20px, $laptop);
+      margin-right: vw(5px, $laptop);
+    }
+    @include respond-to(tablet) {
+      width: vw(20px, $tablet);
+      margin-right: vw(5px, $tablet);
+    }
+    @include respond-to(mobile) {
+      width: vw(20px, $mobile);
+      margin-right: vw(5px, $mobile);
+    }
+  }
+  .language {
+    display: flex;
+    padding: vw(10px, $desktop);
+    cursor: pointer;
+    color: $white;
+    font-size: vw(16px, $desktop);
+    text-transform: uppercase;
+    @include respond-to(laptop) {
+      padding: vw(10px, $laptop);
+      font-size: vw(16px, $laptop);
+    }
+    @include respond-to(tablet) {
+      padding: vw(10px, $tablet);
+      font-size: vw(16px, $tablet);
+    }
+    @include respond-to(mobile) {
+      padding: vw(10px, $mobile);
+      font-size: vw(16px, $mobile);
+    }
+    &:hover {
+      background-color: $gray;
+    }
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    background-color: $gray;
+    position: absolute;
+    top: 100%;
+  }
+}

@@ -23,7 +23,7 @@
     text-align: center;
     margin-bottom: vw(20px, $desktop);
     padding-bottom: vw(10px, $desktop);
-    border-bottom: 1px solid $text;
+    border-bottom: 1px solid $gray;
     @include respond-to(laptop) {
       margin-bottom: vw(20px, $laptop);
       padding-bottom: vw(10px, $laptop);

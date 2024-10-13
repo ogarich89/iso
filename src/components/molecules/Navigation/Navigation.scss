@@ -1,0 +1,55 @@
+@import "variables";
+@import "mixins";
+
+.navigation {
+  margin-left: vw(30px, $desktop);
+  @include respond-to(laptop) {
+    margin-left: vw(30px, $laptop);
+  }
+  @include respond-to(tablet) {
+    margin-left: vw(30px, $tablet);
+  }
+  @include respond-to(mobile) {
+    margin-left: vw(30px, $mobile);
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    li {
+      &:not(:last-child) {
+        margin-right: vw(20px, $desktop);
+        @include respond-to(laptop) {
+          margin-right: vw(20px, $laptop);
+        }
+        @include respond-to(tablet) {
+          margin-right: vw(20px, $tablet);
+        }
+        @include respond-to(mobile) {
+          margin-right: vw(20px, $mobile);
+        }
+      }
+      a, span {
+        text-transform: none;
+        color: $white;
+        cursor: pointer;
+        font-size: vw(20px, $desktop);
+        text-decoration: none;
+        @include respond-to(laptop) {
+          font-size: vw(20px, $laptop);
+        }
+        @include respond-to(tablet) {
+          font-size: vw(20px, $tablet);
+        }
+        @include respond-to(mobile) {
+          font-size: vw(20px, $mobile);
+        }
+        &:hover {
+          color: $teal;
+        }
+        &.active {
+          color: $teal;
+        }
+      }
+    }
+  }
+}

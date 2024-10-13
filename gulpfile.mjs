@@ -14,12 +14,11 @@ const serverCompiler = webpack(webpackServerConfig);
 const { inspect, port, browserSyncPort } = config;
 
 export const nodemon = async () => {
-  const stream = gulpNodemon({
+  gulpNodemon({
     script: 'server/index.mjs',
     watch: ['server/**/*.*', 'dist/request-handler.cjs'],
     exec: inspect ? 'node --inspect' : 'node',
   });
-  stream.on('crash', () => stream.emit('restart', 300));
 };
 
 export const server = () => {
@@ -42,7 +41,6 @@ export const server = () => {
 export const client = () => {
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
     publicPath: webpackClientConfig.output.publicPath,
-    writeToDisk: true,
   });
   browserSync.init(null, {
     host: 'localhost',
@@ -55,7 +53,10 @@ export const client = () => {
       forms: false,
       scroll: false,
     },
-    middleware: [devMiddleware, webpackHotMiddleware(clientCompiler)],
+    middleware: [
+      devMiddleware,
+      webpackHotMiddleware(clientCompiler, { reload: true }),
+    ],
   });
   return new Promise((resolve) => devMiddleware.waitUntilValid(resolve));
 };

@@ -97,7 +97,7 @@ const common = ({ isServer } = {}) => ({
         test: /\.svg$/,
         issuer: /\.(tsx|jsx)$/,
         exclude: /node_modules/,
-        loader: 'svg-react-loader',
+        loader: '@svgr/webpack',
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
