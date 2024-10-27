@@ -126,7 +126,6 @@
     "swc-plugin-add-display-name": "^0.5.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.1.0",
-    "webpack-dev-middleware": "^7.3.0",
     "webpack-hot-middleware": "^2.26.1",
     "webpack-merge": "^6.0.1",
     "webpack-node-externals": "^3.0.0"
