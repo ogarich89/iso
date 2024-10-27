@@ -1,6 +1,6 @@
 import { rspack } from '@rspack/core';
 import browserSync from 'browser-sync';
-import gulpNodemon from 'gulp-nodemon';
+import nodemon from 'nodemon';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
@@ -13,15 +13,15 @@ const serverCompiler = rspack(rspackServerConfig);
 
 const { inspect, port, browserSyncPort } = config;
 
-export const nodemon = async () => {
-  gulpNodemon({
+const server = async () => {
+  nodemon({
     script: 'server/index.mjs',
     watch: ['server/**/*.*', 'dist/request-handler.cjs'],
     exec: inspect ? 'node --inspect' : 'node',
   });
 };
 
-export const server = () => {
+const watchServer = () => {
   serverCompiler.watch({}, (err, stats) => {
     if (err) {
       console.error(err);
@@ -38,7 +38,7 @@ export const server = () => {
   });
 };
 
-export const client = () => {
+const watchClient = () => {
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
     publicPath: rspackClientConfig.output.publicPath,
   });
@@ -61,8 +61,23 @@ export const client = () => {
   return new Promise((resolve) => devMiddleware.waitUntilValid(resolve));
 };
 
-export const development = async () => {
-  await client();
+const development = async () => {
+  await watchClient();
+  await watchServer();
   await server();
-  await nodemon();
 };
+
+const [, , command] = process.argv;
+
+if (command === '--dev') {
+  await development();
+}
+if (command === '--watch:client') {
+  await watchClient();
+}
+if (command === '--watch:server') {
+  await watchServer();
+}
+if (command === '--server') {
+  await server();
+}
