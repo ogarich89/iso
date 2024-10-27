@@ -92,9 +92,9 @@ $ yarn dev
 #### or run each command in a separate terminal tab
 
 ```sh
-$ yarn client
+$ yarn watch:client
+$ yarn watch:server
 $ yarn server
-$ yarn nodemon
 ```
 
 Open in browser http://localhost:3001
