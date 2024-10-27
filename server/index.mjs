@@ -7,10 +7,12 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 import { config } from '../config/config.cjs';
-import { requestHandler } from '../dist/request-handler.cjs';
+import pkg from '../dist/request-handler.cjs';
 
 import { register } from './register.mjs';
 import { routes } from './routes.mjs';
+
+const { requestHandler } = pkg;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -55,7 +57,7 @@ app.setErrorHandler(async (error, request, reply) => {
     Sentry.captureException(error);
   }
 
-  reply.status(500).send({ error: 'Something went wrong' });
+  reply.status(500).send(error);
 });
 
 register(app);

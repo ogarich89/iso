@@ -1,8 +1,6 @@
 import LoadablePlugin from '@loadable/webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
-import webpack from 'webpack';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
+import rspack from '@rspack/core';
 import { merge } from 'webpack-merge';
 
 import { dirname, resolve } from 'path';
@@ -16,12 +14,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const { analyze, withStatic } = config;
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const { default: ReactRefreshWebpackPlugin } = isDevelopment
-  ? await import('@pmmmwh/react-refresh-webpack-plugin')
+const { default: ReactRefreshPlugin } = isDevelopment
+  ? await import('@rspack/plugin-react-refresh')
   : { default: null };
 
 export default merge(common(), {
   context: resolve(__dirname, '../../src/root'),
+  performance: {
+    maxEntrypointSize: 500000,
+    maxAssetSize: 500000,
+  },
   entry: {
     bundle: [
       './client.tsx',
@@ -44,9 +46,8 @@ export default merge(common(), {
     ...(isDevelopment ? { runtimeChunk: 'single' } : {}),
     minimize: !isDevelopment,
     minimizer: [
-      new TerserPlugin({
-        minify: TerserPlugin.swcMinify,
-        terserOptions: {
+      new rspack.SwcJsMinimizerRspackPlugin({
+        minimizerOptions: {
           compress: true,
           format: {
             comments: false,
@@ -55,37 +56,10 @@ export default merge(common(), {
         extractComments: false,
       }),
     ],
-    splitChunks: !isDevelopment
-      ? {
-          cacheGroups: {
-            vendors: {
-              test: /[\\/]node_modules[\\/]/,
-              priority: -10,
-              reuseExistingChunk: true,
-            },
-            common: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
-            },
-          },
-          chunks: 'all',
-          maxInitialRequests: 30,
-          maxAsyncRequests: 30,
-          maxSize: 250000,
-        }
-      : false,
   },
   plugins: [
-    ...(analyze
-      ? [
-          new BundleAnalyzerPlugin({
-            openAnalyzer: false,
-            analyzerMode: 'static',
-          }),
-        ]
-      : []),
-    new MiniCssExtractPlugin({
+    new LoadablePlugin({ writeToDisk: true }),
+    new rspack.CssExtractRspackPlugin({
       filename: isDevelopment
         ? 'css/[name].css'
         : 'css/[name].[contenthash].css',
@@ -93,12 +67,21 @@ export default merge(common(), {
         ? 'css/[name].css'
         : 'css/[name].[contenthash].css',
     }),
-    new LoadablePlugin({ writeToDisk: true }),
-    ...(isDevelopment
+    ...(analyze
       ? [
-          new ReactRefreshWebpackPlugin(),
-          new webpack.HotModuleReplacementPlugin(),
+          new RsdoctorRspackPlugin({
+            disableClientServer: !isDevelopment,
+            mode: isDevelopment ? 'normal' : 'brief',
+            linter: {
+              rules: {
+                'ecma-version-check': 'off',
+              },
+            },
+          }),
         ]
+      : []),
+    ...(isDevelopment
+      ? [new ReactRefreshPlugin(), new rspack.HotModuleReplacementPlugin()]
       : []),
   ],
 });

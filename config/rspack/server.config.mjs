@@ -1,4 +1,4 @@
-import webpack from 'webpack';
+import rspack from '@rspack/core';
 import { merge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 
@@ -21,11 +21,13 @@ export default merge(common({ isServer: true }), {
     splitChunks: false,
   },
   output: {
+    library: {
+      type: 'commonjs-module',
+    },
     path: resolve(__dirname, '../../dist'),
     filename: 'request-handler.cjs',
-    libraryTarget: 'commonjs-static',
     publicPath: '/',
   },
   externals: ['@loadable/component', nodeExternals()],
-  plugins: [new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
+  plugins: [new rspack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
 });

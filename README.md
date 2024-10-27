@@ -17,8 +17,8 @@ ISO uses a number of open source projects to work properly:
 * [Fastify](https://www.fastify.io/) - Fast and low overhead web framework, for Node.js
 * [React](https://reactjs.org/) - JavaScript library for building user interfaces
 * [Redux](https://redux.js.org/) - A Predictable State Container for JS Apps
-* [Webpack](https://webpack.js.org/) - Module bundler
-* [HMR](https://webpack.js.org/concepts/hot-module-replacement/) - Hot Module Replacement
+* [Rspack](https://rspack.dev/) - Module bundler
+* [HMR](https://rspack.dev/api/runtime-api/hmr) - Hot Module Replacement
 * [Browsersync](https://browsersync.io/) - Time-saving synchronised browser testing
 * [SWC](https://swc.rs/) - Rust-based platform for the Web
 * [ESLint](https://eslint.org/) - Statically analyzes your code to quickly find problems.
@@ -69,7 +69,7 @@ $ touch config/environment/development.json
 `withRedis` - Session with Redis store \
 `inspect` - Debugging Node.js with Chrome DevTools \
 `logger` - Fastify logger \
-`analyze` - Webpack Bundle Analyzer \
+`analyze` - Rsdoctor \
 `sentryDSN` - Error monitoring with [Sentry](https://sentry.io) \
 `certificate` - Optional object for run https server `{ "key": "/path/to/key.pem", "cert": "/path/to/cert.pem" }`
 
@@ -118,7 +118,7 @@ For production release:
 ```sh
 $ yarn production
 ```
-[Build mode](https://webpack.js.org/configuration/mode/) (development | production) depending on `NODE_ENV` \
+[Build mode](https://rspack.dev/config/mode) (development | production) depending on `NODE_ENV` \
 Reading file `config/environment/(staging | production).json` depending on `ENVIRONMENT`
 ```sh
 $ yarn build
