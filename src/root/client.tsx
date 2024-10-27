@@ -13,12 +13,12 @@ import type { InitOptions } from 'i18next';
 
 i18next.use(Fetch);
 i18next.use(initReactI18next);
-i18next.init(options() as InitOptions);
 
 const ExtendedApp = withSSR()(App);
 const store = initializeState(window.__initialData__);
 
-loadableReady(() => {
+loadableReady(async () => {
+  await i18next.init(options() as InitOptions);
   hydrateRoot(
     document.getElementById('root') as HTMLDivElement,
     <Provider store={store}>

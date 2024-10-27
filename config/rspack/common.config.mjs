@@ -1,5 +1,4 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpack from 'webpack';
+import rspack from '@rspack/core';
 
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -32,12 +31,23 @@ const common = ({ isServer } = {}) => ({
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'swc-loader',
+        loader: 'builtin:swc-loader',
         options: {
           sourceMap: isDevelopment,
+          env: {
+            targets: {
+              chrome: '94',
+              safari: '15',
+            },
+            mode: 'usage',
+            coreJs: '3.36',
+          },
           jsc: {
             experimental: {
-              plugins: [['@swc/plugin-loadable-components', {}]],
+              plugins: [
+                ['@swc/plugin-loadable-components', {}],
+                ...(isDevelopment ? [['swc-plugin-add-display-name', {}]] : []),
+              ],
             },
             parser: {
               syntax: 'typescript',
@@ -58,7 +68,16 @@ const common = ({ isServer } = {}) => ({
       {
         test: /\.(scss|sass|css)$/,
         use: [
-          ...(!isServer ? [MiniCssExtractPlugin.loader] : []),
+          ...(!isServer
+            ? [
+                {
+                  loader: rspack.CssExtractRspackPlugin.loader,
+                  options: {
+                    hmr: isDevelopment,
+                  },
+                },
+              ]
+            : []),
           {
             loader: 'css-loader',
             options: {
@@ -92,6 +111,7 @@ const common = ({ isServer } = {}) => ({
             },
           },
         ],
+        type: 'javascript/auto',
       },
       {
         test: /\.svg$/,
@@ -102,30 +122,27 @@ const common = ({ isServer } = {}) => ({
       {
         test: /\.(png|jpe?g|gif)$/i,
         issuer: /\.(ts|tsx|js|jsx)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              fallback: 'file-loader',
-              limit: 8192,
-              emitFile: !isServer,
-              name: isDevelopment ? '[name].[ext]' : '[name].[hash:8].[ext]',
-              outputPath: 'assets',
-            },
+        type: 'asset',
+        generator: {
+          emit: !isServer,
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024,
           },
-        ],
+        },
       },
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({
+    new rspack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(
         process.env.NODE_ENV || 'development',
       ),
       isDevelopment,
       timestamp: JSON.stringify(+new Date()),
     }),
-    new webpack.LoaderOptionsPlugin({
+    new rspack.LoaderOptionsPlugin({
       options: { failOnError: !isDevelopment },
     }),
   ],

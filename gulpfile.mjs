@@ -1,15 +1,15 @@
+import { rspack } from '@rspack/core';
 import browserSync from 'browser-sync';
 import gulpNodemon from 'gulp-nodemon';
-import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import { config } from './config/config.cjs';
-import webpackClientConfig from './config/webpack/client.config.mjs';
-import webpackServerConfig from './config/webpack/server.config.mjs';
+import rspackClientConfig from './config/rspack/client.config.mjs';
+import rspackServerConfig from './config/rspack/server.config.mjs';
 
-const clientCompiler = webpack(webpackClientConfig);
-const serverCompiler = webpack(webpackServerConfig);
+const clientCompiler = rspack(rspackClientConfig);
+const serverCompiler = rspack(rspackServerConfig);
 
 const { inspect, port, browserSyncPort } = config;
 
@@ -40,7 +40,7 @@ export const server = () => {
 
 export const client = () => {
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
-    publicPath: webpackClientConfig.output.publicPath,
+    publicPath: rspackClientConfig.output.publicPath,
   });
   browserSync.init(null, {
     host: 'localhost',
