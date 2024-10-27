@@ -1,7 +1,6 @@
 import { rspack } from '@rspack/core';
 import browserSync from 'browser-sync';
 import nodemon from 'nodemon';
-import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import { config } from './config/config.cjs';
@@ -18,6 +17,20 @@ const server = async () => {
     script: 'server/index.mjs',
     watch: ['server/**/*.*', 'dist/request-handler.cjs'],
     exec: inspect ? 'node --inspect' : 'node',
+  });
+
+  browserSync.init(null, {
+    host: 'localhost',
+    port: browserSyncPort,
+    proxy: `http://localhost:${port}/`,
+    online: true,
+    open: false,
+    ghostMode: {
+      clicks: false,
+      forms: false,
+      scroll: false,
+    },
+    middleware: [webpackHotMiddleware(clientCompiler, { reload: true })],
   });
 };
 
@@ -39,26 +52,21 @@ const watchServer = () => {
 };
 
 const watchClient = () => {
-  const devMiddleware = webpackDevMiddleware(clientCompiler, {
-    publicPath: rspackClientConfig.output.publicPath,
+  clientCompiler.watch({}, (err, stats) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(
+      stats.toString({
+        modules: false,
+        colors: true,
+      }),
+    );
   });
-  browserSync.init(null, {
-    host: 'localhost',
-    port: browserSyncPort,
-    proxy: `http://localhost:${port}/`,
-    online: true,
-    open: false,
-    ghostMode: {
-      clicks: false,
-      forms: false,
-      scroll: false,
-    },
-    middleware: [
-      devMiddleware,
-      webpackHotMiddleware(clientCompiler, { reload: true }),
-    ],
+
+  return new Promise((resolve) => {
+    clientCompiler.hooks.done.tap('client', () => resolve());
   });
-  return new Promise((resolve) => devMiddleware.waitUntilValid(resolve));
 };
 
 const development = async () => {
@@ -81,3 +89,7 @@ if (command === '--watch:server') {
 if (command === '--server') {
   await server();
 }
+
+process.on('SIGINT', () => {
+  process.exit(0);
+});
