@@ -30,7 +30,8 @@
           "content",
           "else",
           "return",
-          "for"
+          "for",
+          "use"
         ]
       }
     ],

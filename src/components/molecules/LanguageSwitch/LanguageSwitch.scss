@@ -1,5 +1,5 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 .container {
   position: relative;
@@ -8,48 +8,48 @@
   justify-content: center;
   align-items: center;
   svg {
-    width: vw(20px, $desktop);
-    margin-right: vw(5px, $desktop);
-    @include respond-to(laptop) {
-      width: vw(20px, $laptop);
-      margin-right: vw(5px, $laptop);
+    width: mixins.vw(20px, variables.$desktop);
+    margin-right: mixins.vw(5px, variables.$desktop);
+    @include mixins.respond-to(laptop) {
+      width: mixins.vw(20px, variables.$laptop);
+      margin-right: mixins.vw(5px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      width: vw(20px, $tablet);
-      margin-right: vw(5px, $tablet);
+    @include mixins.respond-to(tablet) {
+      width: mixins.vw(20px, variables.$tablet);
+      margin-right: mixins.vw(5px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      width: vw(20px, $mobile);
-      margin-right: vw(5px, $mobile);
+    @include mixins.respond-to(mobile) {
+      width: mixins.vw(20px, variables.$mobile);
+      margin-right: mixins.vw(5px, variables.$mobile);
     }
   }
   .language {
     display: flex;
-    padding: vw(10px, $desktop);
+    padding: mixins.vw(10px, variables.$desktop);
     cursor: pointer;
-    color: $white;
-    font-size: vw(16px, $desktop);
+    color: variables.$white;
+    font-size: mixins.vw(16px, variables.$desktop);
     text-transform: uppercase;
-    @include respond-to(laptop) {
-      padding: vw(10px, $laptop);
-      font-size: vw(16px, $laptop);
+    @include mixins.respond-to(laptop) {
+      padding: mixins.vw(10px, variables.$laptop);
+      font-size: mixins.vw(16px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      padding: vw(10px, $tablet);
-      font-size: vw(16px, $tablet);
+    @include mixins.respond-to(tablet) {
+      padding: mixins.vw(10px, variables.$tablet);
+      font-size: mixins.vw(16px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      padding: vw(10px, $mobile);
-      font-size: vw(16px, $mobile);
+    @include mixins.respond-to(mobile) {
+      padding: mixins.vw(10px, variables.$mobile);
+      font-size: mixins.vw(16px, variables.$mobile);
     }
     &:hover {
-      background-color: $gray;
+      background-color: variables.$gray;
     }
   }
   .list {
     display: flex;
     flex-direction: column;
-    background-color: $gray;
+    background-color: variables.$gray;
     position: absolute;
     top: 100%;
   }

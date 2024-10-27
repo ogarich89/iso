@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@use "mixins";
+@use "variables";
 
 .page-not-found {
   height: 100%;
@@ -7,6 +7,6 @@
   align-items: center;
   justify-content: center;
   strong {
-    font-size: vw(50px, $desktop);
+    font-size: mixins.vw(50px, variables.$desktop);
   }
 }

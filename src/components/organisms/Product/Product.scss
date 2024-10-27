@@ -1,16 +1,16 @@
-@import "mixins";
-@import "variables";
+@use "mixins";
+@use "variables";
 
 .product {
-  padding: vw(50px, $desktop) 0;
-  @include respond-to(laptop) {
-    padding: vw(50px, $laptop) 0;
+  padding: mixins.vw(50px, variables.$desktop) 0;
+  @include mixins.respond-to(laptop) {
+    padding: mixins.vw(50px, variables.$laptop) 0;
   }
-  @include respond-to(tablet) {
-    padding: vw(50px, $tablet) 0;
+  @include mixins.respond-to(tablet) {
+    padding: mixins.vw(50px, variables.$tablet) 0;
   }
-  @include respond-to(mobile) {
-    padding: vw(50px, $mobile) 0;
+  @include mixins.respond-to(mobile) {
+    padding: mixins.vw(50px, variables.$mobile) 0;
   }
   h1 {
     &:first-letter {
@@ -18,24 +18,24 @@
     }
   }
   .link {
-    color: $gray;
-    margin-top: vw(10px, $desktop);
-    font-size: vw(20px, $desktop);
+    color: variables.$gray;
+    margin-top: mixins.vw(10px, variables.$desktop);
+    font-size: mixins.vw(20px, variables.$desktop);
     text-decoration: none;
-    @include respond-to(laptop) {
-      margin-top: vw(10px, $laptop);
-      font-size: vw(20px, $laptop);
+    @include mixins.respond-to(laptop) {
+      margin-top: mixins.vw(10px, variables.$laptop);
+      font-size: mixins.vw(20px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      margin-top: vw(10px, $tablet);
-      font-size: vw(20px, $tablet);
+    @include mixins.respond-to(tablet) {
+      margin-top: mixins.vw(10px, variables.$tablet);
+      font-size: mixins.vw(20px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      margin-top: vw(10px, $mobile);
-      font-size: vw(20px, $mobile);
+    @include mixins.respond-to(mobile) {
+      margin-top: mixins.vw(10px, variables.$mobile);
+      font-size: mixins.vw(20px, variables.$mobile);
     }
     &:hover {
-      color: $teal;
+      color: variables.$teal;
     }
   }
 }

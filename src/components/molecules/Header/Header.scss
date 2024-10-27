@@ -1,26 +1,26 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: $black;
+  background-color: variables.$black;
   z-index: 2;
   .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: vw(60px, $desktop);
-    @include respond-to(laptop) {
-      height: vw(60px, $laptop);
+    height: mixins.vw(60px, variables.$desktop);
+    @include mixins.respond-to(laptop) {
+      height: mixins.vw(60px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      height: vw(60px, $tablet);
+    @include mixins.respond-to(tablet) {
+      height: mixins.vw(60px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      height: vw(60px, $mobile);
+    @include mixins.respond-to(mobile) {
+      height: mixins.vw(60px, variables.$mobile);
     }
     .wrapper {
       display: flex;

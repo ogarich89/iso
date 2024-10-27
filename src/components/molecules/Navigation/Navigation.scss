@@ -1,53 +1,53 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 .navigation {
-  margin-left: vw(30px, $desktop);
-  @include respond-to(laptop) {
-    margin-left: vw(30px, $laptop);
+  margin-left: mixins.vw(30px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    margin-left: mixins.vw(30px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    margin-left: vw(30px, $tablet);
+  @include mixins.respond-to(tablet) {
+    margin-left: mixins.vw(30px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    margin-left: vw(30px, $mobile);
+  @include mixins.respond-to(mobile) {
+    margin-left: mixins.vw(30px, variables.$mobile);
   }
   ul {
     display: flex;
     align-items: center;
     li {
       &:not(:last-child) {
-        margin-right: vw(20px, $desktop);
-        @include respond-to(laptop) {
-          margin-right: vw(20px, $laptop);
+        margin-right: mixins.vw(20px, variables.$desktop);
+        @include mixins.respond-to(laptop) {
+          margin-right: mixins.vw(20px, variables.$laptop);
         }
-        @include respond-to(tablet) {
-          margin-right: vw(20px, $tablet);
+        @include mixins.respond-to(tablet) {
+          margin-right: mixins.vw(20px, variables.$tablet);
         }
-        @include respond-to(mobile) {
-          margin-right: vw(20px, $mobile);
+        @include mixins.respond-to(mobile) {
+          margin-right: mixins.vw(20px, variables.$mobile);
         }
       }
       a, span {
         text-transform: none;
-        color: $white;
+        color: variables.$white;
         cursor: pointer;
-        font-size: vw(20px, $desktop);
+        font-size: mixins.vw(20px, variables.$desktop);
         text-decoration: none;
-        @include respond-to(laptop) {
-          font-size: vw(20px, $laptop);
+        @include mixins.respond-to(laptop) {
+          font-size: mixins.vw(20px, variables.$laptop);
         }
-        @include respond-to(tablet) {
-          font-size: vw(20px, $tablet);
+        @include mixins.respond-to(tablet) {
+          font-size: mixins.vw(20px, variables.$tablet);
         }
-        @include respond-to(mobile) {
-          font-size: vw(20px, $mobile);
+        @include mixins.respond-to(mobile) {
+          font-size: mixins.vw(20px, variables.$mobile);
         }
         &:hover {
-          color: $teal;
+          color: variables.$teal;
         }
         &.active {
-          color: $teal;
+          color: variables.$teal;
         }
       }
     }

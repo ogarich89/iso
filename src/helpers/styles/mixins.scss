@@ -1,24 +1,21 @@
-$mobile: 425;
-$tablet: 768;
-$laptop: 1024;
-$desktop: 1920;
+@use "variables";
 
 @mixin respond-to($arr) {
   @each $media in $arr {
     @if $media == mobile {
-      @media only screen and (max-width: #{$mobile}px) {
+      @media only screen and (max-width: #{variables.$mobile}px) {
         @content;
       }
     } @else if $media == tablet {
-      @media only screen and (min-width: #{$mobile + 1}px) and (max-width: #{$tablet}px) {
+      @media only screen and (min-width: #{variables.$mobile + 1}px) and (max-width: #{variables.$tablet}px) {
         @content;
       }
     } @else if $media == laptop {
-      @media only screen and (min-width: #{$tablet + 1}px) and (max-width: #{$laptop}px) {
+      @media only screen and (min-width: #{variables.$tablet + 1}px) and (max-width: #{variables.$laptop}px) {
         @content;
       }
     } @else if $media == desktop {
-      @media only screen and (min-width: #{$laptop + 1}px) and (max-width: #{$desktop}px) {
+      @media only screen and (min-width: #{variables.$laptop + 1}px) and (max-width: #{variables.$desktop}px) {
         @content;
       }
     } @else if $media == landscape {

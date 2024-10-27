@@ -1,5 +1,5 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 .substrate {
   display: table;
@@ -21,15 +21,15 @@
       position: relative;
       display: inline-block;
       z-index: 30;
-      padding: vw(35px, $desktop);
+      padding: mixins.vw(35px, variables.$desktop);
       border-radius: 0.3vw;
-      @include respond-to(laptop) {
-        padding: vw(35px, $laptop);
+      @include mixins.respond-to(laptop) {
+        padding: mixins.vw(35px, variables.$laptop);
       }
-      @include respond-to(tablet) {
-        padding: vw(35px, $tablet);
+      @include mixins.respond-to(tablet) {
+        padding: mixins.vw(35px, variables.$tablet);
       }
-      @include respond-to(mobile) {
+      @include mixins.respond-to(mobile) {
         padding: 0
       }
       &.dark {
@@ -38,18 +38,18 @@
       .close-btn {
         cursor: pointer;
         position: absolute;
-        top: vw(10px, $desktop);
-        right: vw(10px, $desktop);
-        @include respond-to(laptop) {
-          top: vw(10px, $laptop);
-          right: vw(10px, $laptop);
+        top: mixins.vw(10px, variables.$desktop);
+        right: mixins.vw(10px, variables.$desktop);
+        @include mixins.respond-to(laptop) {
+          top: mixins.vw(10px, variables.$laptop);
+          right: mixins.vw(10px, variables.$laptop);
         }
-        @include respond-to(tablet) {
-          top: vw(10px, $tablet);
-          right: vw(10px, $tablet);
+        @include mixins.respond-to(tablet) {
+          top: mixins.vw(10px, variables.$tablet);
+          right: mixins.vw(10px, variables.$tablet);
         }
-        @include respond-to(mobile) {
-          top: vw(-30px, $mobile);
+        @include mixins.respond-to(mobile) {
+          top: mixins.vw(-30px, variables.$mobile);
           right: 0;
         }
       }

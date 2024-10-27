@@ -1,66 +1,66 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 .about {
   position: relative;
   z-index: 10;
-  width: vw(500px, $desktop);
-  padding: vw(40px, $desktop);
+  width: mixins.vw(500px, variables.$desktop);
+  padding: mixins.vw(40px, variables.$desktop);
   background-color: #fff;
-  @include respond-to(laptop) {
-    width: vw(500px, $laptop);
-    padding: vw(40px, $laptop);
+  @include mixins.respond-to(laptop) {
+    width: mixins.vw(500px, variables.$laptop);
+    padding: mixins.vw(40px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    width: vw(500px, $tablet);
-    padding: vw(40px, $tablet);
+  @include mixins.respond-to(tablet) {
+    width: mixins.vw(500px, variables.$tablet);
+    padding: mixins.vw(40px, variables.$tablet);
   }
-  @include respond-to(mobile) {
+  @include mixins.respond-to(mobile) {
     width: 100%;
-    padding: vw(20px, $mobile);
+    padding: mixins.vw(20px, variables.$mobile);
   }
   .title {
     text-align: center;
-    margin-bottom: vw(20px, $desktop);
-    padding-bottom: vw(10px, $desktop);
-    border-bottom: 1px solid $gray;
-    @include respond-to(laptop) {
-      margin-bottom: vw(20px, $laptop);
-      padding-bottom: vw(10px, $laptop);
+    margin-bottom: mixins.vw(20px, variables.$desktop);
+    padding-bottom: mixins.vw(10px, variables.$desktop);
+    border-bottom: 1px solid variables.$gray;
+    @include mixins.respond-to(laptop) {
+      margin-bottom: mixins.vw(20px, variables.$laptop);
+      padding-bottom: mixins.vw(10px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      margin-bottom: vw(20px, $tablet);
-      padding-bottom: vw(10px, $tablet);
+    @include mixins.respond-to(tablet) {
+      margin-bottom: mixins.vw(20px, variables.$tablet);
+      padding-bottom: mixins.vw(10px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      margin-bottom: vw(20px, $mobile);
-      padding-bottom: vw(10px, $mobile);
+    @include mixins.respond-to(mobile) {
+      margin-bottom: mixins.vw(20px, variables.$mobile);
+      padding-bottom: mixins.vw(10px, variables.$mobile);
     }
     h4 {
-      font-size: vw(24px, $desktop);
-      @include respond-to(laptop) {
-        font-size: vw(24px, $laptop);
+      font-size: mixins.vw(24px, variables.$desktop);
+      @include mixins.respond-to(laptop) {
+        font-size: mixins.vw(24px, variables.$laptop);
       }
-      @include respond-to(tablet) {
-        font-size: vw(24px, $tablet);
+      @include mixins.respond-to(tablet) {
+        font-size: mixins.vw(24px, variables.$tablet);
       }
-      @include respond-to(mobile) {
-        font-size: vw(24px, $mobile);
+      @include mixins.respond-to(mobile) {
+        font-size: mixins.vw(24px, variables.$mobile);
       }
     }
   }
   .text-container {
     text-align: center;
     p {
-      font-size: vw(16px, $desktop);
-      @include respond-to(laptop) {
-        font-size: vw(16px, $laptop);
+      font-size: mixins.vw(16px, variables.$desktop);
+      @include mixins.respond-to(laptop) {
+        font-size: mixins.vw(16px, variables.$laptop);
       }
-      @include respond-to(tablet) {
-        font-size: vw(16px, $tablet);
+      @include mixins.respond-to(tablet) {
+        font-size: mixins.vw(16px, variables.$tablet);
       }
-      @include respond-to(mobile) {
-        font-size: vw(16px, $mobile);
+      @include mixins.respond-to(mobile) {
+        font-size: mixins.vw(16px, variables.$mobile);
       }
     }
   }

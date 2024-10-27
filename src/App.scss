@@ -1,6 +1,6 @@
+@use "variables";
+@use "mixins";
 @import "reset-css/reset.css";
-@import "variables";
-@import "mixins";
 
 :global {
   html, body, #root {
@@ -11,7 +11,7 @@
     flex-direction: column;
   }
   .container {
-    width: vw(1600px, $desktop);
+    width: mixins.vw(1600px, variables.$desktop);
     margin: 0 auto;
   }
   html {
@@ -26,20 +26,20 @@
     }
   }
   .icon {
-    width: vw(24px, $desktop);
-    height: vw(24px, $desktop);
+    width: mixins.vw(24px, variables.$desktop);
+    height: mixins.vw(24px, variables.$desktop);
     display: block;
-    @include respond-to(laptop) {
-      width: vw(24px, $laptop);
-      height: vw(24px, $laptop);
+    @include mixins.respond-to(laptop) {
+      width: mixins.vw(24px, variables.$laptop);
+      height: mixins.vw(24px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      width: vw(24px, $tablet);
-      height: vw(24px, $tablet);
+    @include mixins.respond-to(tablet) {
+      width: mixins.vw(24px, variables.$tablet);
+      height: mixins.vw(24px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      width: vw(24px, $mobile);
-      height: vw(24px, $mobile);
+    @include mixins.respond-to(mobile) {
+      width: mixins.vw(24px, variables.$mobile);
+      height: mixins.vw(24px, variables.$mobile);
     }
   }
 }
@@ -54,15 +54,15 @@ body {
 
 main {
   flex: 1;
-  padding-top: vw(60px, $desktop);
-  @include respond-to(laptop) {
-    padding-top: vw(60px, $laptop);
+  padding-top: mixins.vw(60px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    padding-top: mixins.vw(60px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    padding-top: vw(60px, $tablet);
+  @include mixins.respond-to(tablet) {
+    padding-top: mixins.vw(60px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    padding-top: vw(60px, $mobile);
+  @include mixins.respond-to(mobile) {
+    padding-top: mixins.vw(60px, variables.$mobile);
   }
 }
 
@@ -105,107 +105,107 @@ h1, h2, h3, h4, p {
 h1, h2 {
   font-weight: 700;
   font-family: RobotoSlab, sans-serif;
-  letter-spacing: vw(1px, $desktop);
+  letter-spacing: mixins.vw(1px, variables.$desktop);
 }
 
 h1 {
-  font-size: vw(30px, $desktop);
+  font-size: mixins.vw(30px, variables.$desktop);
   line-height: 1.33;
-  margin-bottom: vw(30px, $desktop);
-  @include respond-to(laptop) {
-    font-size: vw(30px, $laptop);
-    margin-bottom: vw(30px, $laptop);
+  margin-bottom: mixins.vw(30px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(30px, variables.$laptop);
+    margin-bottom: mixins.vw(30px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    font-size: vw(30px, $tablet);
-    margin-bottom: vw(30px, $tablet);
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(30px, variables.$tablet);
+    margin-bottom: mixins.vw(30px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    font-size: vw(25px, $mobile);
-    margin-bottom: vw(20px, $mobile);
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(25px, variables.$mobile);
+    margin-bottom: mixins.vw(20px, variables.$mobile);
   }
 }
 
 h2 {
-  font-size: vw(20px, $desktop);
+  font-size: mixins.vw(20px, variables.$desktop);
   line-height: 1.25;
-  margin-bottom: vw(15px, $desktop);
-  @include respond-to(laptop) {
-    font-size: vw(20px, $laptop);
-    margin-bottom: vw(15px, $laptop);
+  margin-bottom: mixins.vw(15px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(20px, variables.$laptop);
+    margin-bottom: mixins.vw(15px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    font-size: vw(20px, $tablet);
-    margin-bottom: vw(15px, $tablet);
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(20px, variables.$tablet);
+    margin-bottom: mixins.vw(15px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    font-size: vw(20px, $mobile);
-    margin-bottom: vw(15px, $mobile);
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(20px, variables.$mobile);
+    margin-bottom: mixins.vw(15px, variables.$mobile);
   }
 }
 
 h3, h4 {
   font-family: Ubuntu, sans-serif;
-  letter-spacing: vw(1px, $desktop);
-  @include respond-to(laptop) {
-    letter-spacing: vw(1px, $laptop);
+  letter-spacing: mixins.vw(1px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    letter-spacing: mixins.vw(1px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    letter-spacing: vw(1px, $tablet);
+  @include mixins.respond-to(tablet) {
+    letter-spacing: mixins.vw(1px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    letter-spacing: vw(1px, $mobile);
+  @include mixins.respond-to(mobile) {
+    letter-spacing: mixins.vw(1px, variables.$mobile);
   }
 }
 
 h3 {
   font-weight: 700;
-  font-size: vw(20px, $desktop);
+  font-size: mixins.vw(20px, variables.$desktop);
   line-height: 1.25;
-  margin-bottom: vw(15px, $desktop);
-  @include respond-to(laptop) {
-    font-size: vw(20px, $laptop);
-    margin-bottom: vw(15px, $laptop);
+  margin-bottom: mixins.vw(15px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(20px, variables.$laptop);
+    margin-bottom: mixins.vw(15px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    font-size: vw(20px, $tablet);
-    margin-bottom: vw(15px, $tablet);
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(20px, variables.$tablet);
+    margin-bottom: mixins.vw(15px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    font-size: vw(20px, $mobile);
-    margin-bottom: vw(15px, $mobile);
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(20px, variables.$mobile);
+    margin-bottom: mixins.vw(15px, variables.$mobile);
   }
 }
 
 h4 {
   font-weight: 700;
-  font-size: vw(14px, $desktop);
+  font-size: mixins.vw(14px, variables.$desktop);
   line-height: 1.2;
-  margin-bottom: vw(10px, $desktop);
-  @include respond-to(laptop) {
-    font-size: vw(14px, $laptop);
-    margin-bottom: vw(10px, $laptop);
+  margin-bottom: mixins.vw(10px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(14px, variables.$laptop);
+    margin-bottom: mixins.vw(10px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    font-size: vw(14px, $tablet);
-    margin-bottom: vw(10px, $tablet);
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(14px, variables.$tablet);
+    margin-bottom: mixins.vw(10px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    font-size: vw(14px, $mobile);
-    margin-bottom: vw(10px, $mobile);
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(14px, variables.$mobile);
+    margin-bottom: mixins.vw(10px, variables.$mobile);
   }
 }
 
 p {
-  font-size: vw(14px, $desktop);
+  font-size: mixins.vw(14px, variables.$desktop);
   line-height: 2.14;
-  @include respond-to(laptop) {
-    font-size: vw(14px, $laptop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(14px, variables.$laptop);
   }
-  @include respond-to(tablet) {
-    font-size: vw(14px, $tablet);
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(14px, variables.$tablet);
   }
-  @include respond-to(mobile) {
-    font-size: vw(14px, $mobile);
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(14px, variables.$mobile);
   }
 }

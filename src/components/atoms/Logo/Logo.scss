@@ -1,31 +1,31 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 .logo {
   a {
-    font-size: vw(35px, $desktop);
+    font-size: mixins.vw(35px, variables.$desktop);
     text-transform: uppercase;
     text-decoration: none;
-    color: $white;
-    @include respond-to(laptop) {
-      font-size: vw(35px, $laptop);
+    color: variables.$white;
+    @include mixins.respond-to(laptop) {
+      font-size: mixins.vw(35px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      font-size: vw(35px, $tablet);
+    @include mixins.respond-to(tablet) {
+      font-size: mixins.vw(35px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      font-size: vw(35px, $mobile);
+    @include mixins.respond-to(mobile) {
+      font-size: mixins.vw(35px, variables.$mobile);
     }
     small {
-      font-size: vw(16px, $desktop);
-      @include respond-to(laptop) {
-        font-size: vw(16px, $laptop);
+      font-size: mixins.vw(16px, variables.$desktop);
+      @include mixins.respond-to(laptop) {
+        font-size: mixins.vw(16px, variables.$laptop);
       }
-      @include respond-to(tablet) {
-        font-size: vw(16px, $tablet);
+      @include mixins.respond-to(tablet) {
+        font-size: mixins.vw(16px, variables.$tablet);
       }
-      @include respond-to(mobile) {
-        font-size: vw(16px, $mobile);
+      @include mixins.respond-to(mobile) {
+        font-size: mixins.vw(16px, variables.$mobile);
       }
     }
   }

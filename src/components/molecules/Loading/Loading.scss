@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@use "mixins";
+@use "variables";
 
 .loading {
   height: 100%;
@@ -7,15 +7,15 @@
   align-items: center;
   justify-content: center;
   strong {
-    font-size: vw(50px, $desktop);
-    @include respond-to(laptop) {
-      font-size: vw(45px, $laptop);
+    font-size: mixins.vw(50px, variables.$desktop);
+    @include mixins.respond-to(laptop) {
+      font-size: mixins.vw(45px, variables.$laptop);
     }
-    @include respond-to(tablet) {
-      font-size: vw(40px, $tablet);
+    @include mixins.respond-to(tablet) {
+      font-size: mixins.vw(40px, variables.$tablet);
     }
-    @include respond-to(mobile) {
-      font-size: vw(20px, $mobile);
+    @include mixins.respond-to(mobile) {
+      font-size: mixins.vw(20px, variables.$mobile);
     }
   }
 }

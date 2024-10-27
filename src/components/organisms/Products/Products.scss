@@ -1,16 +1,16 @@
-@import "variables";
-@import "mixins";
+@use "variables";
+@use "mixins";
 
 .products {
-  padding: vw(50px, $desktop) 0;
-  @include respond-to(laptop) {
-    padding: vw(50px, $laptop) 0;
+  padding: mixins.vw(50px, variables.$desktop) 0;
+  @include mixins.respond-to(laptop) {
+    padding: mixins.vw(50px, variables.$laptop) 0;
   }
-  @include respond-to(tablet) {
-    padding: vw(50px, $tablet) 0;
+  @include mixins.respond-to(tablet) {
+    padding: mixins.vw(50px, variables.$tablet) 0;
   }
-  @include respond-to(mobile) {
-    padding: vw(50px, $mobile) 0;
+  @include mixins.respond-to(mobile) {
+    padding: mixins.vw(50px, variables.$mobile) 0;
   }
   .products-container {
     display: flex;
