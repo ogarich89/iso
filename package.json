@@ -81,7 +81,7 @@
     "@svgr/webpack": "^8.1.0",
     "@swc/core": "^1.7.11",
     "@swc/jest": "^0.2.36",
-    "@swc/plugin-loadable-components": "^2.0.2",
+    "@swc/plugin-loadable-components": "^4.0.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.0",
     "@types/classnames": "^2.2.9",
