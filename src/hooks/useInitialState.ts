@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'src/hooks/redux';
 
 import type { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';

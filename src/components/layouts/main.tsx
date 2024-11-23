@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
 import { useEffect, useState } from 'react';
-import { useLocation, Outlet } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router';
 import { Header } from 'src/components/molecules/Header/Header';
 import { setOverflow } from 'src/helpers';
 import { emitter, TOGGLE_MODAL } from 'src/libs/emitter';

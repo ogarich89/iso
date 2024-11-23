@@ -1,8 +1,8 @@
-import { NavLink, matchPath } from 'react-router-dom';
+import { NavLink, matchPath } from 'react-router';
 import routes from 'src/routes';
 
 import type { FunctionComponent, MouseEventHandler } from 'react';
-import type { NavLinkProps } from 'react-router-dom';
+import type { NavLinkProps } from 'react-router';
 
 export const Link: FunctionComponent<NavLinkProps> = ({
   style,

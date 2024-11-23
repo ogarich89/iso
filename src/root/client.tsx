@@ -5,7 +5,7 @@ import Fetch from 'i18next-http-backend';
 import { hydrateRoot } from 'react-dom/client';
 import { withSSR, initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { App } from 'src/App';
 import { initializeState } from 'src/store';
 

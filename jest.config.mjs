@@ -1,5 +1,6 @@
 export default {
   roots: ['<rootDir>'],
+  setupFiles: ['<rootDir>/config/jest.setup.cjs'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': [

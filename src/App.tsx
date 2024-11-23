@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { renderNestedRoutes } from 'src/helpers';
 import routes from 'src/routes';
 

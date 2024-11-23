@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 
 import path from 'path';
 
