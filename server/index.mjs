@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import * as Sentry from '@sentry/node';
+import * as Sentry from '@sentry/bun';
 import Fastify from 'fastify';
 
 import { config } from '../config/index.mjs';
