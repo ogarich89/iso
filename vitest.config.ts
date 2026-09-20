@@ -24,6 +24,7 @@ export default defineConfig({
   },
   define: {
     'import.meta.env.VITE_API': JSON.stringify('https://reqres.in'),
+    'import.meta.env.VITE_API_KEY': JSON.stringify('test-api-key'),
     'import.meta.env.VITE_PORT': JSON.stringify('3000'),
   },
   test: {
