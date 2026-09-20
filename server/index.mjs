@@ -4,6 +4,7 @@ import Fastify from 'fastify';
 
 import { config } from '../config/index.mjs';
 
+import { errorReply } from './error.mjs';
 import { register } from './register.mjs';
 import { createRenderer } from './renderer/index.mjs';
 import { routes } from './routes.mjs';
@@ -42,10 +43,14 @@ const app = Fastify({
 });
 
 app.setErrorHandler(async (error, _request, reply) => {
-  if (sentryDSN) {
-    Sentry.captureException(error);
+  const { status, body } = errorReply(error, isProduction);
+  if (status === 500) {
+    app.log.error(error);
+    if (sentryDSN) {
+      Sentry.captureException(error);
+    }
   }
-  reply.status(500).send(error);
+  reply.status(status).send(body);
 });
 
 const renderPage = await createRenderer(app);
@@ -65,10 +70,12 @@ app.get('*', async (request, reply) => {
     });
     reply.header('Content-Type', 'text/html').send(html);
   } catch (error) {
+    const { status, body } = errorReply(error, isProduction);
+    app.log.error(error);
     if (sentryDSN) {
       Sentry.captureException(error);
     }
-    reply.status(500).send(error);
+    reply.status(status).send(body);
   }
 });
 
