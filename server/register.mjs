@@ -8,7 +8,7 @@ import Redis from 'ioredis';
 
 import { config } from '../config/index.mjs';
 
-const { withStatic = true, sessionRedisDb, withRedis } = config;
+const { withStatic, sessionRedisDb, withRedis, sessionSecret } = config;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -23,13 +23,17 @@ const initRedisStore = () => {
 };
 
 const register = (app, { isProduction } = {}) => {
+  if (!sessionSecret) {
+    throw new Error('SESSION_SECRET is required: set at least 32 characters in .env.local');
+  }
+
   app.register(cookie);
 
   app.register(session, {
     ...(withRedis ? { store: initRedisStore() } : {}),
     cookieName: 'session_id',
     cookie: { secure: false },
-    secret: process.env.SESSION_SECRET,
+    secret: sessionSecret,
   });
 
   if (withStatic) {
