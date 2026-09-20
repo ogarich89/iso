@@ -2,56 +2,44 @@
 @use "mixins";
 
 .substrate {
-  display: table;
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 14;
-  background-color: rgba(#000, .6);
-  .wrapper {
-    display: table-cell;
-    width: 100%;
-    height: 100%;
-    vertical-align: middle;
-    text-align: center;
-    .modal {
-      text-align: left;
-      position: relative;
-      display: inline-block;
-      z-index: 30;
-      padding: mixins.vw(35px, variables.$desktop);
-      border-radius: 0.3vw;
+  border: 0;
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+  background-color: transparent;
+  &::backdrop {
+    background-color: rgba(#000, .6);
+  }
+  .modal {
+    position: relative;
+    text-align: left;
+    padding: mixins.vw(35px, variables.$desktop);
+    border-radius: 0.3vw;
+    @include mixins.respond-to(laptop) {
+      padding: mixins.vw(35px, variables.$laptop);
+    }
+    @include mixins.respond-to(tablet) {
+      padding: mixins.vw(35px, variables.$tablet);
+    }
+    @include mixins.respond-to(mobile) {
+      padding: mixins.vw(30px, variables.$mobile) 0 0;
+    }
+    .close-btn {
+      cursor: pointer;
+      position: absolute;
+      top: mixins.vw(10px, variables.$desktop);
+      right: mixins.vw(10px, variables.$desktop);
       @include mixins.respond-to(laptop) {
-        padding: mixins.vw(35px, variables.$laptop);
+        top: mixins.vw(10px, variables.$laptop);
+        right: mixins.vw(10px, variables.$laptop);
       }
       @include mixins.respond-to(tablet) {
-        padding: mixins.vw(35px, variables.$tablet);
+        top: mixins.vw(10px, variables.$tablet);
+        right: mixins.vw(10px, variables.$tablet);
       }
       @include mixins.respond-to(mobile) {
-        padding: 0
-      }
-      &.dark {
-        background-color: #000;
-      }
-      .close-btn {
-        cursor: pointer;
-        position: absolute;
-        top: mixins.vw(10px, variables.$desktop);
-        right: mixins.vw(10px, variables.$desktop);
-        @include mixins.respond-to(laptop) {
-          top: mixins.vw(10px, variables.$laptop);
-          right: mixins.vw(10px, variables.$laptop);
-        }
-        @include mixins.respond-to(tablet) {
-          top: mixins.vw(10px, variables.$tablet);
-          right: mixins.vw(10px, variables.$tablet);
-        }
-        @include mixins.respond-to(mobile) {
-          top: mixins.vw(-30px, variables.$mobile);
-          right: 0;
-        }
+        top: 0;
+        right: 0;
       }
     }
   }

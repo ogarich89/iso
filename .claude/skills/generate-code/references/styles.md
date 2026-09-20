@@ -31,7 +31,8 @@ Both are aliases (`src/styles/variables.scss`, `src/styles/mixins.scss`) — nev
 | `$white` | `#E0E0E0` | text on the dark header |
 | `$gray` | `#4D4D4D` | secondary text, borders, dropdown background |
 | `$black` | `#000000` | header background |
-| `$teal` | `#008080` | links on hover, active navigation |
+| `$teal` | `#008080` | accent on light backgrounds (4.8:1 on white) |
+| `$teal-light` | `#00A3A3` | the same accent on the dark header (6.8:1 on black; `$teal` only reaches 4.4:1 there) |
 | `$orange` | `#D2691E` | accent |
 | `$mobile` / `$tablet` / `$laptop` / `$desktop` | `425` / `768` / `1024` / `1920` | unitless breakpoint widths |
 
@@ -76,6 +77,13 @@ not reach a laptop. That is why the codebase repeats each fluid value four times
 
 Generate that ladder for every fluid declaration, in that order (desktop base → laptop → tablet → mobile),
 and change the px value per breakpoint only where the design actually differs (typically mobile).
+
+## Contrast
+
+Text must reach 4.5:1 against its background, which is why the palette carries two teals. When a colour comes
+from data rather than the palette — a product colour behind a card — pick the foreground with
+`isLightColor(hex)` from `src/lib/color` (black above the luminance threshold, white below) instead of
+guessing a single colour that works "well enough".
 
 ## Class naming and nesting
 

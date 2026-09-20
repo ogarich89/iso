@@ -94,7 +94,8 @@ Dockerfile, docker-compose.yml                                        (Bun image
 - **Pages** are `*.page.tsx` inside their module, referenced by name in `src/app/routes.ts`.
 - **Layering** — a domain owns its types (`src/modules/<domain>/types.ts`) and its slice of `State` (via `declare module 'src/store'`); `shared` (store/types/lib) never imports from `modules`. UI lives with its only consumer: layout chrome under `src/layouts/components/`, domain UI under the module, and `src/components/` only for what more than one of them uses. `PageNotFound` belongs to `not-found` and is reused by the products pages.
 - **Styles** — CSS Modules `X.module.scss` (camelCase locals) imported as `import style from './X.module.scss'`; globals in `src/app/App.scss`; design tokens in `src/styles/` via `@use "variables"` / `@use "mixins"`.
-- **Icons/SVGs** — prefer `lucide-react`; local SVGs use the `?react` suffix (SVGR).
+- **Icons/SVGs** — prefer `lucide-react`; local SVGs use the `?react` suffix (SVGR), and carry no `<style>` block (CSP).
+- **Accessibility** — Biome's `a11y` rules are all on. Interactive elements are real `<button>`/`<a>`, the modal is a native `<dialog>` (`showModal`, Escape, focus trap), headings descend in order, and text keeps 4.5:1 contrast — `$teal-light` on the dark header, `isLightColor()` for text over a colour that comes from data. The single exception is `useKeyWithClickEvents` on `Modal.tsx`, overridden in `biome.json` because the backdrop click's keyboard equivalent is the dialog's own Escape handling.
 
 ## Gotchas
 

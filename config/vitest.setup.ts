@@ -14,3 +14,13 @@ vi.mock('react-i18next', () => {
 beforeEach(() => {
   vi.stubGlobal('scrollTo', vi.fn());
 });
+
+if (!HTMLDialogElement.prototype.showModal) {
+  HTMLDialogElement.prototype.showModal = function showModal() {
+    this.open = true;
+  };
+  HTMLDialogElement.prototype.close = function close() {
+    this.open = false;
+    this.dispatchEvent(new Event('close'));
+  };
+}

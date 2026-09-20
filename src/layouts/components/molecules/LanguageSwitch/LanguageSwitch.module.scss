@@ -25,6 +25,8 @@
   }
   .language {
     display: flex;
+    align-items: center;
+    font-family: inherit;
     padding: mixins.vw(10px, variables.$desktop);
     cursor: pointer;
     color: variables.$white;

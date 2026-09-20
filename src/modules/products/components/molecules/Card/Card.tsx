@@ -1,12 +1,17 @@
 import type { FunctionComponent } from 'react';
 import { Link } from 'src/components/molecules/Link/Link';
+import { isLightColor } from 'src/lib/color';
 import type { Product } from 'src/modules/products/types';
 import style from './Card.module.scss';
 
 export const Card: FunctionComponent<Product> = ({ id, color, pantone_value, year, name }) => (
-  <Link style={{ backgroundColor: color }} className={style.card} to={`/products/${id}`}>
+  <Link
+    style={{ backgroundColor: color, color: isLightColor(color) ? '#000000' : '#ffffff' }}
+    className={style.card}
+    to={`/products/${id}`}
+  >
     <div className={style.title}>
-      <h4>{name}</h4>
+      <h2>{name}</h2>
     </div>
     <ul className={style.list}>
       <li>

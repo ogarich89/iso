@@ -94,6 +94,11 @@ export const Example: FunctionComponent = () => {
 ```
 
 Rules that show up in review:
+- anything clickable is a `<button type="button">` or an `<a>`, never a `<span role="button">`; the a11y lint
+  rules are on and will reject the alternative;
+- an overlay is a native `<dialog>` opened with `showModal()` (see `Modal.tsx`), which brings the focus trap,
+  the Escape key and the backdrop for free;
+- headings descend in order — a card title under an `h1` page title is an `h2`, not an `h4` picked for size;
 - render nothing with `null`, never `false` or `<></>`;
 - `{condition ? <X /> : null}`, not `&&`;
 - translated copy goes through `t('key')` with the key added to `public/locales/{en,ru}/translation.json`;

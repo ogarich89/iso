@@ -49,11 +49,11 @@
     @include mixins.respond-to(mobile) {
       margin-bottom: mixins.vw(20px, variables.$mobile);
     }
-    h4 {
+    h2 {
       font-size: mixins.vw(24px, variables.$desktop);
       text-decoration: none;
       text-transform: uppercase;
-      color: variables.$gray;
+      color: inherit;
       margin-bottom: 0;
       font-weight: normal;
       font-family: RobotoSlab, sans-serif;
@@ -83,7 +83,7 @@
       strong {
         font-size: mixins.vw(20px, variables.$desktop);
         font-weight: 500;
-        color: #000;
+        color: inherit;
         @include mixins.respond-to(laptop) {
           font-size: mixins.vw(20px, variables.$laptop);
         }
@@ -96,7 +96,7 @@
       }
       span {
         font-size: mixins.vw(18px, variables.$desktop);
-        color: variables.$gray;
+        color: inherit;
         @include mixins.respond-to(laptop) {
           font-size: mixins.vw(18px, variables.$laptop);
         }

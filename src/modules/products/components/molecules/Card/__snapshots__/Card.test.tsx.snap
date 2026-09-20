@@ -6,14 +6,14 @@ exports[`<Card /> > should render a product card linking to the product page 1`]
     class="_card_9cdd85"
     data-discover="true"
     href="/products/1"
-    style="background-color: rgb(152, 178, 209);"
+    style="background-color: rgb(152, 178, 209); color: rgb(0, 0, 0);"
   >
     <div
       class="_title_9cdd85"
     >
-      <h4>
+      <h2>
         cerulean
-      </h4>
+      </h2>
     </div>
     <ul
       class="_list_9cdd85"

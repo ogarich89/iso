@@ -28,12 +28,7 @@
     "enabled": true,
     "rules": {
       "preset": "recommended",
-      "a11y": {
-        "noStaticElementInteractions": "off",
-        "useFocusableInteractive": "off",
-        "useKeyWithClickEvents": "off",
-        "useSemanticElements": "off"
-      },
+      "a11y": "on",
       "performance": {
         "noAccumulatingSpread": "off"
       },
@@ -71,6 +66,16 @@
     }
   },
   "overrides": [
+    {
+      "includes": ["src/components/organisms/Modal/Modal.tsx"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useKeyWithClickEvents": "off"
+          }
+        }
+      }
+    },
     {
       "includes": ["config/**", "server/**", "*.config.*", "vite.config.ts", "vitest.config.ts"],
       "linter": {

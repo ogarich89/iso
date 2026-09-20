@@ -36,7 +36,7 @@
       margin-bottom: mixins.vw(20px, variables.$mobile);
       padding-bottom: mixins.vw(10px, variables.$mobile);
     }
-    h4 {
+    h2 {
       font-size: mixins.vw(24px, variables.$desktop);
       @include mixins.respond-to(laptop) {
         font-size: mixins.vw(24px, variables.$laptop);

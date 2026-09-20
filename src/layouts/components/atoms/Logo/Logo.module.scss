@@ -3,6 +3,8 @@
 
 .logo {
   a {
+    display: block;
+    line-height: 1;
     font-size: mixins.vw(35px, variables.$desktop);
     text-transform: uppercase;
     text-decoration: none;

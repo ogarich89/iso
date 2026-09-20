@@ -16,6 +16,17 @@ describe('<LanguageSwitch />', () => {
     expect(screen.getByRole('button', { name: 'en' })).toBeTruthy();
   });
 
+  it('should tell assistive technology whether the list is open', () => {
+    render(<LanguageSwitch />);
+    const toggle = screen.getByRole('button', { name: 'en' });
+
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+
+    fireEvent.click(toggle);
+
+    expect(screen.getAllByRole('button', { name: 'en' })[0].getAttribute('aria-expanded')).toBe('true');
+  });
+
   it('should toggle the language list', () => {
     render(<LanguageSwitch />);
     const [toggle] = screen.getAllByRole('button');

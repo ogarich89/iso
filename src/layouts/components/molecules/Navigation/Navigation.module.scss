@@ -29,6 +29,9 @@
         }
       }
       a, button {
+        display: flex;
+        align-items: center;
+        line-height: 1;
         text-transform: none;
         color: variables.$white;
         cursor: pointer;
@@ -45,10 +48,10 @@
           font-size: mixins.vw(20px, variables.$mobile);
         }
         &:hover {
-          color: variables.$teal;
+          color: variables.$teal-light;
         }
         &.active {
-          color: variables.$teal;
+          color: variables.$teal-light;
         }
       }
     }

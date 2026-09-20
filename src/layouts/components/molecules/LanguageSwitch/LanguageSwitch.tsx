@@ -30,20 +30,20 @@ export const LanguageSwitch = () => {
 
   return (
     <div className={style.container}>
-      <span className={style.language} role="button" onClick={handleClick}>
+      <button type="button" className={style.language} onClick={handleClick} aria-expanded={active}>
         <Icon />
         {i18n.language}
-      </span>
+      </button>
       {active ? (
         <ul className={style.list}>
           {LANGUAGES.map((language, index) => {
             const Icon = icons[language];
             return (
               <li key={`language-${index}`}>
-                <span className={style.language} role="button" onClick={() => changeLanguage(language)}>
+                <button type="button" className={style.language} onClick={() => changeLanguage(language)}>
                   <Icon />
                   {language}
-                </span>
+                </button>
               </li>
             );
           })}

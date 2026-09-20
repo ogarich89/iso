@@ -16,9 +16,20 @@ describe('<Card />', () => {
 
     expect(link.getAttribute('href')).toBe('/products/1');
     expect(link.style.backgroundColor).toBe('rgb(152, 178, 209)');
+    expect(link.style.color).toBe('rgb(0, 0, 0)');
     expect(screen.getByText('cerulean')).toBeTruthy();
     expect(screen.getByText('15-4020')).toBeTruthy();
     expect(screen.getByText('2000')).toBeTruthy();
     expect(container).toMatchSnapshot();
+  });
+
+  it('should write in white on a dark product colour', () => {
+    render(
+      <MemoryRouter>
+        <Card {...product} color="#BF1932" />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole('link').style.color).toBe('rgb(255, 255, 255)');
   });
 });
