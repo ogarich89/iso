@@ -7,3 +7,4 @@ coverage
 .cache
 .swc
 .env.local
+.claude/settings.local.json
