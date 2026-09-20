@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<Card /> > should render a product card linking to the product page 1`] = `
+<div>
+  <a
+    class="_card_9cdd85"
+    data-discover="true"
+    href="/products/1"
+    style="background-color: rgb(152, 178, 209);"
+  >
+    <div
+      class="_title_9cdd85"
+    >
+      <h4>
+        cerulean
+      </h4>
+    </div>
+    <ul
+      class="_list_9cdd85"
+    >
+      <li>
+        <strong>
+          Color model: 
+        </strong>
+        <span>
+          15-4020
+        </span>
+      </li>
+      <li>
+        <strong>
+          Year: 
+        </strong>
+        <span>
+          2000
+        </span>
+      </li>
+    </ul>
+  </a>
+</div>
+`;

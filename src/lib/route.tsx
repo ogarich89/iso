@@ -16,7 +16,7 @@ const byName = (modules: Record<string, () => Promise<unknown>>, suffix: RegExp)
   );
 
 const pages = byName(import.meta.glob('/src/modules/**/*.page.tsx'), /\.page\.tsx$/);
-const layouts = byName(import.meta.glob('/src/layouts/*.tsx'), /\.tsx$/);
+const layouts = byName(import.meta.glob(['/src/layouts/*.tsx', '!/src/layouts/*.test.tsx']), /\.tsx$/);
 
 const noop: InitialAction = () => {};
 

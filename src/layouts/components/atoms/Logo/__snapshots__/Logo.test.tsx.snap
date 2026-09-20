@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<Logo /> > should link to the home page 1`] = `
+<div>
+  <div
+    class="_logo_350d5b"
+  >
+    <a
+      aria-current="page"
+      class="active"
+      data-discover="true"
+      href="/"
+    >
+      ISO
+      <small>
+        JS
+      </small>
+    </a>
+  </div>
+</div>
+`;

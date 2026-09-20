@@ -23,6 +23,6 @@
     "noEmit": true,
     "sourceMap": true
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts", "config/i18n.mjs"],
-  "exclude": ["node_modules", "dist", "coverage", "**/*.test.ts", "**/*.test.tsx"]
+  "include": ["src", "vite.config.ts", "vitest.config.ts", "config/i18n.mjs", "config/vitest.setup.ts"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }

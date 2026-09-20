@@ -1,0 +1,71 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<Modal /> > should render the modal by name 1`] = `
+<div>
+  <div
+    class="_substrate_46a501"
+  >
+    <div
+      class="_wrapper_46a501"
+    >
+      <div
+        class="_modal_46a501"
+      >
+        <button
+          class="_closeBtn_46a501"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-x icon"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
+            />
+          </svg>
+        </button>
+        <div
+          class="_about_c1c7fc"
+        >
+          <div
+            class="_title_c1c7fc"
+          >
+            <h4>
+              about_iso
+            </h4>
+          </div>
+          <div
+            class="_textContainer_c1c7fc"
+          >
+            <p>
+              description
+            </p>
+            <p>
+              developed_by
+              <a
+                href="https://github.com/ogarich89"
+                rel="noopener"
+                target="_blank"
+              >
+                ogarich89
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

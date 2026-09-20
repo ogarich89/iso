@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<PageNotFound /> > should render component 1`] = `
+<div>
+  <section
+    class="_pageNotFound_1c0d3d"
+  >
+    <strong>
+      PAGE NOT FOUND
+    </strong>
+  </section>
+</div>
+`;
