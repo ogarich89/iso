@@ -53,19 +53,21 @@ const renderPreloadLinks = (modules: string[], manifest: Record<string, string[]
 };
 
 export async function render(url: string, { manifest, cookie, lng = 'en' }: RenderContext = {}): Promise<RenderResult> {
-  const store = createAppStore();
+  const initialStore = createAppStore();
   const [pathname] = url.split('?');
 
   const matched = expandRoutes(routes)
-    .filter(({ path }) => path && path !== '*')
+    .filter(({ path }) => path)
     .find(({ path }) => matchPath(path, pathname));
 
   if (matched) {
     await Promise.all(matched.components.map((component) => component.preload()));
     await Promise.all(
-      matched.initialActions.map((action) => action(store, { url, headers: cookie ? { cookie } : undefined })),
+      matched.initialActions.map((action) => action(initialStore, { url, headers: cookie ? { cookie } : undefined })),
     );
   }
+
+  const store = createAppStore(initialStore.getState());
 
   if (!i18next.isInitialized) {
     await i18next.init({ ...options(true), lng } as InitOptions);

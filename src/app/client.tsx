@@ -22,7 +22,7 @@ const bootstrap = async () => {
 
   const [pathname] = window.location.pathname.split('?');
   const matched = expandRoutes(routes)
-    .filter(({ path }) => path && path !== '*')
+    .filter(({ path }) => path)
     .find(({ path }) => matchPath(path, pathname));
   if (matched) {
     await Promise.all(matched.components.map((component) => component.preload()));
