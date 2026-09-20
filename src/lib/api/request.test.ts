@@ -11,16 +11,12 @@ describe('request', () => {
     vi.mocked(axios).mockReset();
   });
 
-  it('should send data as query params for GET methods', async () => {
+  it('should call the proxy path without the api key from the browser', async () => {
     vi.mocked(axios).mockResolvedValue({ data: { data: [{ id: 1, name: 'cerulean' }] } });
 
     const response = await request('products', schema, { page: 2 });
 
-    expect(axios).toHaveBeenCalledWith('https://reqres.in/api/products/', {
-      method: 'GET',
-      params: { page: 2 },
-      headers: { 'x-api-key': 'test-api-key' },
-    });
+    expect(axios).toHaveBeenCalledWith('/api/products/', { method: 'GET', params: { page: 2 } });
     expect(response).toEqual([{ id: 1, name: 'cerulean' }]);
   });
 
@@ -35,10 +31,10 @@ describe('request', () => {
       { url: '/products/3', headers: { cookie: 'session=1' } },
     );
 
-    expect(axios).toHaveBeenCalledWith('https://reqres.in/api/product/', {
+    expect(axios).toHaveBeenCalledWith('/api/product/', {
       method: 'GET',
       params: { id: '3' },
-      headers: { 'x-api-key': 'test-api-key', cookie: 'session=1' },
+      headers: { cookie: 'session=1' },
     });
   });
 

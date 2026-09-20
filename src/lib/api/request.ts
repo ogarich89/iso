@@ -4,8 +4,8 @@ import type { FastifyRequest } from 'fastify';
 import { methods } from 'src/lib/api/methods';
 import * as z from 'zod/mini';
 
-const api = import.meta.env.VITE_API;
-const apiKey = import.meta.env.VITE_API_KEY;
+const api = import.meta.env.SSR ? import.meta.env.VITE_API : '';
+const apiKey = import.meta.env.SSR ? import.meta.env.VITE_API_KEY : '';
 
 export type Methods = keyof typeof methods;
 

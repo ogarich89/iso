@@ -18,6 +18,7 @@ export interface RenderContext {
   manifest?: Record<string, string[]>;
   cookie?: string;
   lng?: string;
+  nonce?: string;
 }
 
 export interface RenderResult {
@@ -53,7 +54,10 @@ const renderPreloadLinks = (modules: string[], manifest: Record<string, string[]
   return links;
 };
 
-export async function render(url: string, { manifest, cookie, lng = 'en' }: RenderContext = {}): Promise<RenderResult> {
+export async function render(
+  url: string,
+  { manifest, cookie, lng = 'en', nonce }: RenderContext = {},
+): Promise<RenderResult> {
   const queryClient = createQueryClient();
   const [pathname] = url.split('?');
 
@@ -93,9 +97,11 @@ export async function render(url: string, { manifest, cookie, lng = 'en' }: Rend
 
   const preloadLinks = matched && manifest ? renderPreloadLinks(matched.route.modulePaths, manifest) : '';
 
+  const scriptTag = nonce ? `<script nonce="${nonce}">` : '<script>';
+
   const state = [
-    `<script>window.__QUERY_STATE__ = ${serialize(dehydrate(queryClient))}</script>`,
-    `<script>window.initialI18nStore = ${serialize(i18next.store.data)};` +
+    `${scriptTag}window.__QUERY_STATE__ = ${serialize(dehydrate(queryClient))}</script>`,
+    `${scriptTag}window.initialI18nStore = ${serialize(i18next.store.data)};` +
       `window.initialLanguage = ${serialize(i18next.language)}</script>`,
   ].join('\n');
 

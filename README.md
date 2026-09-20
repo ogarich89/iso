@@ -48,9 +48,10 @@ Configuration is read from environment variables. Defaults live in the committed
 | --- | --- |
 | `PORT` | Server port |
 | `API` | Backend API hostname |
-| `API_KEY` | Backend API key, sent as `x-api-key` (the demo backend [reqres.in](https://reqres.in) requires one). It is injected into the client bundle, so use it only for public/demo keys |
+| `API_KEY` | Backend API key, sent as `x-api-key`. The browser never sees it: requests from the browser go to `/api/*` on this server, which proxies them upstream and adds the key |
 | `WITH_STATIC` | Serve `public/` and built assets with the app server |
 | `WITH_REDIS` | Store sessions in Redis |
+| `TRUST_PROXY` | Trust `X-Forwarded-*` headers; enable it behind a reverse proxy, otherwise secure session cookies are never set |
 | `SESSION_REDIS_DB` | Redis database index for sessions |
 | `LOGGER` | Fastify logger (pino-pretty) |
 | `SENTRY_DSN` | Error monitoring with [Sentry](https://sentry.io) |

@@ -42,8 +42,10 @@ request(key, schema, data, params?, req?)
 - `params` — values substituted into `:placeholders` in the registry URL;
 - `req` — the incoming Fastify request, when the call must carry its `cookie` header.
 
-The host comes from `VITE_API` and the `x-api-key` header from `VITE_API_KEY`; both are injected by Vite, so
-never read `process.env` from `src/`. Do not call `axios` directly outside `src/lib/`.
+From the browser the call goes to `/api/...` on this server, which proxies it upstream and adds the API key;
+during SSR it goes to the upstream host directly. That split lives in `src/lib/api/request.ts` behind
+`import.meta.env.SSR`, which keeps the key and the upstream host out of the client bundle — never read
+`process.env` from `src/`, and never call `axios` directly outside `src/lib/`.
 
 ## Adding a Fastify endpoint
 

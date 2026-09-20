@@ -35,11 +35,7 @@ describe('render', () => {
 
     const { appHtml, state } = await render('/products?page=1', { lng: 'ru' });
 
-    expect(axios).toHaveBeenCalledWith('https://reqres.in/api/products/', {
-      method: 'GET',
-      params: {},
-      headers: { 'x-api-key': 'test-api-key' },
-    });
+    expect(axios).toHaveBeenCalledWith('/api/products/', { method: 'GET', params: {} });
     expect(appHtml).toContain('cerulean');
     expect(state).toContain('cerulean');
     expect(state).toContain('"products"');
@@ -51,10 +47,7 @@ describe('render', () => {
 
     const { appHtml, state } = await render('/products/1');
 
-    expect(axios).toHaveBeenCalledWith(
-      'https://reqres.in/api/product/',
-      expect.objectContaining({ params: { id: '1' } }),
-    );
+    expect(axios).toHaveBeenCalledWith('/api/product/', expect.objectContaining({ params: { id: '1' } }));
     expect(appHtml).toContain('cerulean');
     expect(state).toContain('"product"');
   });
@@ -76,6 +69,18 @@ describe('render', () => {
         '<link rel="modulepreload" crossorigin href="/assets/products.js">',
       ].join(''),
     );
+  });
+
+  it('should mark the state scripts with the csp nonce', async () => {
+    const { state } = await render('/', { nonce: 'r4nd0m' });
+
+    expect(state.match(/<script nonce="r4nd0m">/g)).toHaveLength(2);
+  });
+
+  it('should leave the state scripts bare without a nonce', async () => {
+    const { state } = await render('/');
+
+    expect(state).toContain('<script>window.__QUERY_STATE__');
   });
 
   it('should render the not found page for an unmatched location', async () => {

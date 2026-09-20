@@ -10,7 +10,7 @@ import { createRenderer } from './renderer/index.mjs';
 import { routes } from './routes.mjs';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const { port, certificate, logger, sentryDSN } = config;
+const { port, certificate, logger, sentryDSN, trustProxy } = config;
 
 if (sentryDSN) {
   Sentry.init({
@@ -21,6 +21,7 @@ if (sentryDSN) {
 }
 
 const app = Fastify({
+  trustProxy,
   ...(logger
     ? {
         logger: {
@@ -67,6 +68,7 @@ app.get('*', async (request, reply) => {
       url: request.url,
       cookie: request.headers.cookie,
       lng: request.session.get('lng') || 'en',
+      nonce: reply.cspNonce?.script,
     });
     reply.header('Content-Type', 'text/html').send(html);
   } catch (error) {

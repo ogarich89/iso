@@ -2,7 +2,7 @@
   "hello": "Welcome to the ISO starter-pack",
   "products": "Products",
   "about": "About",
-  "description": "Iso is starter-pack for creating isomorphic single-page application with using SSR technology on NodeJS.",
+  "description": "Iso is a starter-pack for creating isomorphic single-page applications with SSR, running on Bun.",
   "about_iso": "About ISO starter-pack",
   "developed_by": "Developed by "
 }

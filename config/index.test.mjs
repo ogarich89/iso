@@ -10,6 +10,7 @@ describe('parseConfig', () => {
       sessionRedisDb: undefined,
       withStatic: true,
       withRedis: false,
+      trustProxy: false,
       logger: false,
       sentryDSN: undefined,
       certificate: undefined,
@@ -17,9 +18,12 @@ describe('parseConfig', () => {
   });
 
   it('should read numbers and flags out of strings', () => {
-    expect(parseConfig({ PORT: '4000', WITH_REDIS: 'yes', LOGGER: 'off', SESSION_REDIS_DB: '2' })).toMatchObject({
+    expect(
+      parseConfig({ PORT: '4000', WITH_REDIS: 'yes', LOGGER: 'off', SESSION_REDIS_DB: '2', TRUST_PROXY: 'on' }),
+    ).toMatchObject({
       port: 4000,
       withRedis: true,
+      trustProxy: true,
       logger: false,
       sessionRedisDb: 2,
     });

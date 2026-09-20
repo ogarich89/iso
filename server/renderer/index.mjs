@@ -14,8 +14,8 @@ const createProductionRenderer = async () => {
   const manifest = JSON.parse(fs.readFileSync(resolve(root, 'dist/client/.vite/ssr-manifest.json'), 'utf-8'));
   const { render } = await import(resolve(root, 'dist/server/server.js'));
 
-  return async ({ url, cookie, lng }) => {
-    const { appHtml, preloadLinks, state } = await render(url, { manifest, cookie, lng });
+  return async ({ url, cookie, lng, nonce }) => {
+    const { appHtml, preloadLinks, state } = await render(url, { manifest, cookie, lng, nonce });
     return fillTemplate(template, { head: preloadLinks, appHtml, state });
   };
 };
@@ -31,12 +31,12 @@ const createDevelopmentRenderer = async (app) => {
   await app.register(middie);
   app.use(vite.middlewares);
 
-  return async ({ url, cookie, lng }) => {
+  return async ({ url, cookie, lng, nonce }) => {
     try {
       const raw = fs.readFileSync(resolve(root, 'index.html'), 'utf-8');
       const template = await vite.transformIndexHtml(url, raw);
       const { render } = await vite.ssrLoadModule('/src/app/server.tsx');
-      const { appHtml, state } = await render(url, { cookie, lng });
+      const { appHtml, state } = await render(url, { cookie, lng, nonce });
       const head = renderStyleTag(await collectSsrStyles(vite));
       return fillTemplate(template, { head, appHtml, state });
     } catch (error) {
