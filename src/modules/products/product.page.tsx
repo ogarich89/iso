@@ -1,6 +1,6 @@
 import { Loading } from 'src/components/molecules/Loading/Loading';
-import { PageNotFound } from 'src/components/molecules/PageNotFound/PageNotFound';
 import { useInitialState } from 'src/hooks/useInitialState';
+import { PageNotFound } from 'src/modules/not-found/components/molecules/PageNotFound/PageNotFound';
 import { ProductComponent } from 'src/modules/products/components/organisms/Product/Product';
 import { resetProduct } from 'src/modules/products/store/products';
 

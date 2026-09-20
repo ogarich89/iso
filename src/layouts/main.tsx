@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
-import { Header } from 'src/components/molecules/Header/Header';
+import { Header } from 'src/layouts/components/molecules/Header/Header';
 import { setOverflow } from 'src/lib/dom';
 import { useModalStore } from 'src/store/ui';
 
