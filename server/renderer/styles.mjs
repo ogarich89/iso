@@ -31,4 +31,4 @@ export const collectSsrStyles = async (server) => {
   return styles.join('\n');
 };
 
-export const renderStyleTag = (css) => (css ? `<style type="text/css">${css}</style>` : '');
+export const renderStyleTag = (css) => (css ? `<style>${css}</style>` : '');
