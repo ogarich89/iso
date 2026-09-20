@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import type { FastifyRequest } from 'fastify';
 import { methods } from 'src/lib/api/methods';
+import * as z from 'zod/mini';
 
 const api = import.meta.env.VITE_API;
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -23,20 +24,29 @@ const buildHeaders = (cookie?: string) => {
   return Object.keys(headers).length ? { headers } : {};
 };
 
-export const request = async <T, D = unknown>(
+export const request = async <Schema extends z.ZodMiniType, Data = unknown>(
   key: Methods,
-  data: D,
+  schema: Schema,
+  data: Data,
   params?: Record<string, string>,
   req?: {
     url: FastifyRequest['url'];
     headers?: FastifyRequest['headers'];
   },
-): Promise<{ data: T }> => {
+): Promise<z.infer<Schema>> => {
   const { url = '', method } = methods[key] as AxiosRequestConfig;
-  const { data: response } = await axios<{ data: T }>(`${api}${pathResolver(url, params)}`, {
+  const { data: response } = await axios<{ data: unknown }>(`${api}${pathResolver(url, params)}`, {
     method,
     ...(method === 'GET' ? { params: data } : { data }),
     ...buildHeaders(req?.headers?.cookie),
   });
-  return response;
+
+  const parsed = schema.safeParse(response?.data);
+
+  if (!parsed.success) {
+    console.error(`Invalid response for "${key}"\n${z.prettifyError(parsed.error)}`);
+    throw new Error(`Invalid response for "${key}"`);
+  }
+
+  return parsed.data;
 };

@@ -1,5 +1,6 @@
 import { request } from 'src/lib/api/request';
 import { fetchProduct, fetchProducts, resetProduct } from 'src/modules/products/store/products';
+import { productSchema, productsSchema } from 'src/modules/products/types';
 import { createAppStore } from 'src/store';
 
 vi.mock('src/lib/api/request', () => ({ request: vi.fn() }));
@@ -12,12 +13,12 @@ describe('fetchProducts', () => {
   });
 
   it('should put the loaded products into the store', async () => {
-    vi.mocked(request).mockResolvedValue({ data: [product] });
+    vi.mocked(request).mockResolvedValue([product]);
     const store = createAppStore();
 
     await fetchProducts(store);
 
-    expect(request).toHaveBeenCalledWith('products', {});
+    expect(request).toHaveBeenCalledWith('products', productsSchema, {});
     expect(store.getState().products).toEqual([product]);
   });
 
@@ -37,22 +38,22 @@ describe('fetchProduct', () => {
   });
 
   it('should take the id from the request url', async () => {
-    vi.mocked(request).mockResolvedValue({ data: product });
+    vi.mocked(request).mockResolvedValue(product);
     const store = createAppStore();
 
     await fetchProduct(store, { url: '/products/1' });
 
-    expect(request).toHaveBeenCalledWith('product', { id: '1' });
+    expect(request).toHaveBeenCalledWith('product', productSchema, { id: '1' });
     expect(store.getState().product).toEqual(product);
   });
 
   it('should request an empty id without a request url', async () => {
-    vi.mocked(request).mockResolvedValue({ data: product });
+    vi.mocked(request).mockResolvedValue(product);
     const store = createAppStore();
 
     await fetchProduct(store);
 
-    expect(request).toHaveBeenCalledWith('product', { id: undefined });
+    expect(request).toHaveBeenCalledWith('product', productSchema, { id: undefined });
   });
 
   it('should store null when the request fails', async () => {
