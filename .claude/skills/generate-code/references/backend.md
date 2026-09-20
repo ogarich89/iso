@@ -132,7 +132,7 @@ public.
 
 ## Checklist
 
-- [ ] Test first — mock `axios` for `request`, mock `src/lib/api/request` for domain actions
+- [ ] Test first — mock `axios` for `request`, mock `src/lib/api/request` for queries and pages
 - [ ] New API endpoint added to `src/lib/api/methods.ts`, called only through `request`
 - [ ] New server route has a schema and is exported from `server/routes.mjs`
 - [ ] URL prefix cannot collide with a page path

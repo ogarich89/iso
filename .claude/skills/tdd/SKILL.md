@@ -69,21 +69,25 @@ expect(screen.getByRole('link').getAttribute('href')).toBe('/products/1');
 Query by role or text, never by CSS-module class — those names are hashed per build. Snapshots are a
 supplement to real assertions, never the only assertion in a test.
 
-**A page** — pages read data through `useInitialState`, so give them a router and a store, and cover all
-three states (data, `null` → not found, `undefined` → initial action runs):
+**A page** — pages read data with `useQuery`, so give them a router and a `QueryClient`, and cover all three
+states: cached (renders synchronously, no request), fetched (`await screen.findBy…`), and failed (`null` →
+not found):
 
 ```tsx
+const queryClient = createQueryClient();
+queryClient.setQueryData(['products'], products);
+
 render(
-  <MemoryRouter initialEntries={['/products']}>
-    <StoreContext.Provider value={createAppStore({ products })}>
-      <ProductsPage initialAction={initialAction} />
-    </StoreContext.Provider>
-  </MemoryRouter>,
+  <QueryClientProvider client={queryClient}>
+    <MemoryRouter initialEntries={['/products']}>
+      <ProductsPage />
+    </MemoryRouter>
+  </QueryClientProvider>,
 );
 ```
 
-**A domain action** — mock `src/lib/api/request`, assert what landed in the store, and cover the rejected
-request (the actions swallow failures into `null`).
+**A query** — mock `src/lib/api/request`, drive a real client with `prefetchQuery`, and assert what landed
+under the key, including the `null` that a rejected request must produce.
 
 **Anything that talks to the network** — mock the boundary, never hit it: `vi.mock('axios', () => ({ default: vi.fn() }))`
 for `src/lib/api/request`, `vi.mock('src/lib/session', ...)` for the language switch.
@@ -93,8 +97,8 @@ for `src/lib/api/request`, `vi.mock('src/lib/session', ...)` for the language sw
 
 - a `<template data-msg="Switched to client rendering...">` in `appHtml` means a lazy component was not
   resolved before `renderToString` — SSR silently degraded to a client render;
-- state set by an `initialAction` is only visible to the render if the store was **created with** it, because
-  zustand serves `getInitialState()` as the server snapshot.
+- a query that rejects is not dehydrated, so a query function that throws instead of resolving to `null`
+  makes the server render a spinner where the not-found page belongs.
 
 **Hydration** — `src/app/client.test.tsx` feeds real `appHtml` from the server entry into `#root` before
 importing the client entry. A hydration mismatch surfaces as an unhandled error and fails the run; keep it

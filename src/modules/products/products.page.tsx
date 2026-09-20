@@ -1,19 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
+import type { FunctionComponent } from 'react';
 import { Loading } from 'src/components/molecules/Loading/Loading';
-import { useInitialState } from 'src/hooks/useInitialState';
 import { PageNotFound } from 'src/modules/not-found/components/molecules/PageNotFound/PageNotFound';
 import { ProductsComponent } from 'src/modules/products/components/organisms/Products/Products';
+import { productsQuery } from 'src/modules/products/queries';
 
-import type { PageComponent } from 'src/types';
+const products: FunctionComponent = () => {
+  const { data, isPending } = useQuery(productsQuery());
 
-const products: PageComponent = ({ initialAction }) => {
-  const products = useInitialState(initialAction, (state) => state.products);
-  return products === null ? (
-    <PageNotFound />
-  ) : products ? (
-    <ProductsComponent products={products} />
-  ) : (
-    <Loading timeout={500} />
-  );
+  return isPending ? <Loading timeout={500} /> : data ? <ProductsComponent products={data} /> : <PageNotFound />;
 };
 
 export default products;

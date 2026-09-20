@@ -26,11 +26,11 @@ describe('render', () => {
 
     expect(appHtml).toContain('hello');
     expect(preloadLinks).toBe('');
-    expect(state).toContain('window.__initialData__');
+    expect(state).toContain('window.__QUERY_STATE__');
     expect(state).toContain('window.initialLanguage = "en"');
   });
 
-  it('should run the initial actions of the matched route', async () => {
+  it('should prefetch the queries of the matched route', async () => {
     vi.mocked(axios).mockResolvedValue({ data: { data: [product] } });
 
     const { appHtml, state } = await render('/products?page=1', { lng: 'ru' });
@@ -42,7 +42,21 @@ describe('render', () => {
     });
     expect(appHtml).toContain('cerulean');
     expect(state).toContain('cerulean');
+    expect(state).toContain('"products"');
     expect(state).toContain('window.initialLanguage = "ru"');
+  });
+
+  it('should prefetch with the params of the matched url', async () => {
+    vi.mocked(axios).mockResolvedValue({ data: { data: product } });
+
+    const { appHtml, state } = await render('/products/1');
+
+    expect(axios).toHaveBeenCalledWith(
+      'https://reqres.in/api/product/',
+      expect.objectContaining({ params: { id: '1' } }),
+    );
+    expect(appHtml).toContain('cerulean');
+    expect(state).toContain('"product"');
   });
 
   it('should build preload links from the ssr manifest', async () => {

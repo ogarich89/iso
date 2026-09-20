@@ -40,12 +40,12 @@ Follow a request for `/products` in this order — it is the fastest way to unde
    `dist/server/server.js`) and fills the `<!--app-html-->`, `<!--app-preload-links-->` and `<!--app-state-->`
    placeholders in `index.html`.
 3. `src/app/server.tsx` matches the URL against `expandRoutes(routes)`, preloads the matched lazy modules,
-   runs their `initialAction`s, re-creates the store seeded with the result, renders to string, and serializes
-   the state into the page.
-4. The browser loads `src/app/client.tsx`: it re-creates the store from `window.__initialData__`, preloads the
-   same modules, and hydrates.
-5. On later navigation there is no server round-trip — `useInitialState` runs the route's `initialAction` in
-   the browser instead.
+   runs their `prefetch`es against a per-request `QueryClient`, renders to string, and serialises
+   `dehydrate(queryClient)` into the page.
+4. The browser loads `src/app/client.tsx`: it hydrates that cache through `HydrationBoundary`, preloads the
+   same modules, and calls `hydrateRoot`.
+5. On later navigation there is no server round-trip — `useQuery` serves the cache and fetches only what is
+   missing or stale.
 
 The whole framework hangs on step 3 and 4 doing the *same* work, so the markup matches.
 
@@ -55,10 +55,10 @@ The whole framework hangs on step 3 and 4 doing the *same* work, so the markup m
 | --- | --- |
 | `src/app/` | shell, route table, SSR and client entries |
 | `src/layouts/` | layouts (`main.tsx`) and the chrome only they use (`components/`) |
-| `src/modules/<domain>/` | a feature: pages, its store actions, its types, its components |
+| `src/modules/<domain>/` | a feature: pages, its queries, its schemas and types, its components |
 | `src/components/` | UI shared across domains — `Link`, `Loading`, `Modal` |
 | `src/lib/` | plumbing: api, session, routing helpers, `lazyWithPreload`, dom, url |
-| `src/store/` | the augmentable `State` and the per-request store; `ui.ts` is a client-only modal store |
+| `src/store/` | `ui.ts`, the client-only modal store (server data lives in TanStack Query) |
 | `server/` | plain `.mjs` Fastify server, renderer and endpoints |
 | `config/` | env config, i18next options, vitest setup |
 
@@ -71,20 +71,13 @@ one appears.
 **Add a page.** Create `src/modules/<domain>/<name>.page.tsx` (default export), then reference it by file name
 in `src/app/routes.ts`. Pages are discovered by `import.meta.glob`, so the file name *is* the key.
 
-**Add a domain.** `src/modules/<domain>/` with `types.ts`, `store/<domain>.ts` and `components/`. The store
-file declares its slice:
+**Add a domain.** `src/modules/<domain>/` with `types.ts` (zod schemas plus inferred types), `queries.ts` and
+`components/`.
 
-```ts
-declare module 'src/store' {
-  interface State {
-    example?: Example | null;
-  }
-}
-```
-
-**Load data for a route.** Write an action `(store, req?) => void` in the domain's `store/`, hang it on the
-route as `initialAction`, and read it in the page with `useInitialState(initialAction, (state) => state.example)`.
-Return `null` on failure — pages treat `null` as "not found" and `undefined` as "still loading".
+**Load data for a route.** Export a `queryOptions` factory from the domain's `queries.ts`, prefetch it on the
+route (`prefetch: (queryClient, { params, req }) => queryClient.prefetchQuery(...)`), and read the same
+options in the page with `useQuery`. A failed request resolves to `null`, which the page renders as
+"not found".
 
 **Call a new endpoint.** Add it to `src/lib/api/methods.ts`, then `request('example', exampleSchema, data)`.
 The response is validated against the schema, and the `x-api-key` header and API host come from env.
@@ -109,7 +102,8 @@ runs all five. Tests come first, not last: see `.claude/skills/tdd/SKILL.md`.
 - `bun test` is Bun's runner and fails; the project's suite is `bun run test`.
 - No explanatory comments — naming carries the meaning.
 - Absolute `src/...` imports only; Biome rejects `../` outside `server/` and `config/`.
-- Never hold app state in a module-level variable: on the server one process serves every user.
+- Never hold app state in a module-level variable: on the server one process serves every user. The
+  `QueryClient` is created per request for exactly that reason.
 - A new lazy route must be reachable through `expandRoutes`, or it will not be preloaded and SSR will fall
   back to client rendering for it.
 - PurgeCSS only runs in the production build, so a class that works in `bun dev` can still vanish from

@@ -1,41 +1,37 @@
+import type { DehydratedState, QueryClient } from '@tanstack/react-query';
 import type { FastifyRequest } from 'fastify';
-import type { FunctionComponent } from 'react';
 import type { PreloadableComponent } from 'src/lib/lazyWithPreload';
-import type { AppStore, State } from 'src/store';
 
 declare global {
   interface Window {
-    __initialData__: Partial<State>;
+    __QUERY_STATE__: DehydratedState;
     initialLanguage: string;
     initialI18nStore: Record<string, any>;
   }
 }
 
-export interface InitialActionRequest {
-  url: string;
+export interface ServerRequest {
+  url: FastifyRequest['url'];
   headers?: FastifyRequest['headers'];
 }
 
-export type InitialAction = (store: AppStore, req?: InitialActionRequest) => Promise<void> | void;
-
-export type ResetAction = (store: AppStore) => void;
-
-export type PageComponent = FunctionComponent<{
-  initialAction: InitialAction;
-}>;
+export type Prefetch = (
+  queryClient: QueryClient,
+  context: { params: Record<string, string | undefined>; req?: ServerRequest },
+) => Promise<unknown> | unknown;
 
 export interface PageRoute {
   path: string;
   modulePath: string;
   component: PreloadableComponent;
-  initialAction: InitialAction;
+  prefetch?: Prefetch;
   delay?: number;
   children?: PageRoute[];
 }
 
 export interface ExpandRoute {
   path: string;
-  initialActions: InitialAction[];
+  prefetches: Prefetch[];
   modulePaths: string[];
   components: PreloadableComponent[];
 }

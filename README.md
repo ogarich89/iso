@@ -17,7 +17,8 @@ ISO uses a number of open source projects to work properly:
 * [Fastify](https://www.fastify.io/) - Fast and low overhead web framework.
 * [React](https://react.dev/) - Library for building user interfaces.
 * [React Router](https://reactrouter.com/) - Routing for React.
-* [Zustand](https://zustand.docs.pmnd.rs/) - Minimal state management.
+* [TanStack Query](https://tanstack.com/query/latest) - Server state: fetching, caching and SSR hydration.
+* [Zustand](https://zustand.docs.pmnd.rs/) - Minimal state management for UI state.
 * [Zod](https://zod.dev/) - Schema validation for the environment, the API responses and the server routes.
 * [Vite](https://vite.dev/) - Build tool and dev server with native SSR.
 * [Vitest](https://vitest.dev/) - Unit test runner.
@@ -158,35 +159,41 @@ SSR and hydration.
 $ bunx vitest run src/modules/products/components/molecules/Card/Card.test.tsx
 ```
 
-#### How to create an initial action?
+#### How to load data for a page?
 
-An initial action is a plain async function that receives the per-request store and the request, and writes data into the store. It runs on the server before render and on the client on navigation.
+Data lives in TanStack Query. A domain exports its query options once, and both the server and the page use them, so the cache key is written in a single place.
 
-1. Create file `example.ts` in `src/modules/example/store`
+1. Create file `queries.ts` in `src/modules/example`
 
 ```ts
+import { queryOptions } from '@tanstack/react-query';
 import { request } from 'src/lib/api/request';
 import { exampleSchema } from 'src/modules/example/types';
 
-import type { AppStore } from 'src/store';
-import type { InitialActionRequest } from 'src/types';
+import type { ServerRequest } from 'src/types';
 
-export const fetchExample = async (store: AppStore, req?: InitialActionRequest) => {
-  const example = await request('example', exampleSchema, {}, undefined, req).catch(() => null);
-  store.setState({ example });
-};
+export const exampleQuery = (id: string, req?: ServerRequest) =>
+  queryOptions({
+    queryKey: ['example', id],
+    queryFn: () => request('example', exampleSchema, { id }, undefined, req).catch(() => null),
+  });
 ```
 
-The schema is not only validation: `Example` is inferred from it, so the type and the runtime check can never drift apart.
-
-2. Add it to a route in `src/app/routes.ts`
+2. Prefetch it on the route in `src/app/routes.ts`, so the page is server-rendered with its data
 
 ```ts
-{ path: '/example', page: 'example', initialAction: fetchExample }
+{
+  path: '/examples/:id',
+  page: 'example',
+  prefetch: (queryClient, { params, req }) => queryClient.prefetchQuery(exampleQuery(params.id ?? '', req)),
+}
 ```
 
-3. Read it on the client with `useInitialState`
+3. Read it in the page with the same options
 
 ```tsx
-const example = useInitialState(initialAction, (state) => state.example);
+const { id } = useParams();
+const { data, isPending } = useQuery(exampleQuery(id ?? ''));
 ```
+
+The server dehydrates its cache into the HTML and the client hydrates it, so the page never refetches what the server already loaded. A failed request resolves to `null`, which the page renders as "not found".

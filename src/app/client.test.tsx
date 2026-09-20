@@ -21,9 +21,9 @@ describe('client entry', () => {
   it('should hydrate the server rendered markup', async () => {
     vi.mocked(axios).mockResolvedValue({ data: { data: [product] } });
     window.history.pushState({}, '', '/products');
-    const { appHtml } = await render('/products');
+    const { appHtml, state } = await render('/products');
     document.body.innerHTML = `<div id="root">${appHtml}</div>`;
-    window.__initialData__ = { products: [product] };
+    window.__QUERY_STATE__ = JSON.parse(state.slice(state.indexOf('{'), state.indexOf('</script>')));
     window.initialLanguage = 'en';
     window.initialI18nStore = { en: { translation: {} } };
 

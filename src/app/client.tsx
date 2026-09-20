@@ -1,3 +1,4 @@
+import { HydrationBoundary, QueryClientProvider } from '@tanstack/react-query';
 import options from 'i18n';
 import type { InitOptions, Resource } from 'i18next';
 import i18next from 'i18next';
@@ -7,10 +8,10 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { BrowserRouter, matchPath } from 'react-router';
 import { App } from 'src/app/App';
 import routes from 'src/app/routes';
+import { createQueryClient } from 'src/lib/query';
 import { expandRoutes } from 'src/lib/route';
-import { createAppStore, StoreContext } from 'src/store';
 
-const store = createAppStore(window.__initialData__);
+const queryClient = createQueryClient();
 
 const bootstrap = async () => {
   i18next.use(Fetch).use(initReactI18next);
@@ -30,13 +31,15 @@ const bootstrap = async () => {
 
   hydrateRoot(
     document.getElementById('root') as HTMLElement,
-    <StoreContext.Provider value={store}>
-      <BrowserRouter>
-        <I18nextProvider i18n={i18next}>
-          <App />
-        </I18nextProvider>
-      </BrowserRouter>
-    </StoreContext.Provider>,
+    <QueryClientProvider client={queryClient}>
+      <HydrationBoundary state={window.__QUERY_STATE__}>
+        <BrowserRouter>
+          <I18nextProvider i18n={i18next}>
+            <App />
+          </I18nextProvider>
+        </BrowserRouter>
+      </HydrationBoundary>
+    </QueryClientProvider>,
   );
 };
 

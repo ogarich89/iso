@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes } from 'react-router';
 import { expandRoutes, renderRoutes, route } from 'src/lib/route';
-import { createAppStore } from 'src/store';
 
-const initialAction = vi.fn();
+const prefetch = vi.fn();
 
 const buildRoutes = () => [
   route({
@@ -11,7 +10,7 @@ const buildRoutes = () => [
     layout: 'main',
     children: [
       { path: '/', page: 'home' },
-      { path: '/products', page: 'products', initialAction, delay: 0 },
+      { path: '/products', page: 'products', prefetch, delay: 0 },
     ],
   }),
 ];
@@ -28,17 +27,18 @@ describe('route', () => {
     ]);
   });
 
-  it('should keep the given initial action and delay', () => {
+  it('should keep the given prefetch and delay', () => {
     const [layout] = buildRoutes();
 
-    expect(layout.children?.[1].initialAction).toBe(initialAction);
+    expect(layout.children?.[1].prefetch).toBe(prefetch);
     expect(layout.children?.[1].delay).toBe(0);
   });
 
-  it('should fall back to an initial action that does nothing', () => {
+  it('should leave prefetch unset when a route loads no data', () => {
     const [layout] = buildRoutes();
 
-    expect(layout.initialAction(createAppStore())).toBeUndefined();
+    expect(layout.prefetch).toBeUndefined();
+    expect(layout.children?.[0].prefetch).toBeUndefined();
   });
 });
 
@@ -48,7 +48,8 @@ describe('expandRoutes', () => {
 
     expect(expanded.map(({ path }) => path)).toEqual(['', '/', '/products']);
     expect(expanded[2].modulePaths).toEqual(['/src/layouts/main.tsx', '/src/modules/products/products.page.tsx']);
-    expect(expanded[2].initialActions).toHaveLength(2);
+    expect(expanded[2].prefetches).toEqual([prefetch]);
+    expect(expanded[1].prefetches).toEqual([]);
     expect(expanded[2].components).toHaveLength(2);
   });
 });

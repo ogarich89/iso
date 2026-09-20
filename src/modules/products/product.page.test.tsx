@@ -1,40 +1,54 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Route, Routes } from 'react-router';
+import { request } from 'src/lib/api/request';
+import { createQueryClient } from 'src/lib/query';
 import ProductPage from 'src/modules/products/product.page';
-import type { Product } from 'src/modules/products/types';
-import type { State } from 'src/store';
-import { createAppStore, StoreContext } from 'src/store';
 
-const cerulean: Product = { id: 1, color: '#98b2d1', pantone_value: '15-4020', year: 2000, name: 'cerulean' };
+vi.mock('src/lib/api/request', () => ({ request: vi.fn() }));
 
-const renderPage = (state: Partial<State>, initialAction = vi.fn()) =>
+const product = { id: 2, color: '#c74375', pantone_value: '17-2031', year: 2001, name: 'fuchsia rose' };
+
+const renderPage = (queryClient = createQueryClient()) =>
   render(
-    <MemoryRouter initialEntries={['/products/1']}>
-      <StoreContext.Provider value={createAppStore(state)}>
-        <ProductPage initialAction={initialAction} />
-      </StoreContext.Provider>
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={['/products/2']}>
+        <Routes>
+          <Route path="/products/:id" element={<ProductPage />} />
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
 
 describe('product page', () => {
-  it('should render the loaded product', () => {
-    renderPage({ product: cerulean });
-
-    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('cerulean');
+  beforeEach(() => {
+    vi.mocked(request).mockReset();
   });
 
-  it('should render the not found page when loading failed', () => {
-    renderPage({ product: null });
+  it('should render the product cached under the id in the url', () => {
+    const queryClient = createQueryClient();
+    queryClient.setQueryData(['product', '2'], product);
 
-    expect(screen.getByText('PAGE NOT FOUND')).toBeTruthy();
+    renderPage(queryClient);
+
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('fuchsia rose');
+    expect(request).not.toHaveBeenCalled();
   });
 
-  it('should run the initial action while there is nothing to render', () => {
-    const initialAction = vi.fn();
+  it('should fetch the product of the current id', async () => {
+    vi.mocked(request).mockResolvedValue(product);
 
-    const { container } = renderPage({}, initialAction);
+    renderPage();
 
-    expect(container.innerHTML).toBe('');
-    expect(initialAction).toHaveBeenCalled();
+    expect(await screen.findByRole('heading', { level: 1 })).toBeTruthy();
+    expect(request).toHaveBeenCalledWith('product', expect.anything(), { id: '2' }, undefined, undefined);
+  });
+
+  it('should render the not found page when loading failed', async () => {
+    vi.mocked(request).mockRejectedValue(new Error('network'));
+
+    renderPage();
+
+    expect(await screen.findByText('PAGE NOT FOUND')).toBeTruthy();
   });
 });

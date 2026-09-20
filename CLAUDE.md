@@ -12,7 +12,8 @@ Guidance for working in this repository.
 - **Language** — TypeScript 7 (`tsc --noEmit` for checking; Vite/SWC for transforms)
 - **Server** — Fastify 5 (`@fastify/cookie`, `@fastify/session`, `@fastify/static`, `@fastify/middie`)
 - **UI** — React 19, React Router 8, react-i18next 17 / i18next 26
-- **State** — Zustand 5
+- **Server state** — TanStack Query 5 (`@tanstack/react-query`)
+- **UI state** — Zustand 5
 - **Validation** — Zod 4 (`zod` on the server and in config, `zod/mini` in shared code that ships to the browser)
 - **Build / dev server** — Vite 8 (`@vitejs/plugin-react`, `vite-plugin-svgr`), SSR in middleware mode
 - **Styles** — SCSS (`sass-embedded`) + CSS Modules; PostCSS (`autoprefixer`, `cssnano`, `postcss-import`, `postcss-combine-media-query`, and `@fullhuman/postcss-purgecss` in production)
@@ -48,13 +49,12 @@ src/
     components/{atoms,molecules}/                                      (layout-only UI: Logo, Header, Navigation, LanguageSwitch)
   modules/<domain>/                                                    (domains: home, products, not-found)
     *.page.tsx                                                         (glob: /src/modules/**/*.page.tsx)
-    store/                                                             (domain actions; augments shared State)
-    types.ts                                                          (domain types)
+    queries.ts                                                         (queryOptions for the domain)
+    types.ts                                                          (zod schemas + inferred types)
     components/{atoms,molecules,organisms}/                            (domain UI, atomic design)
   components/{atoms,molecules,organisms}/                              (shared cross-domain UI: Link, Loading, Modal)
-  lib/         api/, session/, route.tsx, lazyWithPreload.tsx, dom.ts, url.ts
-  hooks/       useInitialState.ts
-  store/       index.ts (augmentable State + context), ui.ts (client-only modal store)
+  lib/         api/, session/, query.ts, route.tsx, lazyWithPreload.tsx, dom.ts, url.ts
+  store/       ui.ts (client-only modal store)
   styles/      variables.scss, mixins.scss                            (aliases: `variables`, `mixins`)
   types/       index.ts, global.d.ts
   assets/icons/
@@ -66,13 +66,13 @@ config/        index.mjs (env config), i18n.mjs (i18next options), vitest.setup.
 ## Architecture
 
 - **Server** (`server/`, plain `.mjs`): `index.mjs` boots Fastify and delegates SSR to `createRenderer` from `server/renderer/`. The renderer, in dev, creates a Vite dev server, mounts `vite.middlewares`, loads the SSR entry via `vite.ssrLoadModule`, and inlines the module-graph CSS (`server/renderer/styles.mjs` — the standard Vite dev-SSR style collector); in prod it reads the built template, `ssr-manifest.json` and `dist/server/server.js`. `register.mjs` wires cookies, sessions (optionally Redis), and static `/public` (+ `/assets` in prod). The `*` route renders SSR; other routes (e.g. `POST /session/language`) come from `routes.mjs`.
-- **SSR entry** (`src/app/server.tsx`): `render(url, { manifest, cookie, lng })` preloads the matched route's lazy modules, runs its `initialAction`s against a first store, then **re-creates the store seeded with the collected state** and renders to string — zustand serves `getInitialState()` as the server snapshot, so state set after creation is invisible to SSR. Returns `{ appHtml, preloadLinks, state }`, injected into `index.html`'s `<!--app-*-->` placeholders.
-- **Client entry** (`src/app/client.tsx`): inits i18next from serialized data, preloads the current route's chunks, then `hydrateRoot`.
-- **State** (`src/store/`): Zustand. `createAppStore` makes a fresh vanilla store per request, provided via `StoreContext`. `State` is an **augmentable registry interface** — each domain adds its slice with `declare module 'src/store'`. Domain actions (`src/modules/<domain>/store/*.ts`) are plain functions `(store, req?) => void` used as route `initialAction`s. `store/ui.ts` is a client-only modal store.
-- **Routing** (`src/app/routes.ts`, `src/lib/route.tsx`): routes map a `layout` + `page` name to lazy components discovered via `import.meta.glob`, resolved by file name. `src/lib/lazyWithPreload.tsx` wraps `React.lazy` with a `.preload()` used by both SSR and client; once preloaded it renders the module **synchronously** instead of suspending, which is what keeps `renderToString` from degrading to a client render. Both entries preload the catch-all `*` route too, so 404s are server-rendered.
+- **SSR entry** (`src/app/server.tsx`): `render(url, { manifest, cookie, lng })` creates a per-request `QueryClient`, preloads the matched route's lazy modules, runs its `prefetch`es with the params from `matchPath`, renders to string and serialises `dehydrate(queryClient)` into `window.__QUERY_STATE__`. Returns `{ appHtml, preloadLinks, state }`, injected into `index.html`'s `<!--app-*-->` placeholders.
+- **Client entry** (`src/app/client.tsx`): inits i18next from serialized data, preloads the current route's chunks, then `hydrateRoot` inside a `QueryClientProvider` and a `HydrationBoundary` fed with `window.__QUERY_STATE__`, so the server's cache becomes the client's cache.
+- **Server state** (`src/lib/query.ts`, `src/modules/<domain>/queries.ts`): TanStack Query. `createQueryClient` sets the shared defaults (60s `staleTime`, no retry, no refetch on focus) and is used by both entries. A domain exports `queryOptions` factories; a route prefetches them on the server and a page reads the same options with `useQuery`, so the key is written once. A query function returns `null` on failure, which keeps the not-found path renderable on the server — an errored query is not dehydrated.
+- **Routing** (`src/app/routes.ts`, `src/lib/route.tsx`): routes map a `layout` + `page` name to lazy components discovered via `import.meta.glob`, resolved by file name, and carry an optional `prefetch(queryClient, { params, req })`. `src/lib/lazyWithPreload.tsx` wraps `React.lazy` with a `.preload()` used by both SSR and client; once preloaded it renders the module **synchronously** instead of suspending, which is what keeps `renderToString` from degrading to a client render. Both entries preload the catch-all `*` route too, so 404s are server-rendered.
 - **API** (`src/lib/api/`): `request(method, schema, data, params?, req?)` unwraps the `{ data }` envelope and parses it with the domain's `zod/mini` schema, so a response that breaks the contract is logged and rejected instead of reaching a component; `methods.ts` is the endpoint registry. `shared` is domain-agnostic — domains pass their own schemas.
 - **Config** (`config/index.mjs`): server-only, parses `process.env` through a zod schema (`parseConfig`), so a bad value fails at boot with the variable named. Shared code reads only `import.meta.env.VITE_API` / `VITE_API_KEY` / `VITE_PORT`, injected by Vite `define`. `vite.config.ts` merges `.env` / `.env.local` into `process.env` (real env wins) before reading the config, so builds see the same values as `bun dev`.
-- **Testing**: Vitest + Testing Library in jsdom, tests colocated as `X.test.tsx` next to the code and typechecked with it. `config/vitest.setup.ts` mocks `react-i18next` (`t` returns the key) and stubs `window.scrollTo`. `src/app/server.test.tsx` asserts on real SSR output and `src/app/client.test.tsx` hydrates that output, so both SSR degradation and hydration mismatches fail the suite. Follow `.claude/skills/tdd/SKILL.md` — test first.
+- **Testing**: Vitest + Testing Library in jsdom, tests colocated as `X.test.tsx` next to the code and typechecked with it. Page and query tests mock `src/lib/api/request` and drive a real `QueryClient`. `config/vitest.setup.ts` mocks `react-i18next` (`t` returns the key) and stubs `window.scrollTo`. `src/app/server.test.tsx` asserts on real SSR output and `src/app/client.test.tsx` hydrates that output, so both SSR degradation and hydration mismatches fail the suite. Follow `.claude/skills/tdd/SKILL.md` — test first.
 
 ## Skills (`.claude/skills/`)
 
@@ -95,7 +95,7 @@ config/        index.mjs (env config), i18n.mjs (i18next options), vitest.setup.
 
 ## Gotchas
 
-- The store is per-request on the server — never module-level mutable app state.
+- The `QueryClient` is per-request on the server — never module-level mutable app state. `src/store/ui.ts` is a module-level store on purpose: it is client-only.
 - `SESSION_SECRET` (32+ characters) is required to boot; the build does not need it, so CI stays green without secrets.
 - Shared code uses `zod/mini`, not `zod`: the classic API costs ~23KB gzipped in the client bundle against ~4.5KB for mini.
 - `import.meta.glob` for layouts excludes `*.test.tsx`; without that, a layout test is discovered as a layout and bundled into `dist/`.

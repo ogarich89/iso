@@ -45,8 +45,8 @@ Check this list before adding a helper — most "new" utilities already exist:
 | Loading state | `<Loading timeout={500} />` | `src/components/molecules/Loading/Loading` |
 | Not-found state | `<PageNotFound />` | `src/modules/not-found/components/molecules/PageNotFound/PageNotFound` |
 | Conditional class names | `cx('container', style.x)` | `classnames` |
-| Route data on both server and client | `useInitialState(initialAction, selector, resetAction?)` | `src/hooks/useInitialState` |
-| Read the per-request store | `useAppStore(selector)` / `useStoreApi()` | `src/store` |
+| Route data on both server and client | `useQuery(domainQuery(...))` + a route `prefetch` | `@tanstack/react-query`, `src/modules/<domain>/queries.ts` |
+| A configured query client | `createQueryClient()` | `src/lib/query` |
 | Modal open/close | `useModalStore` | `src/store/ui` |
 | HTTP call to the backend | `request('method', schema, data, params?, req?)` | `src/lib/api/request` |
 | Session read/write from the client | `session.get` / `session.set` | `src/lib/session` |

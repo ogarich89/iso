@@ -1,3 +1,4 @@
+import { dehydrate, QueryClientProvider } from '@tanstack/react-query';
 import options from 'i18n';
 import type { InitOptions } from 'i18next';
 import i18next from 'i18next';
@@ -8,8 +9,8 @@ import { matchPath, StaticRouter } from 'react-router';
 import serialize from 'serialize-javascript';
 import { App } from 'src/app/App';
 import routes from 'src/app/routes';
+import { createQueryClient } from 'src/lib/query';
 import { expandRoutes } from 'src/lib/route';
-import { createAppStore, StoreContext } from 'src/store';
 
 i18next.use(Backend).use(initReactI18next);
 
@@ -53,21 +54,26 @@ const renderPreloadLinks = (modules: string[], manifest: Record<string, string[]
 };
 
 export async function render(url: string, { manifest, cookie, lng = 'en' }: RenderContext = {}): Promise<RenderResult> {
-  const initialStore = createAppStore();
+  const queryClient = createQueryClient();
   const [pathname] = url.split('?');
 
   const matched = expandRoutes(routes)
     .filter(({ path }) => path)
-    .find(({ path }) => matchPath(path, pathname));
+    .map((route) => ({ route, match: matchPath(route.path, pathname) }))
+    .find(({ match }) => match);
 
   if (matched) {
-    await Promise.all(matched.components.map((component) => component.preload()));
+    const { route, match } = matched;
+    await Promise.all(route.components.map((component) => component.preload()));
     await Promise.all(
-      matched.initialActions.map((action) => action(initialStore, { url, headers: cookie ? { cookie } : undefined })),
+      route.prefetches.map((prefetch) =>
+        prefetch(queryClient, {
+          params: match?.params ?? {},
+          req: { url, ...(cookie ? { headers: { cookie } } : {}) },
+        }),
+      ),
     );
   }
-
-  const store = createAppStore(initialStore.getState());
 
   if (!i18next.isInitialized) {
     await i18next.init({ ...options(true), lng } as InitOptions);
@@ -76,19 +82,19 @@ export async function render(url: string, { manifest, cookie, lng = 'en' }: Rend
   }
 
   const appHtml = renderToString(
-    <StoreContext.Provider value={store}>
+    <QueryClientProvider client={queryClient}>
       <StaticRouter location={url}>
         <I18nextProvider i18n={i18next}>
           <App />
         </I18nextProvider>
       </StaticRouter>
-    </StoreContext.Provider>,
+    </QueryClientProvider>,
   );
 
-  const preloadLinks = matched && manifest ? renderPreloadLinks(matched.modulePaths, manifest) : '';
+  const preloadLinks = matched && manifest ? renderPreloadLinks(matched.route.modulePaths, manifest) : '';
 
   const state = [
-    `<script>window.__initialData__ = ${serialize(store.getState())}</script>`,
+    `<script>window.__QUERY_STATE__ = ${serialize(dehydrate(queryClient))}</script>`,
     `<script>window.initialI18nStore = ${serialize(i18next.store.data)};` +
       `window.initialLanguage = ${serialize(i18next.language)}</script>`,
   ].join('\n');

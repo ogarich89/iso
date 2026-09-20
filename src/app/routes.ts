@@ -1,5 +1,5 @@
 import { route } from 'src/lib/route';
-import { fetchProduct, fetchProducts } from 'src/modules/products/store/products';
+import { productQuery, productsQuery } from 'src/modules/products/queries';
 
 const routes = [
   route({
@@ -7,8 +7,16 @@ const routes = [
     layout: 'main',
     children: [
       { path: '/', page: 'home' },
-      { path: '/products', page: 'products', initialAction: fetchProducts },
-      { path: '/products/:id', page: 'product', initialAction: fetchProduct },
+      {
+        path: '/products',
+        page: 'products',
+        prefetch: (queryClient, { req }) => queryClient.prefetchQuery(productsQuery(req)),
+      },
+      {
+        path: '/products/:id',
+        page: 'product',
+        prefetch: (queryClient, { params, req }) => queryClient.prefetchQuery(productQuery(params.id ?? '', req)),
+      },
       { path: '*', page: 'not-found' },
     ],
   }),

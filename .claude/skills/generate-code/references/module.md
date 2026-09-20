@@ -4,7 +4,7 @@
 - Anatomy of a domain
 - The page
 - Domain types
-- The store slice and its actions
+- The queries
 - Wiring the route
 - Nested pages
 - Checklist
@@ -14,8 +14,8 @@
 ```
 src/modules/<domain>/
   <name>.page.tsx                    default export, discovered by file name
-  types.ts                           the domain's own types
-  store/<domain>.ts                  State augmentation + initial actions
+  types.ts                           zod schemas and the types inferred from them
+  queries.ts                         queryOptions factories for the domain
   components/{atoms,molecules,organisms}/
 ```
 
@@ -25,37 +25,31 @@ the key used in `src/app/routes.ts` — renaming the file renames the route entr
 ## The page
 
 A page renders states, nothing else: the data, the failure, the wait. Its const is lowercase and it is the
-default export.
+default export. It takes no props — the route supplies nothing, the query supplies everything.
 
 ```tsx
+import { useQuery } from '@tanstack/react-query';
+import type { FunctionComponent } from 'react';
+import { useParams } from 'react-router';
 import { Loading } from 'src/components/molecules/Loading/Loading';
-import { useInitialState } from 'src/hooks/useInitialState';
 import { PageNotFound } from 'src/modules/not-found/components/molecules/PageNotFound/PageNotFound';
 import { ExampleComponent } from 'src/modules/example/components/organisms/Example/Example';
-import { resetExample } from 'src/modules/example/store/example';
+import { exampleQuery } from 'src/modules/example/queries';
 
-import type { PageComponent } from 'src/types';
+const example: FunctionComponent = () => {
+  const { id } = useParams();
+  const { data, isPending } = useQuery(exampleQuery(id ?? ''));
 
-const example: PageComponent = ({ initialAction }) => {
-  const example = useInitialState(initialAction, (state) => state.example, resetExample);
-
-  return example === null ? (
-    <PageNotFound />
-  ) : example ? (
-    <ExampleComponent {...{ example }} />
-  ) : (
-    <Loading timeout={500} />
-  );
+  return isPending ? <Loading timeout={500} /> : data ? <ExampleComponent example={data} /> : <PageNotFound />;
 };
 
 export default example;
 ```
 
-The three states are a contract: `null` means the request failed → not found, `undefined` means it has not
-arrived yet → loading, anything else renders. Pass `resetExample` as the third argument only for a detail page
-whose data must not leak into the next id.
+Server-rendered pages are never pending: the route prefetched the query and the client hydrates that cache.
+`isPending` is what a client-side navigation to a cold route shows.
 
-A page without data takes no props:
+A page without data is the same shape without the query:
 
 ```tsx
 import type { FunctionComponent } from 'react';
@@ -88,46 +82,36 @@ export type Examples = z.infer<typeof examplesSchema>;
 Declare only the fields the app uses: zod strips the rest, so an API that adds a field breaks nothing.
 Types stay in the domain — shared code never imports them, the domain passes its schema into `request`.
 
-## The store slice and its actions
+## The queries
 
-One file per domain in `store/`. It augments the shared `State` and exports plain functions — no hooks, no
-classes, no zustand slice factories.
+One `queries.ts` per domain. Each export is a `queryOptions` factory, so the key and the fetcher are written
+once and used by both the route prefetch and the page.
 
 ```ts
+import { queryOptions } from '@tanstack/react-query';
 import { request } from 'src/lib/api/request';
-import type { Example, Examples } from 'src/modules/example/types';
 import { exampleSchema, examplesSchema } from 'src/modules/example/types';
-import type { AppStore } from 'src/store';
-import type { InitialActionRequest } from 'src/types';
+import type { ServerRequest } from 'src/types';
 
-declare module 'src/store' {
-  interface State {
-    examples?: Examples | null;
-    example?: Example | null;
-  }
-}
+export const examplesQuery = (req?: ServerRequest) =>
+  queryOptions({
+    queryKey: ['examples'],
+    queryFn: () => request('examples', examplesSchema, {}, undefined, req).catch(() => null),
+  });
 
-export const fetchExamples = async (store: AppStore) => {
-  const examples = await request('examples', examplesSchema, {}).catch(() => null);
-  store.setState({ examples });
-};
-
-export const fetchExample = async (store: AppStore, req?: InitialActionRequest) => {
-  const [, , id] = (req?.url ?? '').split('/');
-  const example = await request('example', exampleSchema, { id }).catch(() => null);
-  store.setState({ example });
-};
-
-export const resetExample = (store: AppStore) => {
-  store.setState({ example: undefined });
-};
+export const exampleQuery = (id: string, req?: ServerRequest) =>
+  queryOptions({
+    queryKey: ['example', id],
+    queryFn: () => request('example', exampleSchema, { id }, undefined, req).catch(() => null),
+  });
 ```
 
 Invariants:
-- every slice field is optional and nullable (`?: T | null`) — `undefined` is "not loaded", `null` is "failed";
-- actions always resolve, never throw: `.catch(() => null)` — this also absorbs a response that fails its schema;
-- an action takes the store and writes to it; it returns nothing;
-- the id for a detail page comes from `req.url`, because on the server there is no router yet.
+- the key names the resource and then everything that varies: `['example', id]`;
+- the query function resolves to `null` on failure rather than throwing — an errored query is not dehydrated,
+  so a throwing query function would make the server render a spinner instead of the not-found page;
+- `req` is threaded through only so a server-side fetch can forward the incoming cookie;
+- defaults (60s `staleTime`, no retry, no refetch on focus) belong in `src/lib/query.ts`, not in a query.
 
 ## Wiring the route
 
@@ -135,7 +119,7 @@ Invariants:
 
 ```ts
 import { route } from 'src/lib/route';
-import { fetchExample, fetchExamples } from 'src/modules/example/store/example';
+import { exampleQuery, examplesQuery } from 'src/modules/example/queries';
 
 const routes = [
   route({
@@ -143,8 +127,16 @@ const routes = [
     layout: 'main',
     children: [
       { path: '/', page: 'home' },
-      { path: '/examples', page: 'examples', initialAction: fetchExamples },
-      { path: '/examples/:id', page: 'example', initialAction: fetchExample },
+      {
+        path: '/examples',
+        page: 'examples',
+        prefetch: (queryClient, { req }) => queryClient.prefetchQuery(examplesQuery(req)),
+      },
+      {
+        path: '/examples/:id',
+        page: 'example',
+        prefetch: (queryClient, { params, req }) => queryClient.prefetchQuery(exampleQuery(params.id ?? '', req)),
+      },
       { path: '*', page: 'not-found' },
     ],
   }),
@@ -153,11 +145,14 @@ const routes = [
 export default routes;
 ```
 
+`params` comes from `matchPath` against the requested URL, so a detail route reads its id the same way on the
+server and in the browser.
+
 `layout` and `page` are file names, not paths — `import.meta.glob` resolves them. Keep `{ path: '*' }` last.
 `delay` (default 300ms) tunes how long the route may load before the `Loading` fallback appears.
 
 A new page is reachable by SSR only through this table: it is what `expandRoutes` walks to preload modules and
-run initial actions. A route added anywhere else renders blank on the server.
+run prefetches. A route added anywhere else renders blank on the server.
 
 ## Nested pages
 
@@ -167,17 +162,23 @@ Give the parent page an `<Outlet />` and nest the children:
 {
   path: '/examples',
   page: 'examples',
-  children: [{ path: '/examples/:id', page: 'example', initialAction: fetchExample }],
+  children: [
+    {
+      path: '/examples/:id',
+      page: 'example',
+      prefetch: (queryClient, { params, req }) => queryClient.prefetchQuery(exampleQuery(params.id ?? '', req)),
+    },
+  ],
 }
 ```
 
-Child initial actions run after the parent's; both are awaited before `renderToString`.
+A child's prefetch is collected on top of its parent's; all of them are awaited before `renderToString`.
 
 ## Checklist
 
-- [ ] Tests first for the page states and for each action (`.claude/skills/tdd/SKILL.md`)
-- [ ] `<name>.page.tsx` with a lowercase const and a default export
-- [ ] Slice fields optional and nullable, declared via `declare module 'src/store'`
-- [ ] Actions swallow failures into `null` and return nothing
+- [ ] Tests first for the page states and for each query (`.claude/skills/tdd/SKILL.md`)
+- [ ] `<name>.page.tsx` with a lowercase const and a default export, no props
+- [ ] `queryOptions` factory per resource, key written once
+- [ ] Query functions resolve to `null` on failure
 - [ ] Route added to `src/app/routes.ts`, catch-all still last
 - [ ] `bun run deadcode` clean — nothing generated is left unreferenced
