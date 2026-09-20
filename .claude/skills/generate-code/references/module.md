@@ -67,17 +67,26 @@ export default home;
 
 ## Domain types
 
-```ts
-export interface Example {
-  id: number;
-  name: string;
-}
+Types are inferred from a schema, so the runtime check and the type cannot drift apart. Shared code that
+reaches the browser uses **`zod/mini`**, not `zod` — the classic API costs about 23KB gzipped in the client
+bundle, mini about 4.5KB.
 
-export type Examples = Example[];
+```ts
+import * as z from 'zod/mini';
+
+export const exampleSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
+
+export const examplesSchema = z.array(exampleSchema);
+
+export type Example = z.infer<typeof exampleSchema>;
+export type Examples = z.infer<typeof examplesSchema>;
 ```
 
-Types stay in the domain. Shared code never imports them; the domain passes them into generic helpers such as
-`request<Example>(...)`.
+Declare only the fields the app uses: zod strips the rest, so an API that adds a field breaks nothing.
+Types stay in the domain — shared code never imports them, the domain passes its schema into `request`.
 
 ## The store slice and its actions
 
@@ -87,6 +96,7 @@ classes, no zustand slice factories.
 ```ts
 import { request } from 'src/lib/api/request';
 import type { Example, Examples } from 'src/modules/example/types';
+import { exampleSchema, examplesSchema } from 'src/modules/example/types';
 import type { AppStore } from 'src/store';
 import type { InitialActionRequest } from 'src/types';
 
@@ -98,17 +108,13 @@ declare module 'src/store' {
 }
 
 export const fetchExamples = async (store: AppStore) => {
-  const examples = await request<Examples>('examples', {})
-    .then(({ data }) => data)
-    .catch(() => null);
+  const examples = await request('examples', examplesSchema, {}).catch(() => null);
   store.setState({ examples });
 };
 
 export const fetchExample = async (store: AppStore, req?: InitialActionRequest) => {
   const [, , id] = (req?.url ?? '').split('/');
-  const example = await request<Example>('example', { id })
-    .then(({ data }) => data)
-    .catch(() => null);
+  const example = await request('example', exampleSchema, { id }).catch(() => null);
   store.setState({ example });
 };
 
@@ -119,7 +125,7 @@ export const resetExample = (store: AppStore) => {
 
 Invariants:
 - every slice field is optional and nullable (`?: T | null`) — `undefined` is "not loaded", `null` is "failed";
-- actions always resolve, never throw: `.catch(() => null)`;
+- actions always resolve, never throw: `.catch(() => null)` — this also absorbs a response that fails its schema;
 - an action takes the store and writes to it; it returns nothing;
 - the id for a detail page comes from `req.url`, because on the server there is no router yet.
 

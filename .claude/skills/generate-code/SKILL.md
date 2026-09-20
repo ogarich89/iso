@@ -48,11 +48,13 @@ Check this list before adding a helper — most "new" utilities already exist:
 | Route data on both server and client | `useInitialState(initialAction, selector, resetAction?)` | `src/hooks/useInitialState` |
 | Read the per-request store | `useAppStore(selector)` / `useStoreApi()` | `src/store` |
 | Modal open/close | `useModalStore` | `src/store/ui` |
-| HTTP call to the backend | `request<T>('method', data, params?, req?)` | `src/lib/api/request` |
+| HTTP call to the backend | `request('method', schema, data, params?, req?)` | `src/lib/api/request` |
 | Session read/write from the client | `session.get` / `session.set` | `src/lib/session` |
 | Build a URL or path with params | `pathResolver(...)`, `isExternal(url)` | `src/lib/url` |
 | Lock the page behind an overlay | `setOverflow(isShown)` | `src/lib/dom` |
 | Lazy component with SSR preloading | `lazyWithPreload(loader)` | `src/lib/lazyWithPreload` |
+| Runtime validation in shared code | `import * as z from 'zod/mini'` (never plain `zod` — 5x bigger in the bundle) | `zod/mini` |
+| Runtime validation on the server or in config | `import { z } from 'zod'` | `zod` |
 | Icons | `lucide-react`, or a local SVG with `?react` | — |
 | Translated copy | `const { t } = useTranslation()` | `react-i18next` |
 

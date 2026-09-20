@@ -86,8 +86,8 @@ declare module 'src/store' {
 route as `initialAction`, and read it in the page with `useInitialState(initialAction, (state) => state.example)`.
 Return `null` on failure — pages treat `null` as "not found" and `undefined` as "still loading".
 
-**Call a new endpoint.** Add it to `src/lib/api/methods.ts`, then `request<Example>('example', data)`. The
-`x-api-key` header and the API host come from env.
+**Call a new endpoint.** Add it to `src/lib/api/methods.ts`, then `request('example', exampleSchema, data)`.
+The response is validated against the schema, and the `x-api-key` header and API host come from env.
 
 **Add a server endpoint.** A route file in `server/routes/`, a handler in `server/handlers/`, then export it
 from `server/routes.mjs`. `POST /session/language` is the worked example, including its JSON schema.

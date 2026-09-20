@@ -24,17 +24,20 @@ export const methods = {
 } as const;
 ```
 
-Call them through the generic `request`, which is domain-agnostic — the caller supplies the type:
+Call them through `request`, which is domain-agnostic — the caller supplies the schema, and the response is
+validated against it before anything else sees it:
 
 ```ts
-const { data } = await request<Examples>('examples', { page: 2 });
+const examples = await request('examples', examplesSchema, { page: 2 });
 ```
 
 ```ts
-request<T, D>(key, data, params?, req?)
+request(key, schema, data, params?, req?)
 ```
 
 - `key` — a name from the registry;
+- `schema` — the domain's `zod/mini` schema for the payload inside the `{ data }` envelope; a response that
+  does not match is logged with the failing path and rejected, so the domain action turns it into `null`;
 - `data` — query params for `GET`, the body otherwise;
 - `params` — values substituted into `:placeholders` in the registry URL;
 - `req` — the incoming Fastify request, when the call must carry its `cookie` header.
@@ -58,10 +61,18 @@ export const example = async (request, reply) => {
 };
 ```
 
-`server/routes/example.mjs` — every route declares a schema; Fastify validates and serialises from it:
+`server/routes/example.mjs` — every route declares a schema; Fastify validates and serialises from it. The
+server side uses full `zod` (size does not matter there) and converts to JSON Schema with `draft-7`, which is
+the dialect Fastify's ajv understands:
 
 ```js
+import { z } from 'zod';
+
 import { example } from '../handlers/example.mjs';
+
+const body = z.object({
+  value: z.string(),
+});
 
 export default [
   {
@@ -69,13 +80,7 @@ export default [
     url: '/session/example',
     handler: example,
     schema: {
-      body: {
-        type: 'object',
-        properties: {
-          value: { type: 'string' },
-        },
-        required: ['value'],
-      },
+      body: z.toJSONSchema(body, { target: 'draft-7' }),
       response: {
         200: {
           type: 'object',
@@ -118,8 +123,9 @@ Its registry is `src/lib/session/methods.ts`, whose URLs must match the Fastify 
 
 ## What belongs on the server
 
-`config/index.mjs` is the only reader of `process.env`; add a new setting there with a default, document it in
-`.env` and in the README table, and keep secrets in `.env.local`. Bun loads both files automatically. If the
+`config/index.mjs` is the only reader of `process.env`, through a zod schema in `parseConfig`. Add a new
+setting to that schema with a default, cover it in `config/index.test.mjs`, document it in `.env` and in the
+README table, and keep secrets in `.env.local`. A bad value then fails at boot naming the variable. Bun loads both files automatically. If the
 value must reach browser code, expose it as a `VITE_*` entry in `define` in `vite.config.ts`, mirror it in
 `vitest.config.ts`, and declare it in `src/types/global.d.ts` — and remember anything defined that way is
 public.

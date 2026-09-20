@@ -13,6 +13,7 @@ Guidance for working in this repository.
 - **Server** — Fastify 5 (`@fastify/cookie`, `@fastify/session`, `@fastify/static`, `@fastify/middie`)
 - **UI** — React 19, React Router 8, react-i18next 17 / i18next 26
 - **State** — Zustand 5
+- **Validation** — Zod 4 (`zod` on the server and in config, `zod/mini` in shared code that ships to the browser)
 - **Build / dev server** — Vite 8 (`@vitejs/plugin-react`, `vite-plugin-svgr`), SSR in middleware mode
 - **Styles** — SCSS (`sass-embedded`) + CSS Modules; PostCSS (`autoprefixer`, `cssnano`, `postcss-import`, `postcss-combine-media-query`, and `@fullhuman/postcss-purgecss` in production)
 - **Icons** — `lucide-react`; local SVGs via SVGR (`?react`)
@@ -69,8 +70,8 @@ config/        index.mjs (env config), i18n.mjs (i18next options), vitest.setup.
 - **Client entry** (`src/app/client.tsx`): inits i18next from serialized data, preloads the current route's chunks, then `hydrateRoot`.
 - **State** (`src/store/`): Zustand. `createAppStore` makes a fresh vanilla store per request, provided via `StoreContext`. `State` is an **augmentable registry interface** — each domain adds its slice with `declare module 'src/store'`. Domain actions (`src/modules/<domain>/store/*.ts`) are plain functions `(store, req?) => void` used as route `initialAction`s. `store/ui.ts` is a client-only modal store.
 - **Routing** (`src/app/routes.ts`, `src/lib/route.tsx`): routes map a `layout` + `page` name to lazy components discovered via `import.meta.glob`, resolved by file name. `src/lib/lazyWithPreload.tsx` wraps `React.lazy` with a `.preload()` used by both SSR and client; once preloaded it renders the module **synchronously** instead of suspending, which is what keeps `renderToString` from degrading to a client render. Both entries preload the catch-all `*` route too, so 404s are server-rendered.
-- **API** (`src/lib/api/`): `request<T>(method, data, params?, req?)` is generic over the response type; `methods.ts` is the endpoint registry. `shared` is domain-agnostic — domains pass their own types.
-- **Config** (`config/index.mjs`): server-only, parses `process.env`. Shared code reads only `import.meta.env.VITE_API` / `VITE_API_KEY` / `VITE_PORT`, injected by Vite `define`. `vite.config.ts` merges `.env` / `.env.local` into `process.env` (real env wins) before reading the config, so builds see the same values as `bun dev`.
+- **API** (`src/lib/api/`): `request(method, schema, data, params?, req?)` unwraps the `{ data }` envelope and parses it with the domain's `zod/mini` schema, so a response that breaks the contract is logged and rejected instead of reaching a component; `methods.ts` is the endpoint registry. `shared` is domain-agnostic — domains pass their own schemas.
+- **Config** (`config/index.mjs`): server-only, parses `process.env` through a zod schema (`parseConfig`), so a bad value fails at boot with the variable named. Shared code reads only `import.meta.env.VITE_API` / `VITE_API_KEY` / `VITE_PORT`, injected by Vite `define`. `vite.config.ts` merges `.env` / `.env.local` into `process.env` (real env wins) before reading the config, so builds see the same values as `bun dev`.
 - **Testing**: Vitest + Testing Library in jsdom, tests colocated as `X.test.tsx` next to the code and typechecked with it. `config/vitest.setup.ts` mocks `react-i18next` (`t` returns the key) and stubs `window.scrollTo`. `src/app/server.test.tsx` asserts on real SSR output and `src/app/client.test.tsx` hydrates that output, so both SSR degradation and hydration mismatches fail the suite. Follow `.claude/skills/tdd/SKILL.md` — test first.
 
 ## Skills (`.claude/skills/`)
@@ -95,6 +96,8 @@ config/        index.mjs (env config), i18n.mjs (i18next options), vitest.setup.
 ## Gotchas
 
 - The store is per-request on the server — never module-level mutable app state.
+- `SESSION_SECRET` (32+ characters) is required to boot; the build does not need it, so CI stays green without secrets.
+- Shared code uses `zod/mini`, not `zod`: the classic API costs ~23KB gzipped in the client bundle against ~4.5KB for mini.
 - `import.meta.glob` for layouts excludes `*.test.tsx`; without that, a layout test is discovered as a layout and bundled into `dist/`.
 - SSR renders real content because route modules are preloaded before `renderToString`; keep new lazy routes reachable through `expandRoutes`.
 - Config is env-based: defaults in committed `.env`, local overrides in `.env.local` (gitignored, holds `SESSION_SECRET` and `API_KEY`). Bun loads `.env` and `.env.local` itself, so the scripts pass no env flags. The demo backend (reqres.in) rejects requests without `x-api-key`, which `src/lib/api/request.ts` sends from `VITE_API_KEY` — note that this ships in the client bundle, so it is fine for a demo key and wrong for a real secret.

@@ -18,6 +18,7 @@ ISO uses a number of open source projects to work properly:
 * [React](https://react.dev/) - Library for building user interfaces.
 * [React Router](https://reactrouter.com/) - Routing for React.
 * [Zustand](https://zustand.docs.pmnd.rs/) - Minimal state management.
+* [Zod](https://zod.dev/) - Schema validation for the environment, the API responses and the server routes.
 * [Vite](https://vite.dev/) - Build tool and dev server with native SSR.
 * [Vitest](https://vitest.dev/) - Unit test runner.
 * [Testing Library](https://testing-library.com/) - Component testing utilities.
@@ -165,17 +166,18 @@ An initial action is a plain async function that receives the per-request store 
 
 ```ts
 import { request } from 'src/lib/api/request';
+import { exampleSchema } from 'src/modules/example/types';
 
 import type { AppStore } from 'src/store';
 import type { InitialActionRequest } from 'src/types';
 
 export const fetchExample = async (store: AppStore, req?: InitialActionRequest) => {
-  const data = await request('example', {}, undefined, req)
-    .then(({ data }) => data)
-    .catch(() => null);
-  store.setState({ example: data });
+  const example = await request('example', exampleSchema, {}, undefined, req).catch(() => null);
+  store.setState({ example });
 };
 ```
+
+The schema is not only validation: `Example` is inferred from it, so the type and the runtime check can never drift apart.
 
 2. Add it to a route in `src/app/routes.ts`
 
