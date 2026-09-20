@@ -1,6 +1,5 @@
-import style from './PageNotFound.scss';
-
 import type { FunctionComponent } from 'react';
+import style from './PageNotFound.module.scss';
 
 export const PageNotFound: FunctionComponent = () => (
   <section className={style.pageNotFound}>

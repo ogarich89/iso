@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<Welcome /> > should render component 1`] = `
+<div>
+  <section
+    class="_welcome_224f25"
+  >
+    <h1>
+      hello
+    </h1>
+  </section>
+</div>
+`;

@@ -1,29 +1,25 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { useDispatch, useSelector } from 'src/hooks/redux';
-
-import type { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 import type { State } from 'src/store';
-import type { InitialAction } from 'src/types';
+import { useAppStore, useStoreApi } from 'src/store';
+import type { InitialAction, ResetAction } from 'src/types';
 
 export const useInitialState = <Data>(
   initialAction: InitialAction,
   selector: (state: State) => Data,
-  resetAction?: ActionCreatorWithoutPayload,
+  resetAction?: ResetAction,
 ) => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+  const store = useStoreApi();
 
-  const data = useSelector(selector);
+  const data = useAppStore(selector);
 
   useEffect(() => {
     if (!data) {
-      dispatch(initialAction({ url: pathname }));
+      initialAction(store, { url: pathname });
     }
     return () => {
-      if (resetAction) {
-        dispatch(resetAction());
-      }
+      resetAction?.(store);
     };
   }, [pathname]);
 

@@ -1,15 +1,9 @@
-import { NavLink, matchPath } from 'react-router';
-import routes from 'src/routes';
-
 import type { FunctionComponent, MouseEventHandler } from 'react';
 import type { NavLinkProps } from 'react-router';
+import { matchPath, NavLink } from 'react-router';
+import routes from 'src/app/routes';
 
-export const Link: FunctionComponent<NavLinkProps> = ({
-  style,
-  to,
-  className,
-  children,
-}) => {
+export const Link: FunctionComponent<NavLinkProps> = ({ style, to, className, children }) => {
   const mouseOverHandler: MouseEventHandler = () => {
     routes.forEach(({ children }) => {
       children?.forEach(({ path, component }) => {
@@ -20,12 +14,7 @@ export const Link: FunctionComponent<NavLinkProps> = ({
     });
   };
   return (
-    <NavLink
-      style={style}
-      to={to}
-      className={className}
-      onMouseOver={mouseOverHandler}
-    >
+    <NavLink style={style} to={to} className={className} onMouseOver={mouseOverHandler}>
       {children}
     </NavLink>
   );

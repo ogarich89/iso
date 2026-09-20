@@ -1,0 +1,212 @@
+@use "variables";
+@use "mixins";
+
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: mixins.vw(1600px, variables.$desktop);
+  margin: 0 auto;
+}
+
+html {
+  box-sizing: border-box;
+  &.hidden {
+    overflow-y: scroll;
+    height: 100%;
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+}
+
+.icon {
+  width: mixins.vw(24px, variables.$desktop);
+  height: mixins.vw(24px, variables.$desktop);
+  display: block;
+  @include mixins.respond-to(laptop) {
+    width: mixins.vw(24px, variables.$laptop);
+    height: mixins.vw(24px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    width: mixins.vw(24px, variables.$tablet);
+    height: mixins.vw(24px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    width: mixins.vw(24px, variables.$mobile);
+    height: mixins.vw(24px, variables.$mobile);
+  }
+}
+
+body {
+  min-width: 320px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-family: RobotoSlab, sans-serif;
+}
+
+main {
+  flex: 1;
+  padding-top: mixins.vw(60px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    padding-top: mixins.vw(60px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    padding-top: mixins.vw(60px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    padding-top: mixins.vw(60px, variables.$mobile);
+  }
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a, button, input, select, option, textarea {
+  outline: none;
+  border: 0;
+}
+
+button {
+  background-color: transparent;
+  padding: 0;
+}
+
+input {
+  appearance: none;
+  -webkit-border-radius: 0;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+a img {
+  border: 0;
+}
+
+
+h1, h2, h3, h4, p {
+  color: #343434;
+}
+
+h1, h2 {
+  font-weight: 700;
+  font-family: RobotoSlab, sans-serif;
+  letter-spacing: mixins.vw(1px, variables.$desktop);
+}
+
+h1 {
+  font-size: mixins.vw(30px, variables.$desktop);
+  line-height: 1.33;
+  margin-bottom: mixins.vw(30px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(30px, variables.$laptop);
+    margin-bottom: mixins.vw(30px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(30px, variables.$tablet);
+    margin-bottom: mixins.vw(30px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(25px, variables.$mobile);
+    margin-bottom: mixins.vw(20px, variables.$mobile);
+  }
+}
+
+h2 {
+  font-size: mixins.vw(20px, variables.$desktop);
+  line-height: 1.25;
+  margin-bottom: mixins.vw(15px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(20px, variables.$laptop);
+    margin-bottom: mixins.vw(15px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(20px, variables.$tablet);
+    margin-bottom: mixins.vw(15px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(20px, variables.$mobile);
+    margin-bottom: mixins.vw(15px, variables.$mobile);
+  }
+}
+
+h3, h4 {
+  font-family: Ubuntu, sans-serif;
+  letter-spacing: mixins.vw(1px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    letter-spacing: mixins.vw(1px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    letter-spacing: mixins.vw(1px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    letter-spacing: mixins.vw(1px, variables.$mobile);
+  }
+}
+
+h3 {
+  font-weight: 700;
+  font-size: mixins.vw(20px, variables.$desktop);
+  line-height: 1.25;
+  margin-bottom: mixins.vw(15px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(20px, variables.$laptop);
+    margin-bottom: mixins.vw(15px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(20px, variables.$tablet);
+    margin-bottom: mixins.vw(15px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(20px, variables.$mobile);
+    margin-bottom: mixins.vw(15px, variables.$mobile);
+  }
+}
+
+h4 {
+  font-weight: 700;
+  font-size: mixins.vw(14px, variables.$desktop);
+  line-height: 1.2;
+  margin-bottom: mixins.vw(10px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(14px, variables.$laptop);
+    margin-bottom: mixins.vw(10px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(14px, variables.$tablet);
+    margin-bottom: mixins.vw(10px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(14px, variables.$mobile);
+    margin-bottom: mixins.vw(10px, variables.$mobile);
+  }
+}
+
+p {
+  font-size: mixins.vw(14px, variables.$desktop);
+  line-height: 2.14;
+  @include mixins.respond-to(laptop) {
+    font-size: mixins.vw(14px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    font-size: mixins.vw(14px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    font-size: mixins.vw(14px, variables.$mobile);
+  }
+}

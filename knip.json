@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["src/app/server.tsx", "src/modules/**/*.page.tsx", "src/layouts/*.tsx"],
+  "project": ["src/**/*.{ts,tsx}", "server/**/*.mjs", "config/**/*.{mjs,ts}"],
+  "ignoreDependencies": ["pino-pretty", "postcss-scss"]
+}

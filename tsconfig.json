@@ -1,27 +1,28 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["vite/client", "vitest/globals", "node"],
+    "paths": {
+      "src/*": ["./src/*"],
+      "i18n": ["./config/i18n.mjs"]
+    },
     "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": false,
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "sourceMap": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    "useDefineForClassFields": true,
     "skipLibCheck": true,
     "strict": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "target": "esnext",
-    "jsx": "react-jsx",
-    "allowJs": true,
     "noEmit": true,
-    "experimentalDecorators": true,
-    "types": ["node", "jest"],
-    "paths": {
-      "i18n": ["./i18n.mjs"],
-      "config": ["./config/config.cjs"]
-    }
+    "sourceMap": true
   },
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.test.tsx"
-  ],
+  "include": ["src", "vite.config.ts", "vitest.config.ts", "config/i18n.mjs"],
+  "exclude": ["node_modules", "dist", "coverage", "**/*.test.ts", "**/*.test.tsx"]
 }

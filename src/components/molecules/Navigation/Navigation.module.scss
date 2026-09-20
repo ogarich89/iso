@@ -1,0 +1,56 @@
+@use "variables";
+@use "mixins";
+
+.navigation {
+  margin-left: mixins.vw(30px, variables.$desktop);
+  @include mixins.respond-to(laptop) {
+    margin-left: mixins.vw(30px, variables.$laptop);
+  }
+  @include mixins.respond-to(tablet) {
+    margin-left: mixins.vw(30px, variables.$tablet);
+  }
+  @include mixins.respond-to(mobile) {
+    margin-left: mixins.vw(30px, variables.$mobile);
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    li {
+      &:not(:last-child) {
+        margin-right: mixins.vw(20px, variables.$desktop);
+        @include mixins.respond-to(laptop) {
+          margin-right: mixins.vw(20px, variables.$laptop);
+        }
+        @include mixins.respond-to(tablet) {
+          margin-right: mixins.vw(20px, variables.$tablet);
+        }
+        @include mixins.respond-to(mobile) {
+          margin-right: mixins.vw(20px, variables.$mobile);
+        }
+      }
+      a, button {
+        text-transform: none;
+        color: variables.$white;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: mixins.vw(20px, variables.$desktop);
+        text-decoration: none;
+        @include mixins.respond-to(laptop) {
+          font-size: mixins.vw(20px, variables.$laptop);
+        }
+        @include mixins.respond-to(tablet) {
+          font-size: mixins.vw(20px, variables.$tablet);
+        }
+        @include mixins.respond-to(mobile) {
+          font-size: mixins.vw(20px, variables.$mobile);
+        }
+        &:hover {
+          color: variables.$teal;
+        }
+        &.active {
+          color: variables.$teal;
+        }
+      }
+    }
+  }
+}

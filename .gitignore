@@ -2,10 +2,8 @@ node_modules/
 dist/
 .idea/
 .vscode
-yarn-error.log
 package-lock.json
-config/environment/development.json
 coverage
 .cache
 .swc
-.env
+.env.local

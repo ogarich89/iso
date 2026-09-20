@@ -1,19 +1,17 @@
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import cookie from '@fastify/cookie';
 import session from '@fastify/session';
 import serve from '@fastify/static';
-import view from '@fastify/view';
-import RedisStore from 'connect-redis';
-import ejs from 'ejs';
+import { RedisStore } from 'connect-redis';
 import Redis from 'ioredis';
 
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-import { config } from '../config/config.cjs';
+import { config } from '../config/index.mjs';
 
 const { withStatic = true, sessionRedisDb, withRedis } = config;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, '..');
 
 const initRedisStore = () => {
   const redisClient = new Redis({
@@ -24,33 +22,29 @@ const initRedisStore = () => {
   });
 };
 
-const register = (app) => {
+const register = (app, { isProduction } = {}) => {
   app.register(cookie);
-
-  app.register(view, {
-    engine: {
-      ejs,
-    },
-    root: resolve(__dirname, './templates'),
-  });
 
   app.register(session, {
     ...(withRedis ? { store: initRedisStore() } : {}),
     cookieName: 'session_id',
     cookie: { secure: false },
-    secret: 'VY0{W6C3u@syL>H((&^RQU"Q-t%gYfVl]vhVIT;xql3JTS$-B`Ek1264S}sX_49',
+    secret: process.env.SESSION_SECRET,
   });
 
   if (withStatic) {
     app.register(serve, {
-      root: resolve(__dirname, '../public'),
+      root: resolve(root, 'public'),
       prefix: '/public',
     });
-    app.register(serve, {
-      root: resolve(__dirname, '../dist'),
-      prefix: '/dist',
-      decorateReply: false,
-    });
+
+    if (isProduction) {
+      app.register(serve, {
+        root: resolve(root, 'dist/client/assets'),
+        prefix: '/assets',
+        decorateReply: false,
+      });
+    }
   }
 };
 

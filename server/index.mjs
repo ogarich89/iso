@@ -1,26 +1,15 @@
+import fs from 'node:fs';
 import * as Sentry from '@sentry/node';
-import dotenv from 'dotenv';
 import Fastify from 'fastify';
 
-import fs from 'fs';
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-import { config } from '../config/config.cjs';
-import pkg from '../dist/request-handler.cjs';
+import { config } from '../config/index.mjs';
 
 import { register } from './register.mjs';
+import { createRenderer } from './renderer/index.mjs';
 import { routes } from './routes.mjs';
 
-const { requestHandler } = pkg;
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const statsFile = resolve(__dirname, '../dist/loadable-stats.json');
-
+const isProduction = process.env.NODE_ENV === 'production';
 const { port, certificate, logger, sentryDSN } = config;
-
-dotenv.config();
 
 if (sentryDSN) {
   Sentry.init({
@@ -30,7 +19,7 @@ if (sentryDSN) {
   });
 }
 
-const app = new Fastify({
+const app = Fastify({
   ...(logger
     ? {
         logger: {
@@ -52,22 +41,35 @@ const app = new Fastify({
     : {}),
 });
 
-app.setErrorHandler(async (error, request, reply) => {
+app.setErrorHandler(async (error, _request, reply) => {
   if (sentryDSN) {
     Sentry.captureException(error);
   }
-
   reply.status(500).send(error);
 });
 
-register(app);
+const renderPage = await createRenderer(app);
+
+register(app, { isProduction });
 
 routes.forEach(({ url, method, handler, schema }) => {
   app.route({ method, url, handler, schema });
 });
 
-app.get('*', {}, (request, reply) =>
-  requestHandler(request, reply, { statsFile }),
-);
+app.get('*', async (request, reply) => {
+  try {
+    const html = await renderPage({
+      url: request.url,
+      cookie: request.headers.cookie,
+      lng: request.session.get('lng') || 'en',
+    });
+    reply.header('Content-Type', 'text/html').send(html);
+  } catch (error) {
+    if (sentryDSN) {
+      Sentry.captureException(error);
+    }
+    reply.status(500).send(error);
+  }
+});
 
-app.listen({ port });
+await app.listen({ port });

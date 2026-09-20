@@ -1,32 +1,24 @@
+import type { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'src/components/molecules/Link/Link';
-import { emitter, TOGGLE_MODAL } from 'src/libs/emitter';
-
-import style from './Navigation.scss';
-
-import type { FunctionComponent } from 'react';
+import { useModalStore } from 'src/store/ui';
+import style from './Navigation.module.scss';
 
 export const Navigation: FunctionComponent = () => {
   const { t } = useTranslation();
+  const open = useModalStore((state) => state.open);
   return (
     <nav className={style.navigation}>
       <ul>
         <li>
-          <Link
-            to="/products"
-            className={({ isActive }) => (isActive ? style.active : undefined)}
-          >
+          <Link to="/products" className={({ isActive }) => (isActive ? style.active : undefined)}>
             {t('products')}
           </Link>
         </li>
         <li>
-          <span
-            onClick={() =>
-              emitter.emit(TOGGLE_MODAL, { name: 'About', isShow: true })
-            }
-          >
+          <button type="button" onClick={() => open({ name: 'About' })}>
             {t('about')}
-          </span>
+          </button>
         </li>
       </ul>
     </nav>

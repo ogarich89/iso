@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-
-import style from './Loading.scss';
-
 import type { FunctionComponent } from 'react';
+import { useEffect, useState } from 'react';
+import style from './Loading.module.scss';
 
 interface Props {
   timeout: number;
@@ -10,9 +8,7 @@ interface Props {
 
 export const Loading: FunctionComponent<Props> = ({ timeout }) => {
   const [isActive, setIsActive] = useState(false);
-  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (timeout) {
       setTimer(setTimeout(() => setIsActive(true), timeout));

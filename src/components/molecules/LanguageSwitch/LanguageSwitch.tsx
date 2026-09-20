@@ -1,13 +1,11 @@
 import { LANGUAGES } from 'i18n';
+import type { FunctionComponent } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import RuIcon from 'src/images/icons/russia-flag-icon.svg';
-import EnIcon from 'src/images/icons/united-kingdom-flag-icon.svg';
-import { session } from 'src/libs/session';
-
-import style from './LanguageSwitch.scss';
-
-import type { FunctionComponent } from 'react';
+import RuIcon from 'src/assets/icons/russia-flag-icon.svg?react';
+import EnIcon from 'src/assets/icons/united-kingdom-flag-icon.svg?react';
+import { session } from 'src/lib/session';
+import style from './LanguageSwitch.module.scss';
 
 const icons: Record<string, FunctionComponent> = {
   ru: RuIcon,
@@ -42,11 +40,7 @@ export const LanguageSwitch = () => {
             const Icon = icons[language];
             return (
               <li key={`language-${index}`}>
-                <span
-                  className={style.language}
-                  role="button"
-                  onClick={() => changeLanguage(language)}
-                >
+                <span className={style.language} role="button" onClick={() => changeLanguage(language)}>
                   <Icon />
                   {language}
                 </span>

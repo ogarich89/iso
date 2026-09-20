@@ -1,6 +1,6 @@
 import { Link } from 'src/components/molecules/Link/Link';
 
-import style from './Logo.scss';
+import style from './Logo.module.scss';
 
 export const Logo = () => {
   return (
