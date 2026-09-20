@@ -1,7 +1,7 @@
-export const language = async (request, reply) => {
+export const language = async (request) => {
   const {
     body: { lng },
   } = request;
   request.session.set('lng', lng);
-  reply.send({ message: 'Language is changed' });
+  return { message: 'Language is changed' };
 };

@@ -6,13 +6,13 @@ import proxy from '@fastify/http-proxy';
 import session from '@fastify/session';
 import serve from '@fastify/static';
 import { RedisStore } from 'connect-redis';
-import Redis from 'ioredis';
+import { createClient } from 'redis';
 
 import { config } from '../config/index.mjs';
 
 import { proxyHeaders } from './proxy.mjs';
 
-const { withStatic, sessionRedisDb, withRedis, sessionSecret, api, apiKey } = config;
+const { withStatic, sessionRedisDb, redisUrl, withRedis, sessionSecret, api, apiKey } = config;
 
 const PUBLIC_MAX_AGE = '1h';
 const ASSETS_MAX_AGE = '1y';
@@ -30,16 +30,14 @@ const cspOptions = {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
-const initRedisStore = () => {
-  const redisClient = new Redis({
-    db: sessionRedisDb || 1,
-  });
-  return new RedisStore({
-    client: redisClient,
-  });
+const initRedisStore = async (app) => {
+  const client = createClient({ url: redisUrl, database: sessionRedisDb || 1 });
+  client.on('error', (error) => app.log.error(error));
+  await client.connect();
+  return new RedisStore({ client });
 };
 
-const register = (app, { isProduction } = {}) => {
+const register = async (app, { isProduction } = {}) => {
   if (!sessionSecret) {
     throw new Error('SESSION_SECRET is required: set at least 32 characters in .env.local');
   }
@@ -49,7 +47,7 @@ const register = (app, { isProduction } = {}) => {
   app.register(cookie);
 
   app.register(session, {
-    ...(withRedis ? { store: initRedisStore() } : {}),
+    ...(withRedis ? { store: await initRedisStore(app) } : {}),
     cookieName: 'session_id',
     cookie: { secure: 'auto', httpOnly: true, sameSite: 'lax', path: '/' },
     secret: sessionSecret,

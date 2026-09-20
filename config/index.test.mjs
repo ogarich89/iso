@@ -4,10 +4,12 @@ describe('parseConfig', () => {
   it('should fall back to defaults for an empty environment', () => {
     expect(parseConfig({})).toEqual({
       port: 3000,
+      host: '127.0.0.1',
       api: 'https://reqres.in',
       apiKey: '',
       sessionSecret: undefined,
       sessionRedisDb: undefined,
+      redisUrl: 'redis://127.0.0.1:6379',
       withStatic: true,
       withRedis: false,
       trustProxy: false,

@@ -1,0 +1,12 @@
+.git
+.github
+.claude
+node_modules
+dist
+coverage
+.env.local
+.idea
+.vscode
+.cache
+.swc
+*.log

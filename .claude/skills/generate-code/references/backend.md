@@ -51,15 +51,17 @@ during SSR it goes to the upstream host directly. That split lives in `src/lib/a
 
 The server is plain `.mjs` with relative imports — no `src/` alias, no TypeScript. Three files:
 
-`server/handlers/example.mjs`
+`server/handlers/example.mjs` — an async handler **returns** its payload. Calling `reply.send()` from an
+async handler races the session store: with Redis the write finishes after the reply and Fastify throws
+`ERR_HTTP_HEADERS_SENT`.
 
 ```js
-export const example = async (request, reply) => {
+export const example = async (request) => {
   const {
     body: { value },
   } = request;
   request.session.set('example', value);
-  reply.send({ message: 'Example is saved' });
+  return { message: 'Example is saved' };
 };
 ```
 
@@ -137,5 +139,6 @@ public.
 - [ ] Test first — mock `axios` for `request`, mock `src/lib/api/request` for queries and pages
 - [ ] New API endpoint added to `src/lib/api/methods.ts`, called only through `request`
 - [ ] New server route has a schema and is exported from `server/routes.mjs`
+- [ ] Handler returns its payload rather than calling `reply.send()`
 - [ ] URL prefix cannot collide with a page path
 - [ ] New env var: `config/index.mjs` + `.env` + README, and `define` + `global.d.ts` if the client needs it

@@ -20,6 +20,7 @@ ISO uses a number of open source projects to work properly:
 * [TanStack Query](https://tanstack.com/query/latest) - Server state: fetching, caching and SSR hydration.
 * [Zustand](https://zustand.docs.pmnd.rs/) - Minimal state management for UI state.
 * [Zod](https://zod.dev/) - Schema validation for the environment, the API responses and the server routes.
+* [Docker](https://www.docker.com/) - Container image and a compose stack with Redis.
 * [Vite](https://vite.dev/) - Build tool and dev server with native SSR.
 * [Vitest](https://vitest.dev/) - Unit test runner.
 * [Testing Library](https://testing-library.com/) - Component testing utilities.
@@ -47,11 +48,13 @@ Configuration is read from environment variables. Defaults live in the committed
 | Variable | Description |
 | --- | --- |
 | `PORT` | Server port |
+| `HOST` | Interface the server binds to; must be `0.0.0.0` inside a container |
 | `API` | Backend API hostname |
 | `API_KEY` | Backend API key, sent as `x-api-key`. The browser never sees it: requests from the browser go to `/api/*` on this server, which proxies them upstream and adds the key |
 | `WITH_STATIC` | Serve `public/` and built assets with the app server |
 | `WITH_REDIS` | Store sessions in Redis |
 | `TRUST_PROXY` | Trust `X-Forwarded-*` headers; enable it behind a reverse proxy, otherwise secure session cookies are never set |
+| `REDIS_URL` | Redis connection string, used when `WITH_REDIS=true` |
 | `SESSION_REDIS_DB` | Redis database index for sessions |
 | `LOGGER` | Fastify logger (pino-pretty) |
 | `SENTRY_DSN` | Error monitoring with [Sentry](https://sentry.io) |
@@ -96,6 +99,23 @@ $ bun run serve
 ```
 
 Open http://localhost:3000
+
+### Docker
+
+The image runs the production server on Bun; `docker-compose.yml` adds Redis-backed sessions.
+
+```sh
+$ docker compose up --build
+```
+
+Open http://localhost:3000
+
+No secret is baked into the image. `SESSION_SECRET`, `API` and `API_KEY` are read from `.env` and `.env.local`
+when the container starts, so the same image runs in every environment and rotating the key needs no rebuild.
+The container must bind to all interfaces, which compose does with `HOST=0.0.0.0`.
+
+The app is reported healthy once `/health` answers. Redis keeps sessions in a named volume, so restarting the
+app does not sign anybody out.
 
 ### Quality
 

@@ -4,8 +4,14 @@ import type { FastifyRequest } from 'fastify';
 import { methods } from 'src/lib/api/methods';
 import * as z from 'zod/mini';
 
-const api = import.meta.env.SSR ? import.meta.env.VITE_API : '';
-const apiKey = import.meta.env.SSR ? import.meta.env.VITE_API_KEY : '';
+export const serverTarget = () => ({
+  base: globalThis.__API__ ?? import.meta.env.VITE_API,
+  apiKey: globalThis.__API_KEY__ ?? import.meta.env.VITE_API_KEY,
+});
+
+const browserTarget = () => ({ base: '', apiKey: '' });
+
+const target = import.meta.env.SSR ? serverTarget : browserTarget;
 
 export type Methods = keyof typeof methods;
 
@@ -16,7 +22,7 @@ const pathResolver = (url: string, data?: Record<string, string>) => {
   return Object.entries(data).reduce((accum, [key, value]) => accum.replace(`:${key}`, value), url);
 };
 
-const buildHeaders = (cookie?: string) => {
+const buildHeaders = (apiKey: string, cookie?: string) => {
   const headers = {
     ...(apiKey ? { 'x-api-key': apiKey } : {}),
     ...(cookie ? { cookie } : {}),
@@ -35,10 +41,11 @@ export const request = async <Schema extends z.ZodMiniType, Data = unknown>(
   },
 ): Promise<z.infer<Schema>> => {
   const { url = '', method } = methods[key] as AxiosRequestConfig;
-  const { data: response } = await axios<{ data: unknown }>(`${api}${pathResolver(url, params)}`, {
+  const { base, apiKey } = target();
+  const { data: response } = await axios<{ data: unknown }>(`${base}${pathResolver(url, params)}`, {
     method,
     ...(method === 'GET' ? { params: data } : { data }),
-    ...buildHeaders(req?.headers?.cookie),
+    ...buildHeaders(apiKey, req?.headers?.cookie),
   });
 
   const parsed = schema.safeParse(response?.data);

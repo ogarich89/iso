@@ -10,7 +10,10 @@ import { createRenderer } from './renderer/index.mjs';
 import { routes } from './routes.mjs';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const { port, certificate, logger, sentryDSN, trustProxy } = config;
+const { port, host, certificate, logger, sentryDSN, trustProxy, api, apiKey } = config;
+
+globalThis.__API__ = api;
+globalThis.__API_KEY__ = apiKey;
 
 if (sentryDSN) {
   Sentry.init({
@@ -51,12 +54,12 @@ app.setErrorHandler(async (error, _request, reply) => {
       Sentry.captureException(error);
     }
   }
-  reply.status(status).send(body);
+  return reply.status(status).send(body);
 });
 
 const renderPage = await createRenderer(app);
 
-register(app, { isProduction });
+await register(app, { isProduction });
 
 routes.forEach(({ url, method, handler, schema }) => {
   app.route({ method, url, handler, schema });
@@ -70,15 +73,15 @@ app.get('*', async (request, reply) => {
       lng: request.session.get('lng') || 'en',
       nonce: reply.cspNonce?.script,
     });
-    reply.header('Content-Type', 'text/html').send(html);
+    return reply.header('Content-Type', 'text/html').send(html);
   } catch (error) {
     const { status, body } = errorReply(error, isProduction);
     app.log.error(error);
     if (sentryDSN) {
       Sentry.captureException(error);
     }
-    reply.status(status).send(body);
+    return reply.status(status).send(body);
   }
 });
 
-await app.listen({ port });
+await app.listen({ port, host });

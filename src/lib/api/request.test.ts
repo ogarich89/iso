@@ -1,10 +1,28 @@
 import axios from 'axios';
-import { request } from 'src/lib/api/request';
+import { request, serverTarget } from 'src/lib/api/request';
 import { z } from 'zod';
 
 vi.mock('axios', () => ({ default: vi.fn() }));
 
 const schema = z.array(z.object({ id: z.number(), name: z.string() }));
+
+describe('serverTarget', () => {
+  afterEach(() => {
+    globalThis.__API__ = undefined;
+    globalThis.__API_KEY__ = undefined;
+  });
+
+  it('should fall back to the values compiled into the bundle', () => {
+    expect(serverTarget()).toEqual({ base: 'https://reqres.in', apiKey: 'test-api-key' });
+  });
+
+  it('should prefer what the server set at boot, so an image needs no rebuild', () => {
+    globalThis.__API__ = 'https://api.example.com';
+    globalThis.__API_KEY__ = 'runtime-key';
+
+    expect(serverTarget()).toEqual({ base: 'https://api.example.com', apiKey: 'runtime-key' });
+  });
+});
 
 describe('request', () => {
   beforeEach(() => {

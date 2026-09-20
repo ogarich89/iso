@@ -3,6 +3,9 @@ import type { FastifyRequest } from 'fastify';
 import type { PreloadableComponent } from 'src/lib/lazyWithPreload';
 
 declare global {
+  var __API__: string | undefined;
+  var __API_KEY__: string | undefined;
+
   interface Window {
     __QUERY_STATE__: DehydratedState;
     initialLanguage: string;

@@ -18,7 +18,7 @@ Guidance for working in this repository.
 - **Build / dev server** — Vite 8 (`@vitejs/plugin-react`, `vite-plugin-svgr`), SSR in middleware mode
 - **Styles** — SCSS (`sass-embedded`) + CSS Modules; PostCSS (`autoprefixer`, `cssnano`, `postcss-import`, `postcss-combine-media-query`, and `@fullhuman/postcss-purgecss` in production)
 - **Icons** — `lucide-react`; local SVGs via SVGR (`?react`)
-- **Sessions** — `ioredis` + `connect-redis` (optional)
+- **Sessions** — `connect-redis` + `redis` (node-redis, optional)
 - **HTTP / monitoring** — `axios`, `@fastify/http-proxy`, `@fastify/helmet`, `@sentry/bun`
 - **Testing** — Vitest 5 + Testing Library + jsdom
 - **Lint / format** — Biome 2.5 (JS/TS), Stylelint 17 (SCSS)
@@ -60,6 +60,7 @@ src/
   assets/icons/
 server/        index.mjs, register.mjs, routes.mjs, routes/, handlers/, renderer/{index,styles,template}.mjs
 config/        index.mjs (env config), i18n.mjs (i18next options), vitest.setup.ts
+Dockerfile, docker-compose.yml                                        (Bun image + Redis stack)
 .claude/skills/  tdd/, generate-code/, onboarding/, github/          (see the Skills section)
 ```
 
@@ -98,6 +99,9 @@ config/        index.mjs (env config), i18n.mjs (i18next options), vitest.setup.
 - The `QueryClient` is per-request on the server — never module-level mutable app state. `src/store/ui.ts` is a module-level store on purpose: it is client-only.
 - `SESSION_SECRET` (32+ characters) is required to boot; the build does not need it, so CI stays green without secrets.
 - The production CSP is nonce-based: `render(url, { nonce })` stamps the two state scripts, and the nonce comes from `@fastify/helmet`'s `enableCSPNonces`. A style nonce disables `'unsafe-inline'`, so `style-src-attr 'unsafe-inline'` is set explicitly for React's inline `style` attributes, and SVG assets must not carry a `<style>` block — use presentation attributes.
+- Async route handlers **return** their payload; calling `reply.send()` from an `async` handler races the session store, and with Redis the write lands after the reply and throws `ERR_HTTP_HEADERS_SENT`.
+- The session store uses **node-redis** (`redis`), not `ioredis`: `connect-redis` speaks node-redis's `set(key, value, { expiration })`, which ioredis rejects with `ERR syntax error`.
+- Fastify binds to `HOST` (`127.0.0.1` by default) — a container must set `HOST=0.0.0.0` or the published port reaches nothing.
 - Session cookies are `secure: 'auto'`, so behind a TLS-terminating proxy `TRUST_PROXY=true` is required or the cookie is never marked `Secure`.
 - Shared code uses `zod/mini`, not `zod`: the classic API costs ~23KB gzipped in the client bundle against ~4.5KB for mini.
 - `import.meta.glob` for layouts excludes `*.test.tsx`; without that, a layout test is discovered as a layout and bundled into `dist/`.
