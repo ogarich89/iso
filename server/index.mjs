@@ -4,7 +4,7 @@ import Fastify from 'fastify';
 
 import { config } from '../config/index.mjs';
 
-import { errorReply } from './error.mjs';
+import { errorPage, errorReply } from './error.mjs';
 import { register } from './register.mjs';
 import { createRenderer } from './renderer/index.mjs';
 import { routes } from './routes.mjs';
@@ -80,7 +80,7 @@ app.get('*', async (request, reply) => {
     if (sentryDSN) {
       Sentry.captureException(error);
     }
-    return reply.status(status).send(body);
+    return reply.status(status).header('Content-Type', 'text/html').send(errorPage(body.message));
   }
 });
 

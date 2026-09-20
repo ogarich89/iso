@@ -1,0 +1,44 @@
+@use "mixins";
+@use "variables";
+
+.page-error {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  strong {
+    font-size: mixins.vw(50px, variables.$desktop);
+    @include mixins.respond-to(laptop) {
+      font-size: mixins.vw(45px, variables.$laptop);
+    }
+    @include mixins.respond-to(tablet) {
+      font-size: mixins.vw(40px, variables.$tablet);
+    }
+    @include mixins.respond-to(mobile) {
+      font-size: mixins.vw(20px, variables.$mobile);
+    }
+  }
+  button {
+    cursor: pointer;
+    color: variables.$gray;
+    font-family: inherit;
+    margin-top: mixins.vw(20px, variables.$desktop);
+    font-size: mixins.vw(20px, variables.$desktop);
+    @include mixins.respond-to(laptop) {
+      margin-top: mixins.vw(20px, variables.$laptop);
+      font-size: mixins.vw(20px, variables.$laptop);
+    }
+    @include mixins.respond-to(tablet) {
+      margin-top: mixins.vw(20px, variables.$tablet);
+      font-size: mixins.vw(20px, variables.$tablet);
+    }
+    @include mixins.respond-to(mobile) {
+      margin-top: mixins.vw(20px, variables.$mobile);
+      font-size: mixins.vw(20px, variables.$mobile);
+    }
+    &:hover {
+      color: variables.$teal;
+    }
+  }
+}

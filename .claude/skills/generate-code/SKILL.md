@@ -44,6 +44,8 @@ Check this list before adding a helper — most "new" utilities already exist:
 | Internal link (preloads its route on hover) | `<Link to="/x">` | `src/components/molecules/Link/Link` |
 | Loading state | `<Loading timeout={500} />` | `src/components/molecules/Loading/Loading` |
 | Not-found state | `<PageNotFound />` | `src/modules/not-found/components/molecules/PageNotFound/PageNotFound` |
+| Error state | `<PageError onRetry={...} />`, already wired per route by `RouteBoundary` | `src/components/molecules/PageError/PageError` |
+| Report a caught error | `captureError(error)` | `src/lib/monitoring` |
 | Conditional class names | `cx('container', style.x)` | `classnames` |
 | Route data on both server and client | `useQuery(domainQuery(...))` + a route `prefetch` | `@tanstack/react-query`, `src/modules/<domain>/queries.ts` |
 | A configured query client | `createQueryClient()` | `src/lib/query` |

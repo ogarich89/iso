@@ -35,6 +35,7 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
     define: {
       'import.meta.env.VITE_API': JSON.stringify(config.api),
       'import.meta.env.VITE_API_KEY': JSON.stringify(config.apiKey),
+      'import.meta.env.VITE_SENTRY_DSN': JSON.stringify(config.sentryDSN ?? ''),
       'import.meta.env.VITE_PORT': JSON.stringify(String(config.port)),
     },
     build: {

@@ -8,12 +8,15 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { BrowserRouter, matchPath } from 'react-router';
 import { App } from 'src/app/App';
 import routes from 'src/app/routes';
+import { initMonitoring } from 'src/lib/monitoring';
 import { createQueryClient } from 'src/lib/query';
 import { expandRoutes } from 'src/lib/route';
 
 const queryClient = createQueryClient();
 
 const bootstrap = async () => {
+  await initMonitoring();
+
   i18next.use(Fetch).use(initReactI18next);
   await i18next.init({
     ...options(),

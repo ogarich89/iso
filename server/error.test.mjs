@@ -1,4 +1,18 @@
-import { errorReply } from './error.mjs';
+import { errorPage, errorReply } from './error.mjs';
+
+describe('errorPage', () => {
+  it('should answer a page request with a readable document', () => {
+    const html = errorPage('Internal Server Error');
+
+    expect(html).toContain('<!doctype html>');
+    expect(html).toContain('SOMETHING WENT WRONG');
+    expect(html).toContain('Internal Server Error');
+  });
+
+  it('should escape the message so an error cannot inject markup', () => {
+    expect(errorPage('<img src=x onerror="alert(1)">')).not.toContain('<img');
+  });
+});
 
 describe('errorReply', () => {
   it('should hide the details of a server error in production', () => {

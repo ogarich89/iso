@@ -18,6 +18,7 @@ ISO uses a number of open source projects to work properly:
 * [React](https://react.dev/) - Library for building user interfaces.
 * [React Router](https://reactrouter.com/) - Routing for React.
 * [TanStack Query](https://tanstack.com/query/latest) - Server state: fetching, caching and SSR hydration.
+* [react-error-boundary](https://github.com/bvaughn/react-error-boundary) - Per-route error boundaries.
 * [Zustand](https://zustand.docs.pmnd.rs/) - Minimal state management for UI state.
 * [Zod](https://zod.dev/) - Schema validation for the environment, the API responses and the server routes.
 * [Docker](https://www.docker.com/) - Container image and a compose stack with Redis.
@@ -57,7 +58,7 @@ Configuration is read from environment variables. Defaults live in the committed
 | `REDIS_URL` | Redis connection string, used when `WITH_REDIS=true` |
 | `SESSION_REDIS_DB` | Redis database index for sessions |
 | `LOGGER` | Fastify logger (pino-pretty) |
-| `SENTRY_DSN` | Error monitoring with [Sentry](https://sentry.io) |
+| `SENTRY_DSN` | Error monitoring with [Sentry](https://sentry.io). The server reports through `@sentry/bun`; the same DSN reaches the browser as `VITE_SENTRY_DSN`, where `@sentry/react` is loaded lazily and only when the DSN is set |
 | `SESSION_SECRET` | Session cookie secret |
 | `ENVIRONMENT` | Deployment environment marker (`production` \| `staging`) |
 | `CERT_KEY` / `CERT_CERT` | Absolute paths for an HTTPS/HTTP2 certificate |

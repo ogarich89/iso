@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Route } from 'react-router';
 import { Loading } from 'src/components/molecules/Loading/Loading';
+import { RouteBoundary } from 'src/components/organisms/RouteBoundary/RouteBoundary';
 import type { PreloadableComponent } from 'src/lib/lazyWithPreload';
 import { lazyWithPreload } from 'src/lib/lazyWithPreload';
 import type { ExpandRoute, PageRoute, Prefetch } from 'src/types';
@@ -80,9 +81,11 @@ export const renderRoutes = (routes: PageRoute[]) =>
       key={index}
       path={path}
       element={
-        <Suspense fallback={<Loading timeout={delay ?? DELAY} />}>
-          <Component />
-        </Suspense>
+        <RouteBoundary>
+          <Suspense fallback={<Loading timeout={delay ?? DELAY} />}>
+            <Component />
+          </Suspense>
+        </RouteBoundary>
       }
     >
       {children ? renderRoutes(children) : null}

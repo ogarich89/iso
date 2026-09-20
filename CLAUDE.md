@@ -19,7 +19,8 @@ Guidance for working in this repository.
 - **Styles** — SCSS (`sass-embedded`) + CSS Modules; PostCSS (`autoprefixer`, `cssnano`, `postcss-import`, `postcss-combine-media-query`, and `@fullhuman/postcss-purgecss` in production)
 - **Icons** — `lucide-react`; local SVGs via SVGR (`?react`)
 - **Sessions** — `connect-redis` + `redis` (node-redis, optional)
-- **HTTP / monitoring** — `axios`, `@fastify/http-proxy`, `@fastify/helmet`, `@sentry/bun`
+- **HTTP / monitoring** — `axios`, `@fastify/http-proxy`, `@fastify/helmet`, `@sentry/bun` (server) and `@sentry/react` (browser, loaded only when a DSN is set)
+- **Error handling** — `react-error-boundary` per route
 - **Testing** — Vitest 5 + Testing Library + jsdom
 - **Lint / format** — Biome 2.5 (JS/TS), Stylelint 17 (SCSS)
 - **Dead code** — Knip 6
@@ -73,6 +74,7 @@ Dockerfile, docker-compose.yml                                        (Bun image
 - **Routing** (`src/app/routes.ts`, `src/lib/route.tsx`): routes map a `layout` + `page` name to lazy components discovered via `import.meta.glob`, resolved by file name, and carry an optional `prefetch(queryClient, { params, req })`. `src/lib/lazyWithPreload.tsx` wraps `React.lazy` with a `.preload()` used by both SSR and client; once preloaded it renders the module **synchronously** instead of suspending, which is what keeps `renderToString` from degrading to a client render. Both entries preload the catch-all `*` route too, so 404s are server-rendered.
 - **API** (`src/lib/api/`): in the browser `request` calls `/api/...` on this server, which `@fastify/http-proxy` forwards upstream with the `x-api-key` header and without our session cookie; during SSR it calls the upstream host directly. The split is `import.meta.env.SSR`, so the key and the upstream host are compiled out of the client bundle. `request(method, schema, data, params?, req?)` unwraps the `{ data }` envelope and parses it with the domain's `zod/mini` schema, so a response that breaks the contract is logged and rejected instead of reaching a component; `methods.ts` is the endpoint registry. `shared` is domain-agnostic — domains pass their own schemas.
 - **Config** (`config/index.mjs`): server-only, parses `process.env` through a zod schema (`parseConfig`), so a bad value fails at boot with the variable named. Shared code reads only `import.meta.env.VITE_API` / `VITE_API_KEY` / `VITE_PORT`, injected by Vite `define`. `vite.config.ts` merges `.env` / `.env.local` into `process.env` (real env wins) before reading the config, so builds see the same values as `bun dev`.
+- **Errors** (`src/components/organisms/RouteBoundary/`, `server/error.mjs`): every route element is wrapped in an error boundary whose fallback is `PageError` (retry button), which resets on the next navigation and reports through `src/lib/monitoring.ts`. Monitoring loads `@sentry/react` dynamically and only when `VITE_SENTRY_DSN` is set. A failure during SSR cannot reach a boundary, so the server answers with an HTML error page from `errorPage()` instead.
 - **Testing**: Vitest + Testing Library in jsdom, tests colocated as `X.test.tsx` next to the code and typechecked with it. Page and query tests mock `src/lib/api/request` and drive a real `QueryClient`. `config/vitest.setup.ts` mocks `react-i18next` (`t` returns the key) and stubs `window.scrollTo`. `src/app/server.test.tsx` asserts on real SSR output and `src/app/client.test.tsx` hydrates that output, so both SSR degradation and hydration mismatches fail the suite. Follow `.claude/skills/tdd/SKILL.md` — test first.
 
 ## Skills (`.claude/skills/`)
@@ -99,6 +101,7 @@ Dockerfile, docker-compose.yml                                        (Bun image
 - The `QueryClient` is per-request on the server — never module-level mutable app state. `src/store/ui.ts` is a module-level store on purpose: it is client-only.
 - `SESSION_SECRET` (32+ characters) is required to boot; the build does not need it, so CI stays green without secrets.
 - The production CSP is nonce-based: `render(url, { nonce })` stamps the two state scripts, and the nonce comes from `@fastify/helmet`'s `enableCSPNonces`. A style nonce disables `'unsafe-inline'`, so `style-src-attr 'unsafe-inline'` is set explicitly for React's inline `style` attributes, and SVG assets must not carry a `<style>` block — use presentation attributes.
+- `renderToString` does not route errors to error boundaries — it throws. The boundary protects the browser; a server-side render failure becomes the 500 HTML page.
 - Async route handlers **return** their payload; calling `reply.send()` from an `async` handler races the session store, and with Redis the write lands after the reply and throws `ERR_HTTP_HEADERS_SENT`.
 - The session store uses **node-redis** (`redis`), not `ioredis`: `connect-redis` speaks node-redis's `set(key, value, { expiration })`, which ioredis rejects with `ERR syntax error`.
 - Fastify binds to `HOST` (`127.0.0.1` by default) — a container must set `HOST=0.0.0.0` or the published port reaches nothing.
